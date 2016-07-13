@@ -31,6 +31,13 @@ go install
 
 A centos/fedora/redhat system, vagrant, travis, docker, whatever.
 
+# Workflow overview
+
+To create a binary package you need to
+
+- build your application binaries
+- invoke `go-bin-rpm` to generate the package
+
 # Usage
 
 ```sh
