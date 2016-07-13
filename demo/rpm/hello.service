@@ -1,0 +1,12 @@
+[Unit]
+Description=hello
+
+[Service]
+PIDFile=/tmp/hello
+User=hello
+Group=hello
+WorkingDirectory=/tmp
+ExecStart=/usr/bin/hello
+
+[Install]
+WantedBy=multi-user.target

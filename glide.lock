@@ -1,0 +1,27 @@
+hash: f13d025302de659ff3f6b83d7c40d2ecfb90846461991d59aaafc27464c14bf2
+updated: 2016-07-13T15:22:39.853087248+02:00
+imports:
+- name: github.com/fatih/color
+  version: 533cd7fd8a85905f67a1753afb4deddc85ea174f
+  repo: git@github.com:fatih/color.git
+  vcs: git
+- name: github.com/mattn/go-colorable
+  version: 9cbef7c35391cca05f15f8181dc0b18bc9736dbb
+  repo: https://github.com/mattn/go-colorable
+- name: github.com/mattn/go-isatty
+  version: 56b76bdf51f7708750eac80fa38b952bb9f32639
+  repo: https://github.com/mattn/go-isatty
+- name: github.com/mattn/go-zglob
+  version: 2dbd7f37a45e993d5180a251b4bdd314d6333b70
+- name: github.com/mh-cbon/verbose
+  version: e6234133f9e61b35b674aef4ee3d104e5d319757
+  subpackages:
+  - color
+  - printer
+- name: github.com/urfave/cli
+  version: 1efa31f08b9333f1bd4882d61f9d668a70cd902e
+- name: golang.org/x/sys
+  version: b518c298ac9dc94b6ac0757394f50d10c5dfa25a
+  subpackages:
+  - unix
+testImports: []
