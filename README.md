@@ -21,8 +21,8 @@ __others__
 ```sh
 mkdir -p $GOPATH/src/github.com/mh-cbon
 cd $GOPATH/src/github.com/mh-cbon
-git clone https://github.com/mh-cbon/go-bin-deb.git
-cd go-bin-deb
+git clone https://github.com/mh-cbon/go-bin-rpm.git
+cd go-bin-rpm
 glide install
 go install
 ```
