@@ -53,7 +53,6 @@ type FileInstruction struct {
 
 type Menu struct {
 	Name            string `json:"name"`           // Name of the shortcut
-	Description     string `json:"description"`    //
 	GenericName     string `json:"generic-name"`   //
 	Exec            string `json:"exec"`           // Exec command
 	Icon            string `json:"icon"`           // Path to the installed icon
@@ -130,7 +129,7 @@ func (p *Package) Normalize(arch string, version string) error {
   for _, shortcut := range shortcuts {
     sc := FileInstruction{}
     sc.From = shortcut
-    sc.To = fmt.Sprintf("%%{_datadir}/applications/%s/", p.Name)
+    sc.To = fmt.Sprintf("%%{_datadir}/applications/")
     sc.Base = filepath.Dir(shortcut)
     p.Files = append(p.Files, sc)
 		logger.Printf("Added menu shortcut File=%q\n", sc)
@@ -142,7 +141,7 @@ func (p *Package) Normalize(arch string, version string) error {
       return err
     }
     sc.From = f
-    sc.To = fmt.Sprintf("%%{_datadir}/pixmaps/%s/", p.Name)
+    sc.To = fmt.Sprintf("%%{_datadir}/pixmaps/")
     sc.Base = filepath.Dir(f)
     p.Files = append(p.Files, sc)
 		logger.Printf("Added menu icon File=%q\n", sc)
@@ -156,8 +155,8 @@ func (p *Package) Normalize(arch string, version string) error {
     if menu.Keywords!="" {
       menu.Keywords+=";"
     }
-
   }
+
   if len(p.Menus)>0 {
     if contains(p.BuildRequires, "desktop-file-utils")==false {
       p.BuildRequires = append(p.BuildRequires, "desktop-file-utils")
@@ -297,7 +296,7 @@ func (p *Package) GenerateSpecFile(sourceDir string) (string, error) {
   for _, menu := range p.Menus {
     shortcutInstall += fmt.Sprintf("desktop-file-install --vendor='' ")
     shortcutInstall += fmt.Sprintf("--dir=%%{buildroot}%%{_datadir}/applications/%s ", p.Name)
-    shortcutInstall += fmt.Sprintf("%%{buildroot}/%%{_datadir}/applications/%s/%s.desktop", p.Name, menu.Name)
+    shortcutInstall += fmt.Sprintf("%%{buildroot}/%%{_datadir}/applications/%s.desktop", menu.Name)
     shortcutInstall += "\n"
   }
   shortcutInstall = strings.TrimSpace(shortcutInstall)
@@ -501,10 +500,6 @@ func (p *Package) WriteShortcutFiles() ([]string, error) {
 		if m.Name != "" {
 			s += fmt.Sprintf("%s=%s\n", "Name", m.Name)
 		}
-
-		// if m.Description != "" {
-		// 	s += fmt.Sprintf("%s=%s\n", "Description", m.Description)
-		// }
 
 		if m.GenericName != "" {
 			s += fmt.Sprintf("%s=%s\n", "GenericName", m.GenericName)
