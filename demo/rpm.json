@@ -45,8 +45,7 @@
   },
   "menus": [
     {
-      "name":"hello",
-      "description":"Open web browser to an hello page",
+      "name":"hello-shortcut",
       "generic-name":"hello",
       "exec":"xdg-open http://localhost:8080/",
       "icon":"ico.png",
