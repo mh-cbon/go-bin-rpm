@@ -74,6 +74,18 @@ func main() {
         },
       },
     },
+		{
+			Name:   "test",
+			Usage:  "Test the package json file",
+			Action: testPkg,
+			Flags: []cli.Flag{
+				cli.StringFlag{
+					Name:  "file, f",
+					Value: "rpm.json",
+					Usage: "Path to the rpm.json file",
+				},
+			},
+    },
 	}
 
 	app.Run(os.Args)
@@ -137,6 +149,21 @@ func generatePkg(c *cli.Context) error {
   }
 
   fmt.Println("\n\nAll done!")
+
+	return nil
+}
+
+
+func testPkg(c *cli.Context) error {
+	file := c.String("file")
+
+	rpmJson := rpm.Package{}
+
+	if err := rpmJson.Load(file); err != nil {
+		return cli.NewExitError(err.Error(), 1)
+	}
+
+	fmt.Println("File is correct")
 
 	return nil
 }
