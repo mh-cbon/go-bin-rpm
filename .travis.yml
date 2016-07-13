@@ -9,12 +9,12 @@ go:
 
 before_install:
   - sudo apt-get -qq update
-  - curl https://glide.sh/get | sh
   - docker pull fedora
   - docker run fedora /bin/sh -c "pwd & ls -al"
   - docker run fedora /bin/sh -c "pwd & ls -al"
 
 install:
+  - curl https://glide.sh/get | sh
   - glide install
 
 script: echo "pass"
