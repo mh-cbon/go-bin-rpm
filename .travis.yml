@@ -12,3 +12,4 @@ before_install:
   - sudo apt-get -qq update
   - docker pull fedora
   - docker run fedora /bin/sh -c "pwd & ls -al"
+  - docker run fedora /bin/sh -c "pwd & ls -al"
