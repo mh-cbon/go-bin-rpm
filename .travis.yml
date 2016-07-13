@@ -1,0 +1,14 @@
+
+sudo: required
+
+services:
+  - docker
+
+language: go
+go:
+  - tip
+
+before_install:
+  - sudo apt-get -qq update
+  - docker pull fedora
+  - docker run fedora /bin/sh -c "pwd & ls -al"
