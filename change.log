@@ -1,4 +1,14 @@
 
+0.0.5
+
+  * travis: fix deploy section
+
+  - mh-cbon <mh-cbon@users.noreply.github.com>
+
+-- mh-cbon <mh-cbon@users.noreply.github.com>; Thu, 14 Jul 2016 16:21:47 +0200
+
+
+
 0.0.4
 
   * travis: fix deploy section
