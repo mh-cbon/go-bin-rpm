@@ -1,4 +1,15 @@
 
+0.0.7
+
+  * travis: update build script
+  * README: update travis section
+
+  - mh-cbon <mh-cbon@users.noreply.github.com>
+
+-- mh-cbon <mh-cbon@users.noreply.github.com>; Thu, 14 Jul 2016 19:13:33 +0200
+
+
+
 0.0.6
 
   * travis: update build script
