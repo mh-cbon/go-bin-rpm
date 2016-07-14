@@ -207,7 +207,7 @@ func (p *Package) InitializeBuildArea(buildAreaPath string) error {
 }
 
 func (p *Package) WriteSpecFile(sourceDir string, buildAreaPath string) error {
-  spec, err := p.GenerateSpecFile(sourceDir);
+	spec, err := p.GenerateSpecFile(sourceDir)
 	if err != nil {
 		return err
 	}
