@@ -2,9 +2,8 @@
 
 Create binary rpm package with ease
 
-Using a `json` files to declare rules, it then performs necessary operations to invoke `rpmbuild` and build the package.
-
-__wip__
+Using a `json` files to declare rules, it then performs necessary operations
+to invoke `rpmbuild` and build the package.
 
 # Install
 
@@ -150,16 +149,16 @@ go:
 before_install:
   - sudo apt-get -qq update
   - docker pull fedora
-  - docker run fedora /bin/sh -c "cd /root/sinatra; bundle exec rake test"
 
 install:
   - glide install
+  
 before_deploy:
   - mkdir -p build/{386,amd64}
   - GOOS=linux GOARCH=386 go build -o build/386/program main.go
   - GOOS=linux GOARCH=amd64 go build -o build/amd64/program main.go
-  - go-bin-deb generate -a 386 --version ${TRAVIS_TAG} -w pkg-build-386/ -o ${TRAVIS_BUILD_DIR}/program-386.deb
-  - go-bin-deb generate -a amd64 --version ${TRAVIS_TAG} -w pkg-build-amd64/ -o ${TRAVIS_BUILD_DIR}/program-amd64.deb
+  - docker run -v $PWD:/docker  fedora /bin/sh -c "cd /docker && sh ./docker.sh ${TRAVIS_TAG}"
+  - sudo chown travis:travis go-bin-rpm-{386,amd64}.rpm
 
 deploy:
   provider: releases
@@ -171,6 +170,15 @@ deploy:
   skip_cleanup: true
   on:
     tags: true
+```
+
+```sh
+# docker.sh
+dnf install rpm-build -y
+TAG=$1
+if [[ -z ${TAG} ]]; then TAG="0.0.0"; fi
+VERBOSE=* ./go-bin-rpm generate -a 386 --version ${TAG} -b pkg-build/386/ -o go-bin-rpm-386.rpm
+VERBOSE=* ./go-bin-rpm generate -a amd64 --version ${TAG} -b pkg-build/amd64/ -o go-bin-rpm-amd64.rpm
 ```
 
 # useful rpm commands
@@ -186,7 +194,7 @@ rpm -ivh --nodeps pkg.rpm
 rpm -qi pkg
 # check installed package
 rpm -q pkg
-# list iles of installed package
+# list files of installed package
 rpm -ql pkg
 ```
 
