@@ -152,13 +152,13 @@ before_install:
 
 install:
   - glide install
-  
+
 before_deploy:
   - mkdir -p build/{386,amd64}
   - GOOS=linux GOARCH=386 go build -o build/386/program main.go
   - GOOS=linux GOARCH=amd64 go build -o build/amd64/program main.go
-  - docker run -v $PWD:/docker  fedora /bin/sh -c "cd /docker && sh ./docker.sh ${TRAVIS_TAG}"
-  - sudo chown travis:travis go-bin-rpm-{386,amd64}.rpm
+  - docker run -v $PWD:/docker fedora /bin/sh -c "cd /docker && sh ./docker.sh ${TRAVIS_TAG} program"
+  - sudo chown travis:travis program-{386,amd64}.rpm
 
 deploy:
   provider: releases
@@ -175,10 +175,16 @@ deploy:
 ```sh
 # docker.sh
 dnf install rpm-build -y
+wget -q -O - --no-check-certificate \
+https://raw.githubusercontent.com/mh-cbon/latest/master/install.sh \
+| sh -x  mh-cbon/go-bin-rpm '${REPO}-${ARCH}${EXT}'
+cd /docker
 TAG=$1
+NAME=$2
 if [[ -z ${TAG} ]]; then TAG="0.0.0"; fi
-VERBOSE=* ./go-bin-rpm generate -a 386 --version ${TAG} -b pkg-build/386/ -o go-bin-rpm-386.rpm
-VERBOSE=* ./go-bin-rpm generate -a amd64 --version ${TAG} -b pkg-build/amd64/ -o go-bin-rpm-amd64.rpm
+VERBOSE=* ./go-bin-rpm generate -a 386 --version ${TAG} -b pkg-build/386/ -o ${NAME}-386.rpm
+VERBOSE=* ./go-bin-rpm generate -a amd64 --version ${TAG} -b pkg-build/amd64/ -o ${NAME}-amd64.rpm
+
 ```
 
 # useful rpm commands
