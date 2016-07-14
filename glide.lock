@@ -1,19 +1,16 @@
 hash: f13d025302de659ff3f6b83d7c40d2ecfb90846461991d59aaafc27464c14bf2
-updated: 2016-07-13T15:22:39.853087248+02:00
+updated: 2016-07-14T12:56:25.780034878+02:00
 imports:
 - name: github.com/fatih/color
-  version: 533cd7fd8a85905f67a1753afb4deddc85ea174f
-  repo: git@github.com:fatih/color.git
+  version: 87d4004f2ab62d0d255e0a38f1680aa534549fe3
 - name: github.com/mattn/go-colorable
   version: 9cbef7c35391cca05f15f8181dc0b18bc9736dbb
-  repo: https://github.com/mattn/go-colorable
 - name: github.com/mattn/go-isatty
   version: 56b76bdf51f7708750eac80fa38b952bb9f32639
-  repo: https://github.com/mattn/go-isatty
 - name: github.com/mattn/go-zglob
   version: 2dbd7f37a45e993d5180a251b4bdd314d6333b70
 - name: github.com/mh-cbon/verbose
-  version: e6234133f9e61b35b674aef4ee3d104e5d319757
+  version: d00b896de162d9c7a40ea07a93903d91a2dbbe1b
   subpackages:
   - color
   - printer
