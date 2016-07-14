@@ -20,60 +20,60 @@ func main() {
 	app.Usage = "Generate a binary rpm package"
 	app.UsageText = "go-bin-rpm <cmd> <options>"
 	app.Commands = []cli.Command{
-    {
-      Name:   "generate-spec",
-      Usage:  "Generate the SPEC file",
-      Action: generateSpec,
-      Flags: []cli.Flag{
-        cli.StringFlag{
-          Name:  "file, f",
-          Value: "rpm.json",
-          Usage: "Path to the rpm.json file",
-        },
-        cli.StringFlag{
-          Name:  "a, arch",
-          Value: "",
-          Usage: "Target architecture of the build",
-        },
-        cli.StringFlag{
-          Name:  "version",
-          Value: "",
-          Usage: "Target version of the build",
-        },
-      },
-    },
-    {
-      Name:   "generate",
-      Usage:  "Generate the package",
-      Action: generatePkg,
-      Flags: []cli.Flag{
-        cli.StringFlag{
-          Name:  "file, f",
-          Value: "rpm.json",
-          Usage: "Path to the rpm.json file",
-        },
-        cli.StringFlag{
-          Name:  "b, build-area",
-          Value: "pkg-build",
-          Usage: "Path to the build area",
-        },
-        cli.StringFlag{
-          Name:  "a, arch",
-          Value: "",
-          Usage: "Target architecture of the build",
-        },
-        cli.StringFlag{
-          Name:  "o, output",
-          Value: "",
-          Usage: "Output package to this path",
-        },
-        cli.StringFlag{
-          Name:  "version",
-          Value: "",
-          Usage: "Target version of the build",
-        },
-      },
-    },
+		{
+			Name:   "generate-spec",
+			Usage:  "Generate the SPEC file",
+			Action: generateSpec,
+			Flags: []cli.Flag{
+				cli.StringFlag{
+					Name:  "file, f",
+					Value: "rpm.json",
+					Usage: "Path to the rpm.json file",
+				},
+				cli.StringFlag{
+					Name:  "a, arch",
+					Value: "",
+					Usage: "Target architecture of the build",
+				},
+				cli.StringFlag{
+					Name:  "version",
+					Value: "",
+					Usage: "Target version of the build",
+				},
+			},
+		},
+		{
+			Name:   "generate",
+			Usage:  "Generate the package",
+			Action: generatePkg,
+			Flags: []cli.Flag{
+				cli.StringFlag{
+					Name:  "file, f",
+					Value: "rpm.json",
+					Usage: "Path to the rpm.json file",
+				},
+				cli.StringFlag{
+					Name:  "b, build-area",
+					Value: "pkg-build",
+					Usage: "Path to the build area",
+				},
+				cli.StringFlag{
+					Name:  "a, arch",
+					Value: "",
+					Usage: "Target architecture of the build",
+				},
+				cli.StringFlag{
+					Name:  "o, output",
+					Value: "",
+					Usage: "Output package to this path",
+				},
+				cli.StringFlag{
+					Name:  "version",
+					Value: "",
+					Usage: "Target version of the build",
+				},
+			},
+		},
 		{
 			Name:   "test",
 			Usage:  "Test the package json file",
@@ -85,7 +85,7 @@ func main() {
 					Usage: "Path to the rpm.json file",
 				},
 			},
-    },
+		},
 	}
 
 	app.Run(os.Args)
@@ -109,14 +109,14 @@ func generateSpec(c *cli.Context) error {
 	if spec, err := rpmJson.GenerateSpecFile(""); err != nil {
 		return cli.NewExitError(err.Error(), 1)
 	} else {
-    fmt.Printf("%s", spec)
-  }
+		fmt.Printf("%s", spec)
+	}
 
 	return nil
 }
 
 func generatePkg(c *cli.Context) error {
-  var err error
+	var err error
 
 	file := c.String("file")
 	arch := c.String("arch")
@@ -130,29 +130,28 @@ func generatePkg(c *cli.Context) error {
 		return cli.NewExitError(err.Error(), 1)
 	}
 
-  if buildArea, err = filepath.Abs(buildArea); err != nil {
+	if buildArea, err = filepath.Abs(buildArea); err != nil {
 		return cli.NewExitError(err.Error(), 1)
-  }
+	}
 
 	if err := rpmJson.Normalize(arch, version); err != nil {
 		return cli.NewExitError(err.Error(), 1)
 	}
 
-  rpmJson.InitializeBuildArea(buildArea)
+	rpmJson.InitializeBuildArea(buildArea)
 
 	if err = rpmJson.WriteSpecFile("", buildArea); err != nil {
 		return cli.NewExitError(err.Error(), 1)
-  }
+	}
 
 	if err = rpmJson.RunBuild(buildArea, output); err != nil {
 		return cli.NewExitError(err.Error(), 1)
-  }
+	}
 
-  fmt.Println("\n\nAll done!")
+	fmt.Println("\n\nAll done!")
 
 	return nil
 }
-
 
 func testPkg(c *cli.Context) error {
 	file := c.String("file")

@@ -4,8 +4,8 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
-	"io/ioutil"
 	"io"
+	"io/ioutil"
 	"os"
 	"os/exec"
 	"path/filepath"
@@ -31,17 +31,17 @@ type Package struct {
 	ChangelogFile string            `json:"changelog-file,omitempty"`
 	ChangelogCmd  string            `json:"changelog-cmd,omitempty"`
 	Files         []FileInstruction `json:"files,omitempty"`
-  PreInst       string            `json:"preinst,omitempty"`
-  PostInst      string            `json:"postinst,omitempty"`
-  PreRm         string            `json:"prerm,omitempty"`
-  PostRm        string            `json:"postrm,omitempty"`
-  Verify        string            `json:"verify,omitempty"`
-  BuildRequires []string          `json:"build-requires,omitempty"`
-  Requires      []string          `json:"requires,omitempty"`
-  Provides      []string          `json:"provides,omitempty"`
-  Conflicts     []string          `json:"conflicts,omitempty"`
-  Envs  map[string]string `json:"envs,omitempty"`
-  Menus []Menu `json:"menus"`
+	PreInst       string            `json:"preinst,omitempty"`
+	PostInst      string            `json:"postinst,omitempty"`
+	PreRm         string            `json:"prerm,omitempty"`
+	PostRm        string            `json:"postrm,omitempty"`
+	Verify        string            `json:"verify,omitempty"`
+	BuildRequires []string          `json:"build-requires,omitempty"`
+	Requires      []string          `json:"requires,omitempty"`
+	Provides      []string          `json:"provides,omitempty"`
+	Conflicts     []string          `json:"conflicts,omitempty"`
+	Envs          map[string]string `json:"envs,omitempty"`
+	Menus         []Menu            `json:"menus"`
 }
 
 type FileInstruction struct {
@@ -113,72 +113,72 @@ func (p *Package) Normalize(arch string, version string) error {
 		p.Files[i].Base = replaceTokens(v.Base, tokens)
 		p.Files[i].To = replaceTokens(v.To, tokens)
 	}
-  logger.Printf("Arch=%s\n", p.Arch)
-  logger.Printf("Version=%s\n", p.Version)
-  logger.Printf("Url=%s\n", p.Url)
-  logger.Printf("Summary=%s\n", p.Summary)
-  logger.Printf("Description=%s\n", p.Description)
-  logger.Printf("ChangelogFile=%s\n", p.ChangelogFile)
-  logger.Printf("ChangelogCmd=%s\n", p.ChangelogCmd)
+	logger.Printf("Arch=%s\n", p.Arch)
+	logger.Printf("Version=%s\n", p.Version)
+	logger.Printf("Url=%s\n", p.Url)
+	logger.Printf("Summary=%s\n", p.Summary)
+	logger.Printf("Description=%s\n", p.Description)
+	logger.Printf("ChangelogFile=%s\n", p.ChangelogFile)
+	logger.Printf("ChangelogCmd=%s\n", p.ChangelogCmd)
 
-  shortcuts, err := p.WriteShortcutFiles()
-  if err!=nil {
-    return err
-  }
-  logger.Printf("shortcuts=%s\n", shortcuts)
-  for _, shortcut := range shortcuts {
-    sc := FileInstruction{}
-    sc.From = shortcut
-    sc.To = fmt.Sprintf("%%{_datadir}/applications/")
-    sc.Base = filepath.Dir(shortcut)
-    p.Files = append(p.Files, sc)
+	shortcuts, err := p.WriteShortcutFiles()
+	if err != nil {
+		return err
+	}
+	logger.Printf("shortcuts=%s\n", shortcuts)
+	for _, shortcut := range shortcuts {
+		sc := FileInstruction{}
+		sc.From = shortcut
+		sc.To = fmt.Sprintf("%%{_datadir}/applications/")
+		sc.Base = filepath.Dir(shortcut)
+		p.Files = append(p.Files, sc)
 		logger.Printf("Added menu shortcut File=%q\n", sc)
-  }
-  for _, menu := range p.Menus {
-    sc := FileInstruction{}
-    f, err := filepath.Abs(menu.Icon)
-    if err!=nil {
-      return err
-    }
-    sc.From = f
-    sc.To = fmt.Sprintf("%%{_datadir}/pixmaps/")
-    sc.Base = filepath.Dir(f)
-    p.Files = append(p.Files, sc)
+	}
+	for _, menu := range p.Menus {
+		sc := FileInstruction{}
+		f, err := filepath.Abs(menu.Icon)
+		if err != nil {
+			return err
+		}
+		sc.From = f
+		sc.To = fmt.Sprintf("%%{_datadir}/pixmaps/")
+		sc.Base = filepath.Dir(f)
+		p.Files = append(p.Files, sc)
 		logger.Printf("Added menu icon File=%q\n", sc)
 
-    // desktop-file-utils is super picky.
-    menu.Categories = strings.TrimSuffix(menu.Categories, ";")
-    menu.Keywords = strings.TrimSuffix(menu.Keywords, ";")
-    if menu.Categories!="" {
-      menu.Categories+=";"
-    }
-    if menu.Keywords!="" {
-      menu.Keywords+=";"
-    }
-  }
+		// desktop-file-utils is super picky.
+		menu.Categories = strings.TrimSuffix(menu.Categories, ";")
+		menu.Keywords = strings.TrimSuffix(menu.Keywords, ";")
+		if menu.Categories != "" {
+			menu.Categories += ";"
+		}
+		if menu.Keywords != "" {
+			menu.Keywords += ";"
+		}
+	}
 
-  if len(p.Menus)>0 {
-    if contains(p.BuildRequires, "desktop-file-utils")==false {
-      p.BuildRequires = append(p.BuildRequires, "desktop-file-utils")
-    }
-  }
+	if len(p.Menus) > 0 {
+		if contains(p.BuildRequires, "desktop-file-utils") == false {
+			p.BuildRequires = append(p.BuildRequires, "desktop-file-utils")
+		}
+	}
 
-  if len(p.Envs) > 0 {
-    envFile, err := p.WriteEnvFile()
-    if err!=nil {
-      return err
-    }
-    sc := FileInstruction{}
-    sc.From = envFile
-    sc.To = fmt.Sprintf("%%{_sysconfdir}/profile.d/")
-    sc.Base = filepath.Dir(envFile)
+	if len(p.Envs) > 0 {
+		envFile, err := p.WriteEnvFile()
+		if err != nil {
+			return err
+		}
+		sc := FileInstruction{}
+		sc.From = envFile
+		sc.To = fmt.Sprintf("%%{_sysconfdir}/profile.d/")
+		sc.Base = filepath.Dir(envFile)
 		logger.Printf("Added env File=%q\n", sc)
-    p.Files = append(p.Files, sc)
-  }
-  logger.Printf("p.Envs=%s\n", p.Envs)
-  logger.Printf("p.Requires=%s\n", p.Requires)
-  logger.Printf("p.BuildRequires=%s\n", p.BuildRequires)
-  return nil
+		p.Files = append(p.Files, sc)
+	}
+	logger.Printf("p.Envs=%s\n", p.Envs)
+	logger.Printf("p.Requires=%s\n", p.Requires)
+	logger.Printf("p.BuildRequires=%s\n", p.BuildRequires)
+	return nil
 }
 
 func replaceTokens(in string, tokens map[string]string) string {
@@ -189,53 +189,53 @@ func replaceTokens(in string, tokens map[string]string) string {
 }
 
 func (p *Package) InitializeBuildArea(buildAreaPath string) error {
-  paths := make([]string, 0)
-  paths = append(paths, filepath.Join(buildAreaPath, "BUILD"))
-  paths = append(paths, filepath.Join(buildAreaPath, "RPMS"))
-  paths = append(paths, filepath.Join(buildAreaPath, "SOURCES"))
-  paths = append(paths, filepath.Join(buildAreaPath, "SPECS"))
-  paths = append(paths, filepath.Join(buildAreaPath, "SRPMS"))
-  paths = append(paths, filepath.Join(buildAreaPath, "RPMS", "i386"))
-  paths = append(paths, filepath.Join(buildAreaPath, "RPMS", "amd64"))
+	paths := make([]string, 0)
+	paths = append(paths, filepath.Join(buildAreaPath, "BUILD"))
+	paths = append(paths, filepath.Join(buildAreaPath, "RPMS"))
+	paths = append(paths, filepath.Join(buildAreaPath, "SOURCES"))
+	paths = append(paths, filepath.Join(buildAreaPath, "SPECS"))
+	paths = append(paths, filepath.Join(buildAreaPath, "SRPMS"))
+	paths = append(paths, filepath.Join(buildAreaPath, "RPMS", "i386"))
+	paths = append(paths, filepath.Join(buildAreaPath, "RPMS", "amd64"))
 
-  for _, p := range paths {
-    if err := os.MkdirAll(p, 0755); err != nil {
-      return err
-    }
-  }
-  return nil
+	for _, p := range paths {
+		if err := os.MkdirAll(p, 0755); err != nil {
+			return err
+		}
+	}
+	return nil
 }
 
 func (p *Package) WriteSpecFile(sourceDir string, buildAreaPath string) error {
-  if spec, err := p.GenerateSpecFile(sourceDir); err != nil {
-    return err
-  } else {
-    p := filepath.Join(buildAreaPath, "SPECS", p.Name+".spec")
-    return ioutil.WriteFile(p, []byte(spec), 0644)
-  }
+	if spec, err := p.GenerateSpecFile(sourceDir); err != nil {
+		return err
+	} else {
+		p := filepath.Join(buildAreaPath, "SPECS", p.Name+".spec")
+		return ioutil.WriteFile(p, []byte(spec), 0644)
+	}
 
 	return nil
 }
 
 func (p *Package) RunBuild(buildAreaPath string, output string) error {
-  path := filepath.Join(buildAreaPath, "SPECS", p.Name+".spec")
-  def := "_topdir "+buildAreaPath
-  arch := p.Arch
-  if arch=="386" {
-    arch = "i386"
-  }
-  if arch=="amd64" {
-    arch = "x86_64"
-  }
-  args := []string{"--target", arch, "-bb", path, "--define", def}
-  logger.Printf("%s %s\n", "rpmbuild", args)
+	path := filepath.Join(buildAreaPath, "SPECS", p.Name+".spec")
+	def := "_topdir " + buildAreaPath
+	arch := p.Arch
+	if arch == "386" {
+		arch = "i386"
+	}
+	if arch == "amd64" {
+		arch = "x86_64"
+	}
+	args := []string{"--target", arch, "-bb", path, "--define", def}
+	logger.Printf("%s %s\n", "rpmbuild", args)
 	oCmd := exec.Command("rpmbuild", args...)
 	oCmd.Stdout = os.Stdout
 	oCmd.Stderr = os.Stderr
-  if err := oCmd.Run(); err!=nil {
-    return err
-  }
-  pkg := fmt.Sprintf("%s/RPMS/%s/%s-%s-%s.%s.rpm", buildAreaPath, arch, p.Name, p.Version, p.Release, arch)
+	if err := oCmd.Run(); err != nil {
+		return err
+	}
+	pkg := fmt.Sprintf("%s/RPMS/%s/%s-%s-%s.%s.rpm", buildAreaPath, arch, p.Name, p.Version, p.Release, arch)
 	return cp(output, pkg)
 }
 
@@ -292,52 +292,52 @@ func (p *Package) GenerateSpecFile(sourceDir string) (string, error) {
 		spec += fmt.Sprintf("%s\n", files)
 	}
 	spec += fmt.Sprintf("\n%%clean\n")
-  shortcutInstall := "\n"
-  for _, menu := range p.Menus {
-    shortcutInstall += fmt.Sprintf("desktop-file-install --vendor='' ")
-    shortcutInstall += fmt.Sprintf("--dir=%%{buildroot}%%{_datadir}/applications/%s ", p.Name)
-    shortcutInstall += fmt.Sprintf("%%{buildroot}/%%{_datadir}/applications/%s.desktop", menu.Name)
-    shortcutInstall += "\n"
-  }
-  shortcutInstall = strings.TrimSpace(shortcutInstall)
-  if content := readFile(p.PreInst); content!="" {
-  	spec += fmt.Sprintf("\n%%pre\n%s\n", content)
-  }
-  if content := readFile(p.PostInst); content!="" {
-  	spec += fmt.Sprintf("\n%%post\n%s\n", content+shortcutInstall)
-  } else if shortcutInstall!="" {
-  	spec += fmt.Sprintf("\n%%post\n%s\n", shortcutInstall)
-  }
-  if content := readFile(p.PreRm); content!="" {
-  	spec += fmt.Sprintf("\n%%preun\n%s\n", content)
-  }
-  if content := readFile(p.PostRm); content!="" {
-  	spec += fmt.Sprintf("\n%%postun\n%s\n", content)
-  }
-  if content := readFile(p.Verify); content!="" {
-  	spec += fmt.Sprintf("\n%%verifyscript\n%s\n", content)
-  }
+	shortcutInstall := "\n"
+	for _, menu := range p.Menus {
+		shortcutInstall += fmt.Sprintf("desktop-file-install --vendor='' ")
+		shortcutInstall += fmt.Sprintf("--dir=%%{buildroot}%%{_datadir}/applications/%s ", p.Name)
+		shortcutInstall += fmt.Sprintf("%%{buildroot}/%%{_datadir}/applications/%s.desktop", menu.Name)
+		shortcutInstall += "\n"
+	}
+	shortcutInstall = strings.TrimSpace(shortcutInstall)
+	if content := readFile(p.PreInst); content != "" {
+		spec += fmt.Sprintf("\n%%pre\n%s\n", content)
+	}
+	if content := readFile(p.PostInst); content != "" {
+		spec += fmt.Sprintf("\n%%post\n%s\n", content+shortcutInstall)
+	} else if shortcutInstall != "" {
+		spec += fmt.Sprintf("\n%%post\n%s\n", shortcutInstall)
+	}
+	if content := readFile(p.PreRm); content != "" {
+		spec += fmt.Sprintf("\n%%preun\n%s\n", content)
+	}
+	if content := readFile(p.PostRm); content != "" {
+		spec += fmt.Sprintf("\n%%postun\n%s\n", content)
+	}
+	if content := readFile(p.Verify); content != "" {
+		spec += fmt.Sprintf("\n%%verifyscript\n%s\n", content)
+	}
 	spec += fmt.Sprintf("\n%%changelog\n")
-  if content, err := p.GetChangelogContent(); err!=nil {
+	if content, err := p.GetChangelogContent(); err != nil {
 		return "", err
 	} else {
 		spec += fmt.Sprintf("%s\n", content)
-  }
+	}
 
 	return spec, nil
 }
 
 func (p *Package) GenerateInstallSection(sourceDir string) (string, error) {
 	var err error
-  allDirs := make([]string, 0)
-  allFiles := make([]string, 0)
+	allDirs := make([]string, 0)
+	allFiles := make([]string, 0)
 	if sourceDir, err = filepath.Abs(sourceDir); err != nil {
 		return "", err
 	}
 	for i, fileInst := range p.Files {
 
 		if fileInst.From == "" {
-      logger.Printf("Skipped p.Files[%d] %q", i, fileInst)
+			logger.Printf("Skipped p.Files[%d] %q", i, fileInst)
 			continue
 		}
 
@@ -368,28 +368,28 @@ func (p *Package) GenerateInstallSection(sourceDir string) (string, error) {
 				n = item[len(base):]
 			}
 			n = filepath.Join("%{buildroot}", to, n)
-      dir := fmt.Sprintf("mkdir -p %s\n", filepath.Dir(n))
-      if contains(allDirs, dir)==false {
-        allDirs = append(allDirs, dir)
-      }
-      if s, err := os.Stat(item); err!= nil {
-        return "", err
-      } else if s.IsDir()==false {
-        file := fmt.Sprintf("cp %s %s\n", item, filepath.Dir(n))
-        if contains(allFiles, file)==false {
-          allFiles = append(allFiles, file)
-        }
-      }
+			dir := fmt.Sprintf("mkdir -p %s\n", filepath.Dir(n))
+			if contains(allDirs, dir) == false {
+				allDirs = append(allDirs, dir)
+			}
+			if s, err := os.Stat(item); err != nil {
+				return "", err
+			} else if s.IsDir() == false {
+				file := fmt.Sprintf("cp %s %s\n", item, filepath.Dir(n))
+				if contains(allFiles, file) == false {
+					allFiles = append(allFiles, file)
+				}
+			}
 		}
 	}
 
 	content := ""
-  for _, d := range allDirs {
-    content += d
-  }
-  for _, d := range allFiles {
-    content += d
-  }
+	for _, d := range allDirs {
+		content += d
+	}
+	for _, d := range allFiles {
+		content += d
+	}
 
 	logger.Printf("content=\n%s\n", content)
 
@@ -399,7 +399,7 @@ func (p *Package) GenerateInstallSection(sourceDir string) (string, error) {
 func (p *Package) GenerateFilesSection(sourceDir string) (string, error) {
 	var err error
 	content := ""
-  allItems := make([]fileItem, 0)
+	allItems := make([]fileItem, 0)
 
 	if sourceDir, err = filepath.Abs(sourceDir); err != nil {
 		return "", err
@@ -444,15 +444,15 @@ func (p *Package) GenerateFilesSection(sourceDir string) (string, error) {
 				n = item[len(base):]
 			}
 			n = filepath.Join(to, n)
-      if fileItems(allItems).contains(n)== false {
-        allItems = append(allItems, fileItem{n ,ftype})
-      }
+			if fileItems(allItems).contains(n) == false {
+				allItems = append(allItems, fileItem{n, ftype})
+			}
 		}
 	}
 
-  for _, item := range allItems {
-    content += fmt.Sprintf("%s%s\n", item.Type, item.Path)
-  }
+	for _, item := range allItems {
+		content += fmt.Sprintf("%s%s\n", item.Type, item.Path)
+	}
 
 	logger.Printf("content=\n%s\n", content)
 
@@ -462,8 +462,8 @@ func (p *Package) GenerateFilesSection(sourceDir string) (string, error) {
 func (p *Package) GetChangelogContent() (string, error) {
 	var err error
 	var c []byte
-  var wd string
-  var cmd *exec.Cmd
+	var wd string
+	var cmd *exec.Cmd
 	if p.ChangelogFile != "" {
 		if c, err = ioutil.ReadFile(p.ChangelogFile); err == nil {
 			return string(c), nil
@@ -486,13 +486,12 @@ func (p *Package) GetChangelogContent() (string, error) {
 
 func (p *Package) WriteShortcutFiles() ([]string, error) {
 
-  files := make([]string, 0)
+	files := make([]string, 0)
 
-  tpmDir, err := ioutil.TempDir("", "rpm-desktops")
-  if err != nil {
-    return files, err
-  }
-
+	tpmDir, err := ioutil.TempDir("", "rpm-desktops")
+	if err != nil {
+		return files, err
+	}
 
 	for _, m := range p.Menus {
 		s := ""
@@ -563,7 +562,7 @@ func (p *Package) WriteShortcutFiles() ([]string, error) {
 
 			file := filepath.Join(tpmDir, m.Name+".desktop")
 
-      files = append(files, file)
+			files = append(files, file)
 
 			if err := ioutil.WriteFile(file, []byte(s), 0644); err != nil {
 				return files, err
@@ -576,24 +575,24 @@ func (p *Package) WriteShortcutFiles() ([]string, error) {
 
 func (p *Package) WriteEnvFile() (string, error) {
 
-  file := ""
+	file := ""
 
-  tpmDir, err := ioutil.TempDir("", "rpm-envs")
-  if err != nil {
-    return file, err
-  }
+	tpmDir, err := ioutil.TempDir("", "rpm-envs")
+	if err != nil {
+		return file, err
+	}
 
-  file = filepath.Join(tpmDir, p.Name+".sh")
+	file = filepath.Join(tpmDir, p.Name+".sh")
 
-  content := "#!/bin/bash\n\n"
-  for k, v := range p.Envs {
-    content += fmt.Sprintf("%s=%s\n", k, v)
-  }
-  content += fmt.Sprint("\n")
-  for k, _ := range p.Envs {
-    content += fmt.Sprintf("export %s\n", k)
-  }
-  return file, ioutil.WriteFile(file, []byte(content), 0644)
+	content := "#!/bin/bash\n\n"
+	for k, v := range p.Envs {
+		content += fmt.Sprintf("%s=%s\n", k, v)
+	}
+	content += fmt.Sprint("\n")
+	for k, _ := range p.Envs {
+		content += fmt.Sprintf("export %s\n", k)
+	}
+	return file, ioutil.WriteFile(file, []byte(content), 0644)
 }
 
 type fileItem struct {
@@ -603,22 +602,22 @@ type fileItem struct {
 
 type fileItems []fileItem
 
-func (f fileItems) contains (path string) bool {
-  for _, item := range f {
-    if item.Path==path {
-      return true
-    }
-  }
-  return false
+func (f fileItems) contains(path string) bool {
+	for _, item := range f {
+		if item.Path == path {
+			return true
+		}
+	}
+	return false
 }
 
-func contains (l []string, v string) bool {
-  for _, vv := range l {
-    if vv==v {
-      return true
-    }
-  }
-  return false
+func contains(l []string, v string) bool {
+	for _, vv := range l {
+		if vv == v {
+			return true
+		}
+	}
+	return false
 }
 
 func cp(dst, src string) error {
@@ -639,9 +638,9 @@ func cp(dst, src string) error {
 }
 
 func readFile(src string) string {
-	if c, err := ioutil.ReadFile(src); err!=nil {
-    return ""
-  } else {
-  	return string(c)
-  }
+	if c, err := ioutil.ReadFile(src); err != nil {
+		return ""
+	} else {
+		return string(c)
+	}
 }
