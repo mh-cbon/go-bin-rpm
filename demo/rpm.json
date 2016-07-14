@@ -8,8 +8,7 @@
   "license": "LICENSE",
   "url": "http://web.server/hello",
   "description": "More about hello webserver",
-  "changelog-file": "changelog",
-  "changelog-cmd": "",
+  "changelog-cmd": "changelog rpm",
   "files": [
     {
       "from": "build/!arch!/hello",

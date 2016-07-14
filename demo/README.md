@@ -15,7 +15,7 @@ rm -fr build && mkdir -p build/{386,amd64}
 rm -fr pkg-build && mkdir -p pkg-build/{386,amd64}
 GOOS=linux GOARCH=386 go build -o build/386/hello hello.go
 GOOS=linux GOARCH=amd64 go build -o build/amd64/hello hello.go
-./go-bin-rpm generate-spec -a 386 -v 0.0.1
+go run ../main.go generate-spec -a 386 --version 0.0.1
 
 vagrant up cli
 vagrant ssh -c 'sudo yum install rpm-build desktop-file-utils -y' cli
