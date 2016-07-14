@@ -27,7 +27,7 @@ before_install:
 
 install:
   - docker run -v $PWD:/docker  fedora /bin/sh -c "cd /docker && sh ./docker.sh ${TRAVIS_TAG}"
-  - ls -al
+  - cp go-bin-rpm-{386,amd64}.rpm ${TRAVIS_BUILD_DIR}
 
 script: echo "pass"
 
