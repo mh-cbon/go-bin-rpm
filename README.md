@@ -138,15 +138,20 @@ Please check the demo app [here](demo/)
 - personalize the `.travis.yml`
 
 ```yml
+sudo: required
+
+services:
+  - docker
+
 language: go
 go:
   - tip
+
 before_install:
   - sudo apt-get -qq update
-  - sudo apt-get install build-essential lintian -y
-  - curl https://glide.sh/get | sh
-  - wget -q -O - --no-check-certificate https://raw.githubusercontent.com/mh-cbon/go-bin-deb/master/install.sh | sh
-  - wget -q -O - --no-check-certificate https://raw.githubusercontent.com/mh-cbon/changelog/master/install.sh | sh
+  - docker pull fedora
+  - docker run fedora /bin/sh -c "cd /root/sinatra; bundle exec rake test"
+
 install:
   - glide install
 before_deploy:
@@ -155,6 +160,7 @@ before_deploy:
   - GOOS=linux GOARCH=amd64 go build -o build/amd64/program main.go
   - go-bin-deb generate -a 386 --version ${TRAVIS_TAG} -w pkg-build-386/ -o ${TRAVIS_BUILD_DIR}/program-386.deb
   - go-bin-deb generate -a amd64 --version ${TRAVIS_TAG} -w pkg-build-amd64/ -o ${TRAVIS_BUILD_DIR}/program-amd64.deb
+
 deploy:
   provider: releases
   api_key:
