@@ -40,4 +40,4 @@ deploy:
     - go-bin-rpm-amd64.rpm
   skip_cleanup: true
   on:
-tags: true
+    tags: true
