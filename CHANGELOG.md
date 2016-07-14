@@ -1,5 +1,19 @@
 # Changelog - go-bin-rpm
 
+### 0.0.7
+
+__Changes__
+
+- travis: update build script
+- README: update travis section
+
+__Contributors__
+
+- mh-cbon
+
+Released by mh-cbon, Thu 14 Jul 2016
+______________
+
 ### 0.0.6
 
 __Changes__
