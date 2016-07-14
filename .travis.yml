@@ -30,3 +30,14 @@ install:
   - ls -al
 
 script: echo "pass"
+
+deploy:
+  provider: releases
+  api_key:
+    secure: sQ4odOUxKJOpeEaKorSaKPKdJelqPUTNrTAmhXER3kFGxCZqEGmPOr3Ibb+TiiPVRWhMTj08EbqVtdA0hJwHw5/FeuVZj58QOwUM5SmzKuArDaokWUKKrXwcdg1UDGBEtfkK4goFEOnMTF1PxticEBvS5NPvHp+GKfdLvSh03Wy21rCHRKuVS129e7rxbrNCOaVl2OzmOchTEIBetASUwBHVEDkm9kkIsd+LASSOCzJ4dCjAX8fjPckgTiOmiVftmZcnAKbFCNgNKiyuVUYkAF4NxjJ2SHhoOgsIUMamMWfOtRkCAbB2S4rxeefAz4R9Pof3u7vQziv6gBmpHw1QjzJJevjywqpwG5DLkGsLxWSZNzpSeQSubAO7B4KVG4qKwjOqs2EqT8ritd8nZhmpt2qC99z/cDjnDLVpx92gNUOFfbvVWaqvHQ9dCJTidbNzKya4gWjy5HjL2jJfmeZNoCtU+B2uN2o7esgLgPnQmeN4tdnlmc3wkNuFmoL1T57AEqOU6z3yk/Knh8qJELJJsaLYY4uz1RY6JKLktvyhaB4i+zCv5hvhXpYEIZND1UKZiRNh57jYAIq6fxKL9fbZpnw9TFor6vtoDAaXdxf2C9gGt9pR4SxjODicR/TVEaGZNTAOatF1CBXo29/+Sf8tPo5HrJKxPZtAb7vYIF1UYBk=
+  file:
+    - go-bin-rpm-386.rpm
+    - go-bin-rpm-amd64.rpm
+  skip_cleanup: true
+  on:
+tags: true
