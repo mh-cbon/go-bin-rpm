@@ -1,4 +1,17 @@
-# Changelog - go-bin-deb
+# Changelog - go-bin-rpm
+
+### 0.0.2
+
+__Changes__
+
+- release: fix package name
+
+__Contributors__
+
+- mh-cbon
+
+Released by mh-cbon, Thu 14 Jul 2016
+______________
 
 ### 0.0.1
 
