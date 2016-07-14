@@ -1,4 +1,14 @@
 
+0.0.6
+
+  * travis: update build script
+
+  - mh-cbon <mh-cbon@users.noreply.github.com>
+
+-- mh-cbon <mh-cbon@users.noreply.github.com>; Thu, 14 Jul 2016 17:21:54 +0200
+
+
+
 0.0.5
 
   * travis: fix deploy section
