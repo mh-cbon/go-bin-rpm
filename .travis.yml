@@ -10,7 +10,7 @@ go:
 before_install:
   - sudo apt-get -qq update
   - docker pull fedora
-  - docker run fedora /bin/sh -c "sudo yum install rpm-build -y"
+  - docker run fedora /bin/sh -c "yum install rpm-build -y"
   - mkdir -p ${GOPATH}/bin
   - cd ~
   - curl https://glide.sh/get | sh
