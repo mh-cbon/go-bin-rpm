@@ -10,7 +10,7 @@ go:
 before_install:
   - sudo apt-get -qq update
   - docker pull fedora
-  - docker run fedora /bin/sh -c "yum install rpm-build -y"
+  - docker run fedora /bin/sh -c "dnf install rpm-build -y"
   - mkdir -p ${GOPATH}/bin
   - cd ~
   - curl https://glide.sh/get | sh
@@ -21,6 +21,7 @@ before_install:
   - GOOS=linux GOARCH=amd64 go build --ldflags "-X main.VERSION=${TRAVIS_TAG}" -o build/amd64/go-bin-rpm main.go
 
 install:
+  - docker run-v $PWD:/docker  fedora /bin/sh -c "pwd & ls -al && cd /docker && ls -alh"
   - docker run -v $PWD:/docker fedora /bin/sh -c "cd /docker && VERBOSE=* ./go-bin-rpm generate -a 386 --version ${TRAVIS_TAG} -b pkg-build/386/ -o go-bin-rpm-386.rpm"
   - docker run -v $PWD:/docker fedora /bin/sh -c "cd /docker && VERBOSE=* ./go-bin-rpm generate -a amd64 --version ${TRAVIS_TAG} -b pkg-build/amd64/ -o go-bin-rpm-amd64.rpm"
   - docker run fedora /bin/sh -c "pwd & ls -al"
