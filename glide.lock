@@ -4,7 +4,6 @@ imports:
 - name: github.com/fatih/color
   version: 533cd7fd8a85905f67a1753afb4deddc85ea174f
   repo: git@github.com:fatih/color.git
-  vcs: git
 - name: github.com/mattn/go-colorable
   version: 9cbef7c35391cca05f15f8181dc0b18bc9736dbb
   repo: https://github.com/mattn/go-colorable
