@@ -207,14 +207,12 @@ func (p *Package) InitializeBuildArea(buildAreaPath string) error {
 }
 
 func (p *Package) WriteSpecFile(sourceDir string, buildAreaPath string) error {
-	if spec, err := p.GenerateSpecFile(sourceDir); err != nil {
+  spec, err := p.GenerateSpecFile(sourceDir);
+	if err != nil {
 		return err
-	} else {
-		p := filepath.Join(buildAreaPath, "SPECS", p.Name+".spec")
-		return ioutil.WriteFile(p, []byte(spec), 0644)
 	}
-
-	return nil
+	path := filepath.Join(buildAreaPath, "SPECS", p.Name+".spec")
+	return ioutil.WriteFile(path, []byte(spec), 0644)
 }
 
 func (p *Package) RunBuild(buildAreaPath string, output string) error {
