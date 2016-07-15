@@ -1,5 +1,19 @@
 # Changelog - go-bin-rpm
 
+### 0.0.8
+
+__Changes__
+
+- docker: Fix docker.sh example file
+- README: fix dockersh example
+
+__Contributors__
+
+- mh-cbon
+
+Released by mh-cbon, Fri 15 Jul 2016
+______________
+
 ### 0.0.7
 
 __Changes__
