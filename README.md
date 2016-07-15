@@ -10,9 +10,12 @@ to invoke `rpmbuild` and build the package.
 __deb/rpm__
 
 ```sh
+curl -L https://raw.githubusercontent.com/mh-cbon/latest/master/install.sh \
+| GH=mh-cbon/go-bin-rpm sh -xe
+# or
 wget -q -O - --no-check-certificate \
 https://raw.githubusercontent.com/mh-cbon/latest/master/install.sh \
-| sh -x  mh-cbon/go-bin-rpm '${REPO}-${ARCH}${EXT}'
+| GH=mh-cbon/go-bin-rpm sh -xe
 ```
 
 __others__
