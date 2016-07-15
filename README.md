@@ -179,7 +179,10 @@ deploy:
 dnf install rpm-build -y
 
 curl -L https://raw.githubusercontent.com/mh-cbon/latest/master/install.sh \
-| GH=mh-cbon/go-bin-rpm ASSET='${REPO}-${ARCH}${EXT}' sh -xe
+| GH=mh-cbon/go-bin-rpm sh -xe
+
+curl -L https://raw.githubusercontent.com/mh-cbon/latest/master/install.sh \
+| GH=mh-cbon/changelog sh -xe
 
 cd /docker
 TAG=$1
