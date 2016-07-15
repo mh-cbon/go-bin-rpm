@@ -12,11 +12,8 @@ before_install:
   - mkdir -p ${GOPATH}/bin
   - cd ~
   - curl https://glide.sh/get | sh
-  - cd $GOPATH/src/github.com/mh-cbon/
-  - git clone https://github.com/mh-cbon/changelog.git
-  - cd changelog
-  - glide install
-  - go build -o ../go-bin-rpm/changelog main.go
+  - curl -L https://raw.githubusercontent.com/mh-cbon/latest/master/install.sh | GH=mh-cbon/changelog sh -xe
+  - curl -L https://raw.githubusercontent.com/mh-cbon/latest/master/install.sh | GH=mh-cbon/go-bin-deb sh -xe
 
 install:
   - cd $GOPATH/src/github.com/mh-cbon/go-bin-rpm
@@ -26,10 +23,11 @@ script: echo "pass"
 
 before_deploy:
   - docker pull fedora
-  - go build --ldflags "-X main.VERSION=${TRAVIS_TAG}" -o go-bin-rpm main.go
   - mkdir -p build/{386,amd64}
   - GOOS=linux GOARCH=386 go build --ldflags "-X main.VERSION=${TRAVIS_TAG}" -o build/386/go-bin-rpm main.go
   - GOOS=linux GOARCH=amd64 go build --ldflags "-X main.VERSION=${TRAVIS_TAG}" -o build/amd64/go-bin-rpm main.go
+  - go-bin-deb generate -a 386 --version ${TRAVIS_TAG} -w pkg-build-386/ -o ${TRAVIS_BUILD_DIR}/go-bin-rpm-386.deb
+  - go-bin-deb generate -a amd64 --version ${TRAVIS_TAG} -w pkg-build-amd64/ -o ${TRAVIS_BUILD_DIR}/go-bin-rpm-amd64.deb
   - docker run -v $PWD:/docker fedora /bin/sh -c "cd /docker && sh ./docker.sh ${TRAVIS_TAG} go-bin-rpm"
   - sudo chown travis:travis go-bin-rpm-{386,amd64}.rpm
 
@@ -40,6 +38,8 @@ deploy:
   file:
     - go-bin-rpm-386.rpm
     - go-bin-rpm-amd64.rpm
+    - go-bin-rpm-386.deb
+    - go-bin-rpm-amd64.deb
   skip_cleanup: true
   on:
     tags: true
