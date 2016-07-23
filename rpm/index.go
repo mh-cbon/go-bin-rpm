@@ -11,10 +11,10 @@ import (
 	"path/filepath"
 	"strings"
 
+	"github.com/Masterminds/semver"
 	"github.com/mattn/go-zglob"
 	"github.com/mh-cbon/go-bin-rpm/stringexec"
 	"github.com/mh-cbon/verbose"
-	"github.com/Masterminds/semver"
 )
 
 var logger = verbose.Auto()
@@ -242,19 +242,19 @@ func (p *Package) RunBuild(buildAreaPath string, output string) error {
 func (p *Package) GenerateSpecFile(sourceDir string) (string, error) {
 	spec := ""
 
-  // Version field of the spec file must not
-  // contain non numeric characters,
-  // see https://fedoraproject.org/wiki/Packaging:Naming?rd=Packaging:NamingGuidelines#Version_Tag
-  // the prerelease stuff is moved into Release field
-  v, err := semver.NewVersion(p.Version)
-  if err!=nil {
-    return "", err
-  }
-  okVersion := strings.Replace(v.String(), v.Prerelease(), "", -1)
-  preRelease := p.Release
-  if v.Prerelease()!="" {
-  	preRelease = v.Prerelease() + "." + preRelease
-  }
+	// Version field of the spec file must not
+	// contain non numeric characters,
+	// see https://fedoraproject.org/wiki/Packaging:Naming?rd=Packaging:NamingGuidelines#Version_Tag
+	// the prerelease stuff is moved into Release field
+	v, err := semver.NewVersion(p.Version)
+	if err != nil {
+		return "", err
+	}
+	okVersion := strings.Replace(v.String(), v.Prerelease(), "", -1)
+	preRelease := p.Release
+	if v.Prerelease() != "" {
+		preRelease = v.Prerelease() + "." + preRelease
+	}
 
 	if p.Name != "" {
 		spec += fmt.Sprintf("Name: %s\n", p.Name)
