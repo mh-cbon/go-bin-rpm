@@ -250,7 +250,7 @@ func (p *Package) GenerateSpecFile(sourceDir string) (string, error) {
 	if err != nil {
 		return "", err
 	}
-	okVersion := strings.Replace(v.String(), v.Prerelease(), "", -1)
+	okVersion := v.Major() + "." + v.Minor() + "." + v.Patch()
 	preRelease := p.Release
 	if v.Prerelease() != "" {
 		preRelease = v.Prerelease() + "." + preRelease
