@@ -10,6 +10,7 @@ import (
 	"os/exec"
 	"path/filepath"
 	"strings"
+	"strconv"
 
 	"github.com/Masterminds/semver"
 	"github.com/mattn/go-zglob"
@@ -250,7 +251,10 @@ func (p *Package) GenerateSpecFile(sourceDir string) (string, error) {
 	if err != nil {
 		return "", err
 	}
-	okVersion := v.Major() + "." + v.Minor() + "." + v.Patch()
+	okVersion := ""
+	okVersion = strconv.FormatInt(v.Major(), 10)
+	okVersion = "." + strconv.FormatInt(v.Minor(), 10)
+	okVersion = "." + strconv.FormatInt(v.Patch(), 10)
 	preRelease := p.Release
 	if v.Prerelease() != "" {
 		preRelease = v.Prerelease() + "." + preRelease
