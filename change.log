@@ -1,4 +1,14 @@
 
+0.0.12
+
+  * fix int to string conversion
+
+  - mh-cbon <mh-cbon@users.noreply.github.com>
+
+-- mh-cbon <mh-cbon@users.noreply.github.com>; Sat, 23 Jul 2016 14:29:37 +0200
+
+
+
 0.0.11
 
   * spec file: fix version field, it must not contain prerelease or metadata
