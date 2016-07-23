@@ -1,5 +1,18 @@
 # Changelog - go-bin-rpm
 
+### 0.0.13
+
+__Changes__
+
+- rpmbuild: fix src file when copying rpmbuild file result
+
+__Contributors__
+
+- mh-cbon
+
+Released by mh-cbon, Sat 23 Jul 2016
+______________
+
 ### 0.0.12
 
 __Changes__
