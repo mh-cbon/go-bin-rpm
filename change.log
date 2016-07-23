@@ -1,9 +1,20 @@
 
+0.0.10
+
+  * rpm: fix changelog command to generate rpm changelog
+  * changelog: fix changelog format
+
+  - mh-cbon <mh-cbon@users.noreply.github.com>
+
+-- mh-cbon <mh-cbon@users.noreply.github.com>; Sat, 23 Jul 2016 13:12:06 +0200
+
+
+
 0.0.9
 
   * Spec file generator: Version field must not contain prerelease information,
-    if the version contains a prerelease information,
-    the value is now recorded into Release field.
+if the version contains a prerelease information,
+the value is now recorded into Release field.
   * glide: add semver dependency
   * packaging: add deb package support
   * travis: updated changelog url installer
@@ -94,3 +105,5 @@
   - mh-cbon <mh-cbon@users.noreply.github.com>
 
 -- mh-cbon <mh-cbon@users.noreply.github.com>; Thu, 14 Jul 2016 15:41:28 +0200
+
+
