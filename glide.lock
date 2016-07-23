@@ -1,8 +1,10 @@
-hash: f13d025302de659ff3f6b83d7c40d2ecfb90846461991d59aaafc27464c14bf2
-updated: 2016-07-14T12:56:25.780034878+02:00
+hash: 812cf854fcb511eca099ae87bfe7efa094f02fb883409bfd65ef3b47ba62bfe2
+updated: 2016-07-23T12:28:34.180022464+02:00
 imports:
 - name: github.com/fatih/color
   version: 87d4004f2ab62d0d255e0a38f1680aa534549fe3
+- name: github.com/Masterminds/semver
+  version: 8d0431362b544d1a3536cca26684828866a7de09
 - name: github.com/mattn/go-colorable
   version: 9cbef7c35391cca05f15f8181dc0b18bc9736dbb
 - name: github.com/mattn/go-isatty
@@ -17,7 +19,7 @@ imports:
 - name: github.com/urfave/cli
   version: 1efa31f08b9333f1bd4882d61f9d668a70cd902e
 - name: golang.org/x/sys
-  version: b518c298ac9dc94b6ac0757394f50d10c5dfa25a
+  version: a646d33e2ee3172a661fc09bca23bb4889a41bc8
   subpackages:
   - unix
 testImports: []
