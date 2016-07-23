@@ -1,5 +1,19 @@
 # Changelog - go-bin-rpm
 
+### 0.0.10
+
+__Changes__
+
+- rpm: fix changelog command to generate rpm changelog
+- changelog: fix changelog format
+
+__Contributors__
+
+- mh-cbon
+
+Released by mh-cbon, Sat 23 Jul 2016
+______________
+
 ### 0.0.9
 
 __Changes__
