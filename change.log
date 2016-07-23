@@ -1,4 +1,14 @@
 
+UNRELEASED
+
+  * rpmbuild: fix src file when copying rpmbuild file result
+
+  - mh-cbon <mh-cbon@users.noreply.github.com>
+
+-- mh-cbon <mh-cbon@users.noreply.github.com>; Sat, 23 Jul 2016 14:50:01 +0200
+
+
+
 0.0.12
 
   * fix int to string conversion
@@ -125,5 +135,3 @@ the value is now recorded into Release field.
   - mh-cbon <mh-cbon@users.noreply.github.com>
 
 -- mh-cbon <mh-cbon@users.noreply.github.com>; Thu, 14 Jul 2016 15:41:28 +0200
-
-
