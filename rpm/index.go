@@ -9,8 +9,8 @@ import (
 	"os"
 	"os/exec"
 	"path/filepath"
-	"strings"
 	"strconv"
+	"strings"
 
 	"github.com/Masterminds/semver"
 	"github.com/mattn/go-zglob"
