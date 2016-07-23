@@ -252,9 +252,9 @@ func (p *Package) GenerateSpecFile(sourceDir string) (string, error) {
 		return "", err
 	}
 	okVersion := ""
-	okVersion = strconv.FormatInt(v.Major(), 10)
-	okVersion = "." + strconv.FormatInt(v.Minor(), 10)
-	okVersion = "." + strconv.FormatInt(v.Patch(), 10)
+	okVersion += strconv.FormatInt(v.Major(), 10)
+	okVersion += "." + strconv.FormatInt(v.Minor(), 10)
+	okVersion += "." + strconv.FormatInt(v.Patch(), 10)
 	preRelease := p.Release
 	if v.Prerelease() != "" {
 		preRelease = v.Prerelease() + "." + preRelease
