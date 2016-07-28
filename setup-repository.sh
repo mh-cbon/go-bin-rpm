@@ -68,6 +68,7 @@ skip_if_unavailable=1
 gpgcheck=0
 EOTin
 EOT
+cat gen-repo-file.sh
 docker run -v $PWD:/docker fedora /bin/sh -c "cd /docker && sh ./gen-repo-file.sh"
 
 rm -f gen-repo-file.sh
