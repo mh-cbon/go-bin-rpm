@@ -29,12 +29,17 @@ fi
 git fetch --all
 git config user.name "${USER}"
 git config user.email "${EMAIL}"
-if [ `git branch -a | egrep 'remotes/origin/gh-pages$'` ]; then
-  git checkout gh-pages
+if [ `git symbolic-ref --short -q HEAD | egrep 'gh-pages$'` ]; then
+  echo "already on gh-pages"
 else
-  git checkout -b gh-pages
-  find . -maxdepth 1 -mindepth 1 -not -name .git -exec rm -rf {} \;
-  git commit -am "clean up"
+  if [ `git branch -a | egrep 'remotes/origin/gh-pages$'` ]; then
+    # gh-pages laready exist on remote
+    git checkout gh-pages
+  else
+    git checkout -b gh-pages
+    find . -maxdepth 1 -mindepth 1 -not -name .git -exec rm -rf {} \;
+    git commit -am "clean up"
+  fi
 fi
 
 rm -fr rpm
