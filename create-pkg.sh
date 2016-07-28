@@ -24,11 +24,11 @@ curl -L https://raw.githubusercontent.com/mh-cbon/latest/master/install.sh \
 cd /docker
 VERBOSE=* go-bin-rpm generate -a 386 --version ${TRAVIS_TAG} -b pkg-build/386/ -o ${REPO}-386.rpm
 VERBOSE=* go-bin-rpm generate -a amd64 --version ${TRAVIS_TAG} -b pkg-build/amd64/ -o ${REPO}-amd64.rpm
+rm -fr pkg-build/*
 EOT
 
 rm -fr pkg-build/*
 docker run -v $PWD:/docker fedora /bin/sh -c "cd /docker && sh ./docker.sh ${TRAVIS_TAG}"
 sudo chown travis:travis ${REPO}-*.rpm
 
-rm -fr pkg-build/*
 rm -fr docker.sh
