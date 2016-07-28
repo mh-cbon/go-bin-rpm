@@ -22,7 +22,7 @@ else
   curl -L https://raw.githubusercontent.com/mh-cbon/latest/master/install.sh | GH=mh-cbon/gh-api-cli sh -xe
 fi
 
-git checkout --track -b origin/gh-pages || echo "branch already exists"
+git checkout --track -b origin/gh-pages || git checkout -b gh-pages || echo "branch already exists"
 git config user.name "${USER}"
 git config user.email "${EMAIL}"
 
@@ -60,6 +60,9 @@ rm -f createrepo.sh
 
 git add -A
 git commit -m "Created rpm repository"
+
+git status
+git branch
 
 set +x # disable debug output because that would display the token in clear text..
 echo "git push --force --quiet https://GH_TOKEN@github.com/${GH}.git gh-pages"
