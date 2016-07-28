@@ -29,8 +29,7 @@ fi
 git fetch --all
 git config user.name "${USER}"
 git config user.email "${EMAIL}"
-if [ `git branch --list gh-pages `]
-then
+if [ `git branch -a | egrep 'remotes/origin/gh-pages$'` ]; then
   git checkout gh-pages
 else
   git checkout -b gh-pages
