@@ -31,7 +31,7 @@ if [ `git branch --list gh-pages `]
 then
   echo "Branch name gh-pages already exists."
 else
-  find . ! -name '.git' -type f -exec rm -f {} +
+  find . -maxdepth 1 -mindepth 1 -not -name .git -exec rm -rf {} \;
 fi
 git checkout -b gh-pages
 git config user.name "${USER}"
