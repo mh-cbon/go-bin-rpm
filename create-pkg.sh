@@ -31,4 +31,5 @@ EOT
 
 rm -fr pkg-build/*
 docker run -v $PWD:/docker fedora /bin/sh -c "cd /docker && sh ./docker.sh ${TRAVIS_TAG} ${REPO}"
+ls -alh */*/*
 sudo chown travis:travis ${REPO}-{386,amd64}.rpm
