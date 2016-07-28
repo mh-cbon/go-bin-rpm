@@ -22,14 +22,10 @@ curl -L https://raw.githubusercontent.com/mh-cbon/latest/master/install.sh \
 | GH=mh-cbon/go-bin-rpm sh -xe
 
 cd /docker
-TAG=$1
-NAME=$2
-if [[ -z \${TAG} ]]; then TAG="0.0.0"; fi
-VERBOSE=* go-bin-rpm generate -a 386 --version \${TAG} -b pkg-build/386/ -o \${NAME}-386.rpm
-VERBOSE=* go-bin-rpm generate -a amd64 --version \${TAG} -b pkg-build/amd64/ -o \${NAME}-amd64.rpm
+VERBOSE=* go-bin-rpm generate -a 386 --version ${TRAVIS_TAG} -b pkg-build/386/ -o ${TRAVIS_BUILD_DIR}/${REPO}-386.rpm
+VERBOSE=* go-bin-rpm generate -a amd64 --version ${TRAVIS_TAG} -b pkg-build/amd64/ -o ${TRAVIS_BUILD_DIR}/${REPO}-amd64.rpm
 EOT
 
 rm -fr pkg-build/*
-docker run -v $PWD:/docker fedora /bin/sh -c "cd /docker && sh ./docker.sh ${TRAVIS_TAG} ${REPO}"
-ls -alh */*/*
-sudo chown travis:travis ${REPO}-{386,amd64}.rpm
+docker run -v $PWD:/docker fedora /bin/sh -c "cd /docker && sh ./docker.sh ${TRAVIS_TAG}"
+sudo chown travis:travis ${TRAVIS_BUILD_DIR}/${REPO}-{386,amd64}.rpm
