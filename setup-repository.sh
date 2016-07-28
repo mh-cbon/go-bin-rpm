@@ -26,10 +26,7 @@ else
   curl -L https://raw.githubusercontent.com/mh-cbon/latest/master/install.sh | GH=mh-cbon/gh-api-cli sh -xe
 fi
 
-git remote -v
 git fetch --all
-git fetch origin gh-pages
-git branch
 git config user.name "${USER}"
 git config user.email "${EMAIL}"
 if [ `git symbolic-ref --short -q HEAD | egrep 'gh-pages$'` ]; then
@@ -61,6 +58,10 @@ docker run -v $PWD:/docker fedora /bin/sh -c "cd /docker && sh ./createrepo.sh"
 
 # see also http://linux.die.net/man/5/yum.conf
 cat <<EOT > gen-repo-file.sh
+rpm -qip *.rpm | grep Summary
+rpm -qip *.rpm | grep Summary | cut -d ':' -f2
+rpm -qip *.rpm | grep Summary | cut -d ':' -f2 | cut -d ' ' -f2-
+rpm -qip *.rpm | grep Summary | cut -d ':' -f2 | cut -d ' ' -f2- | tail -n 1
 DESC=\`rpm -qip *.rpm | grep Summary | cut -d ':' -f2 | cut -d ' ' -f2- | tail -n 1\`
 cat <<EOTin > rpm/${REPO}.repo
 [${REPO}]
