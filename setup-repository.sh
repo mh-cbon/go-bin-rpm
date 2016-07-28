@@ -58,11 +58,7 @@ docker run -v $PWD:/docker fedora /bin/sh -c "cd /docker && sh ./createrepo.sh"
 
 # see also http://linux.die.net/man/5/yum.conf
 cat <<EOT > gen-repo-file.sh
-rpm -qip *.rpm | grep Summary
-rpm -qip *.rpm | grep Summary | cut -d ':' -f2
-rpm -qip *.rpm | grep Summary | cut -d ':' -f2 | cut -d ' ' -f2-
-rpm -qip *.rpm | grep Summary | cut -d ':' -f2 | cut -d ' ' -f2- | tail -n 1
-DESC=\`rpm -qip *.rpm | grep Summary | cut -d ':' -f2 | cut -d ' ' -f2- | tail -n 1\`
+DESC=\`rpm -qip rpm/*/*.rpm | grep Summary | cut -d ':' -f2 | cut -d ' ' -f2- | tail -n 1\`
 cat <<EOTin > rpm/${REPO}.repo
 [${REPO}]
 name=\${DESC}
