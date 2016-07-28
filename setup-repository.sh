@@ -61,7 +61,7 @@ cat <<EOT > gen-repo-file.sh
 DESC=`rpm -qip *.rpm | grep Summary | cut -d ':' -f2 | cut -d ' ' -f2- | tail -n 1`
 cat <<EOTin > rpm/${REPO}.repo
 [${REPO}]
-name=${DESC}
+name=\${DESC}
 baseurl=https://${USER}.github.io/${REPO}/rpm/\\\$basearch/
 enabled=1
 skip_if_unavailable=1
