@@ -27,7 +27,14 @@ else
 fi
 
 git fetch --all
-git checkout --track -b origin/gh-pages || git checkout -b gh-pages || echo "branch already exists"
+if [ `git branch --list gh-pages `]
+then
+  git checkout -b gh-pages
+  echo "Branch name gh-pages already exists."
+else
+  git checkout --track -b gh-pages
+  find . ! -name '.git' -type f -exec rm -f {} +
+fi
 git config user.name "${USER}"
 git config user.email "${EMAIL}"
 
