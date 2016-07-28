@@ -62,6 +62,6 @@ git add -A
 git commit -m "Created rpm repository"
 
 set +x # disable debug output because that would display the token in clear text..
-echo "git push -u --force --quiet https://GH_TOKEN@github.com/${GH}.git origin gh-pages"
-git push -u --force --quiet "https://${GH_TOKEN}@github.com/${GH}.git" origin gh-pages \
+echo "git push --force --quiet https://GH_TOKEN@github.com/${GH}.git gh-pages"
+git push --force --quiet "https://${GH_TOKEN}@github.com/${GH}.git" gh-pages \
  2>&1 | sed -re "s/${GH_TOKEN}/GH_TOKEN/g"
