@@ -14,6 +14,10 @@
 REPO=`echo ${GH} | cut -d '/' -f 2`
 USER=`echo ${GH} | cut -d '/' -f 1`
 
+# clean up build.
+rm -fr ${REPO}-*.rpm
+rm -fr ${REPO}-*.deb
+
 sudo apt-get install build-essential -y
 
 if type "gh-api-cli" > /dev/null; then
@@ -22,6 +26,7 @@ else
   curl -L https://raw.githubusercontent.com/mh-cbon/latest/master/install.sh | GH=mh-cbon/gh-api-cli sh -xe
 fi
 
+git fetch --all
 git checkout --track -b origin/gh-pages || git checkout -b gh-pages || echo "branch already exists"
 git config user.name "${USER}"
 git config user.email "${EMAIL}"
