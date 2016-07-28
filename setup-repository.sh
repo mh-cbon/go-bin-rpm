@@ -26,6 +26,7 @@ else
   curl -L https://raw.githubusercontent.com/mh-cbon/latest/master/install.sh | GH=mh-cbon/gh-api-cli sh -xe
 fi
 
+git remote -v
 git fetch --all
 git config user.name "${USER}"
 git config user.email "${EMAIL}"
@@ -33,7 +34,7 @@ if [ `git symbolic-ref --short -q HEAD | egrep 'gh-pages$'` ]; then
   echo "already on gh-pages"
 else
   if [ `git branch -a | egrep 'remotes/origin/gh-pages$'` ]; then
-    # gh-pages laready exist on remote
+    # gh-pages already exist on remote
     git checkout gh-pages
   else
     git checkout -b gh-pages
