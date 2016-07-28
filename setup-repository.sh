@@ -27,15 +27,16 @@ else
 fi
 
 git fetch --all
-if [ `git branch --list gh-pages `]
-then
-  echo "Branch name gh-pages already exists."
-else
-  find . -maxdepth 1 -mindepth 1 -not -name .git -exec rm -rf {} \;
-fi
-git checkout -b gh-pages
 git config user.name "${USER}"
 git config user.email "${EMAIL}"
+if [ `git branch --list gh-pages `]
+then
+  git checkout gh-pages
+else
+  git checkout -b gh-pages
+  find . -maxdepth 1 -mindepth 1 -not -name .git -exec rm -rf {} \;
+  git commit -am "clean up"
+fi
 
 rm -fr rpm
 mkdir -p rpm/{i386,x86_64}
