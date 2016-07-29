@@ -1,5 +1,23 @@
 # Changelog - go-bin-rpm
 
+### 0.0.14
+
+__Changes__
+
+- travis: update build file, add deb/rpm repositories setup
+- source repository: use token when downloading assets
+- source repository: fix description reading of rpm package
+- source repository: fix base arch escaping in the creation of the repo file
+- support: add centralized script to generate packages and repository
+
+__Contributors__
+
+- mh-cbon
+
+Released by mh-cbon, Sat 30 Jul 2016 -
+[see the diff](https://github.com/mh-cbon/go-bin-rpm/compare/0.0.13...0.0.14#diff)
+______________
+
 ### 0.0.13
 
 __Changes__
@@ -10,7 +28,8 @@ __Contributors__
 
 - mh-cbon
 
-Released by mh-cbon, Sat 23 Jul 2016
+Released by mh-cbon, Sat 23 Jul 2016 -
+[see the diff](https://github.com/mh-cbon/go-bin-rpm/compare/0.0.12...0.0.13#diff)
 ______________
 
 ### 0.0.12
@@ -23,7 +42,8 @@ __Contributors__
 
 - mh-cbon
 
-Released by mh-cbon, Sat 23 Jul 2016
+Released by mh-cbon, Sat 23 Jul 2016 -
+[see the diff](https://github.com/mh-cbon/go-bin-rpm/compare/0.0.11...0.0.12#diff)
 ______________
 
 ### 0.0.11
@@ -36,7 +56,8 @@ __Contributors__
 
 - mh-cbon
 
-Released by mh-cbon, Sat 23 Jul 2016
+Released by mh-cbon, Sat 23 Jul 2016 -
+[see the diff](https://github.com/mh-cbon/go-bin-rpm/compare/0.0.10...0.0.11#diff)
 ______________
 
 ### 0.0.10
@@ -50,7 +71,8 @@ __Contributors__
 
 - mh-cbon
 
-Released by mh-cbon, Sat 23 Jul 2016
+Released by mh-cbon, Sat 23 Jul 2016 -
+[see the diff](https://github.com/mh-cbon/go-bin-rpm/compare/0.0.9...0.0.10#diff)
 ______________
 
 ### 0.0.9
@@ -58,8 +80,8 @@ ______________
 __Changes__
 
 - Spec file generator: Version field must not contain prerelease information,
-if the version contains a prerelease information,
-the value is now recorded into Release field.
+  if the version contains a prerelease information,
+  the value is now recorded into Release field.
 - glide: add semver dependency
 - packaging: add deb package support
 - travis: updated changelog url installer
@@ -69,7 +91,8 @@ __Contributors__
 
 - mh-cbon
 
-Released by mh-cbon, Sat 23 Jul 2016
+Released by mh-cbon, Sat 23 Jul 2016 -
+[see the diff](https://github.com/mh-cbon/go-bin-rpm/compare/0.0.8...0.0.9#diff)
 ______________
 
 ### 0.0.8
@@ -83,7 +106,8 @@ __Contributors__
 
 - mh-cbon
 
-Released by mh-cbon, Fri 15 Jul 2016
+Released by mh-cbon, Fri 15 Jul 2016 -
+[see the diff](https://github.com/mh-cbon/go-bin-rpm/compare/0.0.7...0.0.8#diff)
 ______________
 
 ### 0.0.7
@@ -97,7 +121,8 @@ __Contributors__
 
 - mh-cbon
 
-Released by mh-cbon, Thu 14 Jul 2016
+Released by mh-cbon, Thu 14 Jul 2016 -
+[see the diff](https://github.com/mh-cbon/go-bin-rpm/compare/0.0.6...0.0.7#diff)
 ______________
 
 ### 0.0.6
@@ -110,7 +135,8 @@ __Contributors__
 
 - mh-cbon
 
-Released by mh-cbon, Thu 14 Jul 2016
+Released by mh-cbon, Thu 14 Jul 2016 -
+[see the diff](https://github.com/mh-cbon/go-bin-rpm/compare/0.0.5...0.0.6#diff)
 ______________
 
 ### 0.0.5
@@ -123,7 +149,8 @@ __Contributors__
 
 - mh-cbon
 
-Released by mh-cbon, Thu 14 Jul 2016
+Released by mh-cbon, Thu 14 Jul 2016 -
+[see the diff](https://github.com/mh-cbon/go-bin-rpm/compare/0.0.4...0.0.5#diff)
 ______________
 
 ### 0.0.4
@@ -136,7 +163,8 @@ __Contributors__
 
 - mh-cbon
 
-Released by mh-cbon, Thu 14 Jul 2016
+Released by mh-cbon, Thu 14 Jul 2016 -
+[see the diff](https://github.com/mh-cbon/go-bin-rpm/compare/0.0.3...0.0.4#diff)
 ______________
 
 ### 0.0.3
@@ -149,7 +177,8 @@ __Contributors__
 
 - mh-cbon
 
-Released by mh-cbon, Thu 14 Jul 2016
+Released by mh-cbon, Thu 14 Jul 2016 -
+[see the diff](https://github.com/mh-cbon/go-bin-rpm/compare/0.0.2...0.0.3#diff)
 ______________
 
 ### 0.0.2
@@ -162,7 +191,8 @@ __Contributors__
 
 - mh-cbon
 
-Released by mh-cbon, Thu 14 Jul 2016
+Released by mh-cbon, Thu 14 Jul 2016 -
+[see the diff](https://github.com/mh-cbon/go-bin-rpm/compare/0.0.1...0.0.2#diff)
 ______________
 
 ### 0.0.1
@@ -175,7 +205,8 @@ __Contributors__
 
 - mh-cbon
 
-Released by mh-cbon, Thu 14 Jul 2016
+Released by mh-cbon, Thu 14 Jul 2016 -
+[see the diff](https://github.com/mh-cbon/go-bin-rpm/compare/62d0a83570d6d0f310d675e2a760e7552a40c63a...0.0.1#diff)
 ______________
 
 
