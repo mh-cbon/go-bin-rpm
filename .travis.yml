@@ -46,6 +46,8 @@ deploy:
   file:
     - $MYAPP-386.rpm
     - $MYAPP-amd64.rpm
+    - $MYAPP-386.deb
+    - $MYAPP-amd64.deb
   skip_cleanup: true
   on:
     tags: true
