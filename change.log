@@ -1,39 +1,11 @@
 
-UNRELEASED
+0.0.14
 
   * travis: update build file, add deb/rpm repositories setup
   * source repository: use token when downloading assets
-  * source: fix description reading of rpm package
-  * source: fix description reading of rpm package
-  * source: fix description reading of rpm package
-  * source: fix description reading of rpm package
-  * source: fix description reading of rpm package
-  * source: fix description reading of rpm package
-  * source: fix description reading of rpm package
-  * source: fix description reading of rpm package
-  * source: fix description reading of rpm package
-  * repository setup: fix base arch escaping in the creation of the repo file
-  * repository setup: fix base arch escaping in the creation of the repo file
-  * repository setup: fix base arch escaping in the creation of the repo file
-  * repository setup: fix base arch escaping in the creation of the repo file
-  * support: tryfix travis
-  * support: tryfix travis
-  * support: tryfix travis
-  * support: tryfix travis
-  * support: tryfix travis
-  * support: tryfix travis
-  * support: tryfix travis
-  * support: tryfix travis
-  * support: tryfix travis
-  * support: tryfix travis
-  * support: tryfix travis
-  * support: tryfix travis
-  * support: tryfix travis
-  * support: tryfix travis
-  * support: tryfix travis
-  * support: fix variable excaping in docker script
+  * source repository: fix description reading of rpm package
+  * source repository: fix base arch escaping in the creation of the repo file
   * support: add centralized script to generate packages and repository
-  * changelog: 0.0.13
 
   - mh-cbon <mh-cbon@users.noreply.github.com>
 
