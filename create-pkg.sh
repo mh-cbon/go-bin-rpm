@@ -22,7 +22,7 @@ curl -L https://raw.githubusercontent.com/mh-cbon/latest/master/install.sh \
 | GH=mh-cbon/go-bin-rpm sh -xe
 
 cd /docker
-if ["${REPO}" == "go-bin-rpm"]; then
+if [ -f ./build/amd64/go-bin-rpm ]; then
   VERBOSE=* ./build/amd64/go-bin-rpm generate -a 386 --version ${TRAVIS_TAG} -b pkg-build/386/ -o ${REPO}-386.rpm
   VERBOSE=* ./build/amd64/go-bin-rpm generate -a amd64 --version ${TRAVIS_TAG} -b pkg-build/amd64/ -o ${REPO}-amd64.rpm
 else
