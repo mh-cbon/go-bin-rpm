@@ -7,7 +7,7 @@ to invoke `rpmbuild` and build the package.
 
 # Install
 
-__deb/rpm__
+__rpm__
 
 ```sh
 curl -L https://raw.githubusercontent.com/mh-cbon/latest/master/install.sh \
@@ -136,6 +136,7 @@ Please check the demo app [here](demo/)
 - get a travis account
 - connect your github account to travis and register your repo
 - install travis client `gem install --user travis`
+- run `travis encrypt --add -r mh-cbon/dummy GH_TOKEN=xxxx`
 - run `travis setup releases`
 - personalize the `.travis.yml`
 
@@ -149,27 +150,40 @@ language: go
 go:
   - tip
 
+env:
+  global:
+    - MYAPP=dummy
+    - MYEMAIL=some@email.com
+    - secure: GH_TOKEN
+
 before_install:
   - sudo apt-get -qq update
-  - docker pull fedora
+  - mkdir -p ${GOPATH}/bin
 
 install:
-  - glide install
+  - cd $GOPATH/src/github.com/mh-cbon/$MYAPP
+  - go install
+
+script: echo "pass"
 
 before_deploy:
+  - docker pull fedora
   - mkdir -p build/{386,amd64}
-  - GOOS=linux GOARCH=386 go build -o build/386/program main.go
-  - GOOS=linux GOARCH=amd64 go build -o build/amd64/program main.go
-  - docker run -v $PWD:/docker fedora /bin/sh -c "cd /docker && sh ./docker.sh ${TRAVIS_TAG} program"
-  - sudo chown travis:travis program-{386,amd64}.rpm
+  - GOOS=linux GOARCH=386 go build --ldflags "-X main.VERSION=${TRAVIS_TAG}" -o build/386/$MYAPP main.go
+  - GOOS=linux GOARCH=amd64 go build --ldflags "-X main.VERSION=${TRAVIS_TAG}" -o build/amd64/$MYAPP main.go
+  - curl -L https://raw.githubusercontent.com/mh-cbon/go-bin-rpm/master/create-pkg.sh | GH=mh-cbon/$MYAPP sh -xe
+
+after_deploy:
+  - curl -L https://raw.githubusercontent.com/mh-cbon/go-bin-rpm/master/setup-repository.sh | GH=mh-cbon/$MYAPP EMAIL=$MYEMAIL sh -xe
 
 deploy:
   provider: releases
   api_key:
-    secure: ... your own here
+    secure: GH_TOKEN xxxx
+  file_glob: true
   file:
-    - program-386.deb
-    - program-amd64.deb
+    - $MYAPP-386.rpm
+    - $MYAPP-amd64.rpm
   skip_cleanup: true
   on:
     tags: true
