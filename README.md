@@ -7,7 +7,17 @@ to invoke `rpmbuild` and build the package.
 
 # Install
 
-__rpm__
+__deb/ubuntu/rpm repositories__
+
+```sh
+wget -O - https://raw.githubusercontent.com/mh-cbon/latest/master/source.sh \
+| GH=mh-cbon/go-bin-rpm sh -xe
+# or
+curl -L https://raw.githubusercontent.com/mh-cbon/latest/master/source.sh \
+| GH=mh-cbon/go-bin-rpm sh -xe
+```
+
+__deb/ubuntu/rpm package__
 
 ```sh
 curl -L https://raw.githubusercontent.com/mh-cbon/latest/master/install.sh \

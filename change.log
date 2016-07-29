@@ -1,4 +1,46 @@
 
+UNRELEASED
+
+  * travis: update build file, add deb/rpm repositories setup
+  * source repository: use token when downloading assets
+  * source: fix description reading of rpm package
+  * source: fix description reading of rpm package
+  * source: fix description reading of rpm package
+  * source: fix description reading of rpm package
+  * source: fix description reading of rpm package
+  * source: fix description reading of rpm package
+  * source: fix description reading of rpm package
+  * source: fix description reading of rpm package
+  * source: fix description reading of rpm package
+  * repository setup: fix base arch escaping in the creation of the repo file
+  * repository setup: fix base arch escaping in the creation of the repo file
+  * repository setup: fix base arch escaping in the creation of the repo file
+  * repository setup: fix base arch escaping in the creation of the repo file
+  * support: tryfix travis
+  * support: tryfix travis
+  * support: tryfix travis
+  * support: tryfix travis
+  * support: tryfix travis
+  * support: tryfix travis
+  * support: tryfix travis
+  * support: tryfix travis
+  * support: tryfix travis
+  * support: tryfix travis
+  * support: tryfix travis
+  * support: tryfix travis
+  * support: tryfix travis
+  * support: tryfix travis
+  * support: tryfix travis
+  * support: fix variable excaping in docker script
+  * support: add centralized script to generate packages and repository
+  * changelog: 0.0.13
+
+  - mh-cbon <mh-cbon@users.noreply.github.com>
+
+-- mh-cbon <mh-cbon@users.noreply.github.com>; Sat, 30 Jul 2016 00:56:43 +0200
+
+
+
 0.0.13
 
   * rpmbuild: fix src file when copying rpmbuild file result
@@ -43,8 +85,8 @@
 0.0.9
 
   * Spec file generator: Version field must not contain prerelease information,
-if the version contains a prerelease information,
-the value is now recorded into Release field.
+    if the version contains a prerelease information,
+    the value is now recorded into Release field.
   * glide: add semver dependency
   * packaging: add deb package support
   * travis: updated changelog url installer
