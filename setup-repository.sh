@@ -47,8 +47,12 @@ fi
 
 rm -fr rpm
 mkdir -p rpm/{i386,x86_64}
-gh-api-cli dl-assets -o ${USER} -r ${REPO} --out rpm/i386/%r-%v_%a.%e -g "*386*rpm"
-gh-api-cli dl-assets -o ${USER} -r ${REPO} --out rpm/x86_64/%r-%v_%a.%e -g "*amd64*rpm"
+
+set +x # disable debug output because that would display the token in clear text..
+echo "gh-api-cli dl-assets -t {GH_TOKEN} -o ${USER} -r ${REPO} -g '*deb' -out 'pkg/%r-%v_%a.deb'"
+gh-api-cli dl-assets -t "${GH_TOKEN}" -o ${USER} -r ${REPO} --out rpm/i386/%r-%v_%a.%e -g "*386*rpm"
+gh-api-cli dl-assets -t "${GH_TOKEN}" -o ${USER} -r ${REPO} --out rpm/x86_64/%r-%v_%a.%e -g "*amd64*rpm"
+set -x
 
 cat <<EOT > createrepo.sh
 yum install createrepo -y
