@@ -5,6 +5,8 @@ Create binary rpm package with ease
 Using a `json` files to declare rules, it then performs necessary operations
 to invoke `rpmbuild` and build the package.
 
+This tool is part of the [go-github-release workflow](https://github.com/mh-cbon/go-github-release)
+
 # Install
 
 __deb/ubuntu/rpm repositories__
