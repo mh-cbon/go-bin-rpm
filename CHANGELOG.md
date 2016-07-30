@@ -1,5 +1,20 @@
 # Changelog - go-bin-rpm
 
+### 0.0.15
+
+__Changes__
+
+- travis: fix missing assets
+- packaging: trick the build script to be able to build go-bin-rpm itself
+
+__Contributors__
+
+- mh-cbon
+
+Released by mh-cbon, Sat 30 Jul 2016 -
+[see the diff](https://github.com/mh-cbon/go-bin-rpm/compare/0.0.14...0.0.15#diff)
+______________
+
 ### 0.0.14
 
 __Changes__
