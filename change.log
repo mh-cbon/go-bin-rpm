@@ -1,4 +1,15 @@
 
+0.0.15
+
+  * travis: fix missing assets
+  * packaging: trick the build script to be able to build go-bin-rpm itself
+
+  - mh-cbon <mh-cbon@users.noreply.github.com>
+
+-- mh-cbon <mh-cbon@users.noreply.github.com>; Sat, 30 Jul 2016 17:22:30 +0200
+
+
+
 0.0.14
 
   * travis: update build file, add deb/rpm repositories setup
