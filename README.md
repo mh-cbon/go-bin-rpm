@@ -149,7 +149,7 @@ Please check the demo app [here](demo/)
 - get a travis account
 - connect your github account to travis and register your repo
 - install travis client `gem install --user travis`
-- run `travis encrypt --add -r mh-cbon/dummy GH_TOKEN=xxxx`
+- run `travis encrypt --add -r YOUR_USERNAME/dummy GH_TOKEN=xxxx`
 - run `travis setup releases`
 - personalize the `.travis.yml`
 
@@ -184,10 +184,10 @@ before_deploy:
   - mkdir -p build/{386,amd64}
   - GOOS=linux GOARCH=386 go build --ldflags "-X main.VERSION=${TRAVIS_TAG}" -o build/386/$MYAPP main.go
   - GOOS=linux GOARCH=amd64 go build --ldflags "-X main.VERSION=${TRAVIS_TAG}" -o build/amd64/$MYAPP main.go
-  - curl -L https://raw.githubusercontent.com/mh-cbon/go-bin-rpm/master/create-pkg.sh | GH=mh-cbon/$MYAPP sh -xe
+  - curl -L https://raw.githubusercontent.com/mh-cbon/go-bin-rpm/master/create-pkg.sh | GH=YOUR_USERNAME/$MYAPP sh -xe
 
 after_deploy:
-  - curl -L https://raw.githubusercontent.com/mh-cbon/go-bin-rpm/master/setup-repository.sh | GH=mh-cbon/$MYAPP EMAIL=$MYEMAIL sh -xe
+  - curl -L https://raw.githubusercontent.com/mh-cbon/go-bin-rpm/master/setup-repository.sh | GH=YOUR_USERNAME/$MYAPP EMAIL=$MYEMAIL sh -xe
 
 deploy:
   provider: releases
@@ -200,28 +200,6 @@ deploy:
   skip_cleanup: true
   on:
     tags: true
-```
-
-```sh
-# docker.sh
-#!/bin/sh -xe
-
-dnf install rpm-build -y
-
-curl -L https://raw.githubusercontent.com/mh-cbon/latest/master/install.sh \
-| GH=mh-cbon/go-bin-rpm sh -xe
-
-curl -L https://raw.githubusercontent.com/mh-cbon/latest/master/install.sh \
-| GH=mh-cbon/changelog sh -xe
-
-cd /docker
-TAG=$1
-NAME=$2
-
-if [[ -z ${TAG} ]]; then TAG="0.0.0"; fi
-
-VERBOSE=* go-bin-rpm generate -a 386 --version ${TAG} -b pkg-build/386/ -o ${NAME}-386.rpm
-VERBOSE=* go-bin-rpm generate -a amd64 --version ${TAG} -b pkg-build/amd64/ -o ${NAME}-amd64.rpm
 ```
 
 # useful rpm commands
