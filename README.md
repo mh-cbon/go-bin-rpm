@@ -51,6 +51,7 @@ To create a binary package you need to
 
 - build your application binaries
 - invoke `go-bin-rpm` to generate the package
+- create rpm repositories on `travis` hosted on `gh-pages` using this [script](setup-repository.sh)
 
 # Usage
 
