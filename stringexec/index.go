@@ -1,6 +1,7 @@
 package stringexec
 
 import (
+	"github.com/pkg/errors"
 	"io/ioutil"
 	"os"
 	"os/exec"
@@ -18,11 +19,11 @@ func Command(cwd string, cmd string) (*exec.Cmd, error) {
 func ExecStringWindows(cwd string, cmd string) (*exec.Cmd, error) {
 	dir, err := ioutil.TempDir("", "stringexec")
 	if err != nil {
-		return nil, err
+		return nil, errors.WithStack(err)
 	}
 	err = ioutil.WriteFile(dir+"/some.bat", []byte(cmd), 0766)
 	if err != nil {
-		return nil, err
+		return nil, errors.WithStack(err)
 	}
 
 	oCmd := exec.Command("cmd", []string{"/C", dir + "/some.bat"}...)
