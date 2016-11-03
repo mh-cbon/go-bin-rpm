@@ -14,6 +14,11 @@
 REPO=`echo ${GH} | cut -d '/' -f 2`
 USER=`echo ${GH} | cut -d '/' -f 1`
 
+if ["${GH_TOKEN}" == ""]; then
+  echo "GH_TOKEN is not properly set. Check your travis file."
+  exit 1
+fi
+
 # clean up build.
 rm -fr ${REPO}-*.rpm
 rm -fr ${REPO}-*.deb
