@@ -1,18 +1,4 @@
 package: github.com/mh-cbon/go-bin-rpm
-scripts:
-  prebump: 666 git fetch --tags origin master && 666 git pull origin master
-  preversion: |
-    philea -s "666 go vet %s" "666 go-fmt-fail %s" \
-    && 666 go run main.go -v \
-    && 666 changelog finalize --version !newversion! \
-    && 666 commit -q -m "changelog: !newversion!" -f change.log
-  postversion: |
-    666 changelog md -o CHANGELOG.md --vars='{"name":"go-bin-rpm"}' \
-    && 666 commit -q -m "changelog: !newversion!" -f CHANGELOG.md \
-    && 666 git push && 666 git push --tags \
-    && 666 gh-api-cli create-release -n release -o mh-cbon -r go-bin-rpm \
-     --ver !newversion! -c "changelog ghrelease --version !newversion!" \
-     --draft !isprerelease!
 import:
 - package: github.com/mh-cbon/verbose
   version: ^0.0.1
@@ -21,3 +7,5 @@ import:
 - package: github.com/mattn/go-zglob
 - package: github.com/Masterminds/semver
   version: ^1.1.1
+- package: github.com/pkg/errors
+  version: ^0.8.0
