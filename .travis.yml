@@ -5,7 +5,7 @@ services:
 
 language: go
 go:
-  - tip
+  - 1.8
 
 env:
   global:
