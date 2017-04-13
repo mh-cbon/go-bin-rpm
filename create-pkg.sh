@@ -8,6 +8,11 @@
 # curl -L https://raw.githubusercontent.com/mh-cbon/go-bin-rpm/master/create-pkg.sh \
 # | GH=mh-cbon/gh-api-cli sh -xe
 
+if ["${GH}" == ""]; then
+  echo "GH is not properly set. Check your travis file."
+  exit 1
+fi
+
 REPO=`echo ${GH} | cut -d '/' -f 2`
 USER=`echo ${GH} | cut -d '/' -f 1`
 

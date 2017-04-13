@@ -1,13 +1,8 @@
-# go-bin-rpm
+# {{.Name}}
 
-[![travis Status](https://travis-ci.org/mh-cbon/go-bin-rpm.svg?branch=master)](https://travis-ci.org/mh-cbon/go-bin-rpm)
-[![Go Report Card](https://goreportcard.com/badge/github.com/mh-cbon/go-bin-rpm)](https://goreportcard.com/report/github.com/mh-cbon/go-bin-rpm)
+{{template "badge/travis" .}}{{template "badge/goreport" .}}{{template "badge/godoc" .}}
 
-[![GoDoc](https://godoc.org/github.com/mh-cbon/go-bin-rpm?status.svg)](http://godoc.org/github.com/mh-cbon/go-bin-rpm)
-
-
-Create binary rpm package with ease
-
+{{pkgdoc}}
 
 Using a `json` files to declare rules, it then performs necessary operations
 to invoke `rpmbuild` and build the package.
@@ -16,56 +11,20 @@ This tool is part of the [go-github-release workflow](https://github.com/mh-cbon
 
 See [the demo](demo/).
 
-# TOC
-- [Install](#install)
-  - [Glide](#glide)
-  - [linux rpm/deb repository](#linux-rpmdeb-repository)
-  - [linux rpm/deb standalone package](#linux-rpmdeb-standalone-package)
-- [Usage](#usage)
-  - [Requirements](#requirements)
-  - [Workflow overview](#workflow-overview)
-  - [Json file](#json-file)
-- [CLI](#cli)
-- [Recipes](#recipes)
-  - [Installing generated package](#installing-generated-package)
-  - [Vagrant recipe](#vagrant-recipe)
-  - [Travis recipe](#travis-recipe)
-  - [useful rpm commands](#useful-rpm-commands)
-  - [Readings of interest](#readings-of-interest)
+# {{toc 5}}
 
 # Install
 
-Check the [release page](https://github.com/mh-cbon/go-bin-rpm/releases)!
+{{template "gh/releases" .}}
 
 #### Glide
-
-```sh
-mkdir -p $GOPATH/src/github.com/mh-cbon/go-bin-rpm
-cd $GOPATH/src/github.com/mh-cbon/go-bin-rpm
-git clone https://github.com/mh-cbon/go-bin-rpm.git .
-glide install
-go install
-```
-
+{{template "glide/install" .}}
 
 #### linux rpm/deb repository
-```sh
-wget -O - https://raw.githubusercontent.com/mh-cbon/latest/master/source.sh \
-| GH=mh-cbon/go-bin-rpm sh -xe
-# or
-curl -L https://raw.githubusercontent.com/mh-cbon/latest/master/source.sh \
-| GH=mh-cbon/go-bin-rpm sh -xe
-```
+{{template "linux/gh_src_repo" .}}
 
 #### linux rpm/deb standalone package
-```sh
-curl -L https://raw.githubusercontent.com/mh-cbon/latest/master/install.sh \
-| GH=mh-cbon/go-bin-rpm sh -xe
-# or
-wget -q -O - --no-check-certificate \
-https://raw.githubusercontent.com/mh-cbon/latest/master/install.sh \
-| GH=mh-cbon/go-bin-rpm sh -xe
-```
+{{template "linux/gh_pkg" .}}
 
 # Usage
 
@@ -89,73 +48,13 @@ For a casual example to provide a simple binary, see [this](rpm.json)
 
 # CLI
 
+{{exec "go-bin-rpm" "-help" | color "sh"}}
 
-###### $ go-bin-rpm -help
-```sh
-NAME:
-   go-bin-rpm - Generate a binary rpm package
+{{exec "go-bin-rpm" "generate-spec" "-help" | color "sh"}}
 
-USAGE:
-   go-bin-rpm <cmd> <options>
-   
-VERSION:
-   0.0.0
-   
-COMMANDS:
-     generate-spec  Generate the SPEC file
-     generate       Generate the package
-     test           Test the package json file
-     help, h        Shows a list of commands or help for one command
+{{exec "go-bin-rpm" "generate" "-help" | color "sh"}}
 
-GLOBAL OPTIONS:
-   --help, -h     show help
-   --version, -v  print the version
-```
-
-
-###### $ go-bin-rpm generate-spec -help
-```sh
-NAME:
-   go-bin-rpm generate-spec - Generate the SPEC file
-
-USAGE:
-   go-bin-rpm generate-spec [command options] [arguments...]
-
-OPTIONS:
-   --file value, -f value  Path to the rpm.json file (default: "rpm.json")
-   -a value, --arch value  Target architecture of the build
-   --version value         Target version of the build
-```
-
-
-###### $ go-bin-rpm generate -help
-```sh
-NAME:
-   go-bin-rpm generate - Generate the package
-
-USAGE:
-   go-bin-rpm generate [command options] [arguments...]
-
-OPTIONS:
-   --file value, -f value        Path to the rpm.json file (default: "rpm.json")
-   -b value, --build-area value  Path to the build area (default: "pkg-build")
-   -a value, --arch value        Target architecture of the build
-   -o value, --output value      Output package to this path
-   --version value               Target version of the build
-```
-
-
-###### $ go-bin-rpm test -help
-```sh
-NAME:
-   go-bin-rpm test - Test the package json file
-
-USAGE:
-   go-bin-rpm test [command options] [arguments...]
-
-OPTIONS:
-   --file value, -f value  Path to the rpm.json file (default: "rpm.json")
-```
+{{exec "go-bin-rpm" "test" "-help" | color "sh"}}
 
 # Recipes
 
@@ -266,4 +165,3 @@ rpm -ql pkg
 - https://fedoraproject.org/wiki/Packaging:Scriptlets?rd=Packaging:ScriptletSnippets#desktop-database
 - https://fedoraproject.org/wiki/Archive:PackagingDrafts/DesktopVerify?rd=PackagingDrafts/DesktopVerify
 - https://fedoraproject.org/wiki/Archive:PackagingDrafts/DesktopFiles?rd=PackagingDrafts/DesktopFiles
-

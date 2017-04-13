@@ -1,3 +1,4 @@
+// Create binary rpm package with ease
 package main
 
 import (

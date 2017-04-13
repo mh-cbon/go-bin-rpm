@@ -11,13 +11,20 @@
 # GH=$1
 # EMAIL=$2
 
-REPO=`echo ${GH} | cut -d '/' -f 2`
-USER=`echo ${GH} | cut -d '/' -f 1`
+if ["${GH}" == ""]; then
+  echo "GH is not properly set. Check your travis file."
+  exit 1
+fi
 
 if ["${GH_TOKEN}" == ""]; then
   echo "GH_TOKEN is not properly set. Check your travis file."
   exit 1
 fi
+
+REPO=`echo ${GH} | cut -d '/' -f 2`
+USER=`echo ${GH} | cut -d '/' -f 1`
+
+REPOPATH=`pwd`
 
 # clean up build.
 rm -fr ${REPO}-*.rpm
@@ -31,24 +38,19 @@ else
   curl -L https://raw.githubusercontent.com/mh-cbon/latest/master/install.sh | GH=mh-cbon/gh-api-cli sh -xe
 fi
 
-cd ..
-rm -fr ${REPO}
-git clone https://github.com/${USER}/${REPO}.git ${REPO}
-cd ${REPO}
+cd ${REPOPATH}/..
+DREPOPATH="${REPOPATH}/R/"
+rm -fr ${DREPOPATH}
+
+# clone it again
+git clone https://github.com/${USER}/${REPO}.git ${DREPOPATH}
+
+# move into, configure git
+cd ${DREPOPATH}
 git config user.name "${USER}"
 git config user.email "${EMAIL}"
-if [ `git symbolic-ref --short -q HEAD | egrep 'gh-pages$'` ]; then
-  echo "already on gh-pages"
-else
-  if [ `git branch -a | egrep 'remotes/origin/gh-pages$'` ]; then
-    # gh-pages already exist on remote
-    git checkout gh-pages
-  else
-    git checkout -b gh-pages
-    find . -maxdepth 1 -mindepth 1 -not -name .git -exec rm -rf {} \;
-    git commit -am "clean up"
-  fi
-fi
+
+git checkout gh-pages | echo "not remote gh pages"
 
 rm -fr rpm
 mkdir -p rpm/{i386,x86_64}
@@ -85,12 +87,8 @@ docker run -v $PWD:/docker fedora /bin/sh -c "cd /docker && sh -xe ./gen-repo-fi
 rm -f gen-repo-file.sh
 rm -f createrepo.sh
 
-
 git add -A
-git commit -m "Created rpm repository"
-
-git status
-git branch
+git commit -m "RPM repository"
 
 set +x # disable debug output because that would display the token in clear text..
 echo "git push --force --quiet https://GH_TOKEN@github.com/${GH}.git gh-pages"
