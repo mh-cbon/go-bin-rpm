@@ -28,9 +28,7 @@ install:
   - glide install
   - go install
 
-script:
-   - echo "pass"
-   - wget -O - https://raw.githubusercontent.com/mh-cbon/gh-pages/master/all.sh | sh -x
+script: echo "pass"
 
 before_deploy:
   - docker pull fedora
