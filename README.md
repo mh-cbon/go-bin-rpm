@@ -32,6 +32,8 @@ See [the demo](demo/).
   - [Travis recipe](#travis-recipe)
   - [useful rpm commands](#useful-rpm-commands)
   - [Readings of interest](#readings-of-interest)
+  - [Release the project](#release-the-project)
+- [History](#history)
 
 # Install
 
@@ -266,4 +268,15 @@ rpm -ql pkg
 - https://fedoraproject.org/wiki/Packaging:Scriptlets?rd=Packaging:ScriptletSnippets#desktop-database
 - https://fedoraproject.org/wiki/Archive:PackagingDrafts/DesktopVerify?rd=PackagingDrafts/DesktopVerify
 - https://fedoraproject.org/wiki/Archive:PackagingDrafts/DesktopFiles?rd=PackagingDrafts/DesktopFiles
+
+### Release the project
+
+```sh
+gump patch -d # check
+gump patch # bump
+```
+
+# History
+
+[CHANGELOG](CHANGELOG.md)
 
