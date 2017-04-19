@@ -21,6 +21,7 @@ import (
 
 var logger = verbose.Auto()
 
+// Package contains the build information
 type Package struct {
 	Name          string            `json:"name"`
 	Version       string            `json:"version,omitempty"`
@@ -28,12 +29,12 @@ type Package struct {
 	Release       string            `json:"release,omitempty"`
 	Group         string            `json:"group,omitempty"`
 	License       string            `json:"license,omitempty"`
-	Url           string            `json:"url,omitempty"`
+	URL           string            `json:"url,omitempty"`
 	Summary       string            `json:"summary,omitempty"`
 	Description   string            `json:"description,omitempty"`
 	ChangelogFile string            `json:"changelog-file,omitempty"`
 	ChangelogCmd  string            `json:"changelog-cmd,omitempty"`
-	Files         []FileInstruction `json:"files,omitempty"`
+	Files         []fileInstruction `json:"files,omitempty"`
 	PreInst       string            `json:"preinst,omitempty"`
 	PostInst      string            `json:"postinst,omitempty"`
 	PreRm         string            `json:"prerm,omitempty"`
@@ -44,17 +45,17 @@ type Package struct {
 	Provides      []string          `json:"provides,omitempty"`
 	Conflicts     []string          `json:"conflicts,omitempty"`
 	Envs          map[string]string `json:"envs,omitempty"`
-	Menus         []Menu            `json:"menus"`
+	Menus         []menu            `json:"menus"`
 }
 
-type FileInstruction struct {
+type fileInstruction struct {
 	From string `json:"from, omitempty"`
 	To   string `json:"to, omitempty"`
 	Base string `json:"base, omitempty"`
 	Type string `json:"type, omitempty"`
 }
 
-type Menu struct {
+type menu struct {
 	Name            string `json:"name"`           // Name of the shortcut
 	GenericName     string `json:"generic-name"`   //
 	Exec            string `json:"exec"`           // Exec command
@@ -70,6 +71,7 @@ type Menu struct {
 	MimeType        string `json:"mime-type"`      // ; separated list
 }
 
+// Load package build information
 func (p *Package) Load(file string) error {
 	if _, err := os.Stat(file); os.IsNotExist(err) {
 		return errors.Errorf("json file '%s' does not exist: %s", file, err.Error())
@@ -84,6 +86,7 @@ func (p *Package) Load(file string) error {
 	return nil
 }
 
+// Normalize build information
 func (p *Package) Normalize(arch string, version string) error {
 
 	tokens := make(map[string]string)
@@ -93,7 +96,7 @@ func (p *Package) Normalize(arch string, version string) error {
 
 	p.Version = replaceTokens(p.Version, tokens)
 	p.Arch = replaceTokens(p.Arch, tokens)
-	p.Url = replaceTokens(p.Url, tokens)
+	p.URL = replaceTokens(p.URL, tokens)
 	p.Summary = replaceTokens(p.Summary, tokens)
 	p.Description = replaceTokens(p.Description, tokens)
 	p.ChangelogFile = replaceTokens(p.ChangelogFile, tokens)
@@ -116,7 +119,7 @@ func (p *Package) Normalize(arch string, version string) error {
 	logger.Printf("Arch=%s\n", p.Arch)
 	logger.Printf("Version=%s\n", p.Version)
 	logger.Printf("Release=%s\n", p.Release)
-	logger.Printf("Url=%s\n", p.Url)
+	logger.Printf("URL=%s\n", p.URL)
 	logger.Printf("Summary=%s\n", p.Summary)
 	logger.Printf("Description=%s\n", p.Description)
 	logger.Printf("ChangelogFile=%s\n", p.ChangelogFile)
@@ -128,7 +131,7 @@ func (p *Package) Normalize(arch string, version string) error {
 	}
 	logger.Printf("shortcuts=%s\n", shortcuts)
 	for _, shortcut := range shortcuts {
-		sc := FileInstruction{}
+		sc := fileInstruction{}
 		sc.From = shortcut
 		sc.To = fmt.Sprintf("%%{_datadir}/applications/")
 		sc.Base = filepath.Dir(shortcut)
@@ -136,7 +139,7 @@ func (p *Package) Normalize(arch string, version string) error {
 		logger.Printf("Added menu shortcut File=%q\n", sc)
 	}
 	for _, menu := range p.Menus {
-		sc := FileInstruction{}
+		sc := fileInstruction{}
 		f, err := filepath.Abs(menu.Icon)
 		if err != nil {
 			return errors.WithStack(err)
@@ -169,7 +172,7 @@ func (p *Package) Normalize(arch string, version string) error {
 		if err != nil {
 			return errors.WithStack(err)
 		}
-		sc := FileInstruction{}
+		sc := fileInstruction{}
 		sc.From = envFile
 		sc.To = fmt.Sprintf("%%{_sysconfdir}/profile.d/")
 		sc.Base = filepath.Dir(envFile)
@@ -189,6 +192,7 @@ func replaceTokens(in string, tokens map[string]string) string {
 	return in
 }
 
+// InitializeBuildArea intializes the build area
 func (p *Package) InitializeBuildArea(buildAreaPath string) error {
 	paths := make([]string, 0)
 	paths = append(paths, filepath.Join(buildAreaPath, "BUILD"))
@@ -207,6 +211,7 @@ func (p *Package) InitializeBuildArea(buildAreaPath string) error {
 	return nil
 }
 
+// WriteSpecFile writes the spec file.
 func (p *Package) WriteSpecFile(sourceDir string, buildAreaPath string) error {
 	spec, err := p.GenerateSpecFile(sourceDir)
 	if err != nil {
@@ -216,6 +221,7 @@ func (p *Package) WriteSpecFile(sourceDir string, buildAreaPath string) error {
 	return ioutil.WriteFile(path, []byte(spec), 0644)
 }
 
+// RunBuild executes the build of buildAreaPath.
 func (p *Package) RunBuild(buildAreaPath string, output string) error {
 	path := filepath.Join(buildAreaPath, "SPECS", p.Name+".spec")
 	def := "_topdir " + buildAreaPath
@@ -250,6 +256,7 @@ func (p *Package) RunBuild(buildAreaPath string, output string) error {
 	return cp(output, pkg)
 }
 
+// GenerateSpecFile generates the spec file.
 func (p *Package) GenerateSpecFile(sourceDir string) (string, error) {
 	spec := ""
 
@@ -285,8 +292,8 @@ func (p *Package) GenerateSpecFile(sourceDir string) (string, error) {
 	if p.License != "" {
 		spec += fmt.Sprintf("License: %s\n", p.License)
 	}
-	if p.Url != "" {
-		spec += fmt.Sprintf("Url: %s\n", p.Url)
+	if p.URL != "" {
+		spec += fmt.Sprintf("Url: %s\n", p.URL)
 	}
 	if p.Summary != "" {
 		spec += fmt.Sprintf("Summary: %s\n", p.Summary)
@@ -356,6 +363,7 @@ func (p *Package) GenerateSpecFile(sourceDir string) (string, error) {
 	return spec, nil
 }
 
+// GenerateInstallSection generates the install section.
 func (p *Package) GenerateInstallSection(sourceDir string) (string, error) {
 	var err error
 	content := ""
@@ -430,6 +438,7 @@ func (p *Package) GenerateInstallSection(sourceDir string) (string, error) {
 	return content, nil
 }
 
+// GenerateFilesSection generates the files section.
 func (p *Package) GenerateFilesSection(sourceDir string) (string, error) {
 	var err error
 	content := ""
@@ -495,6 +504,7 @@ func (p *Package) GenerateFilesSection(sourceDir string) (string, error) {
 	return content, nil
 }
 
+// GetChangelogContent generates the changelog content.
 func (p *Package) GetChangelogContent() (string, error) {
 	var err error
 	var c []byte
@@ -520,6 +530,7 @@ func (p *Package) GetChangelogContent() (string, error) {
 	return "", errors.WithStack(err)
 }
 
+// WriteShortcutFiles writes the shortcuts in the build area.
 func (p *Package) WriteShortcutFiles() ([]string, error) {
 
 	files := make([]string, 0)
@@ -609,6 +620,7 @@ func (p *Package) WriteShortcutFiles() ([]string, error) {
 	return files, nil
 }
 
+// WriteEnvFile writes the env file in the build area.
 func (p *Package) WriteEnvFile() (string, error) {
 
 	file := ""
@@ -626,7 +638,7 @@ func (p *Package) WriteEnvFile() (string, error) {
 		content += fmt.Sprintf("%s=%s\n", k, v)
 	}
 	content += fmt.Sprint("\n")
-	for k, _ := range p.Envs {
+	for k := range p.Envs {
 		content += fmt.Sprintf("export %s\n", k)
 	}
 

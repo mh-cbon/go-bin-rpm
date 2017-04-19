@@ -11,6 +11,7 @@ import (
 	"github.com/urfave/cli"
 )
 
+// VERSION is the build version number.
 var VERSION = "0.0.0"
 var logger = verbose.Auto()
 
@@ -97,17 +98,17 @@ func generateSpec(c *cli.Context) error {
 	arch := c.String("arch")
 	version := c.String("version")
 
-	rpmJson := rpm.Package{}
+	rpmJSON := rpm.Package{}
 
-	if err := rpmJson.Load(file); err != nil {
+	if err := rpmJSON.Load(file); err != nil {
 		return cli.NewExitError(err.Error(), 1)
 	}
 
-	if err := rpmJson.Normalize(arch, version); err != nil {
+	if err := rpmJSON.Normalize(arch, version); err != nil {
 		return cli.NewExitError(err.Error(), 1)
 	}
 
-	if spec, err := rpmJson.GenerateSpecFile(""); err != nil {
+	if spec, err := rpmJSON.GenerateSpecFile(""); err != nil {
 		return cli.NewExitError(err.Error(), 1)
 	} else {
 		fmt.Printf("%s", spec)
@@ -125,27 +126,27 @@ func generatePkg(c *cli.Context) error {
 	buildArea := c.String("build-area")
 	output := c.String("output")
 
-	rpmJson := rpm.Package{}
+	rpmJSON := rpm.Package{}
 
-	if err := rpmJson.Load(file); err != nil {
-		return cli.NewExitError(err.Error(), 1)
+	if err3 := rpmJSON.Load(file); err3 != nil {
+		return cli.NewExitError(err3.Error(), 1)
 	}
 
 	if buildArea, err = filepath.Abs(buildArea); err != nil {
 		return cli.NewExitError(err.Error(), 1)
 	}
 
-	if err := rpmJson.Normalize(arch, version); err != nil {
+	if err2 := rpmJSON.Normalize(arch, version); err2 != nil {
+		return cli.NewExitError(err2.Error(), 1)
+	}
+
+	rpmJSON.InitializeBuildArea(buildArea)
+
+	if err = rpmJSON.WriteSpecFile("", buildArea); err != nil {
 		return cli.NewExitError(err.Error(), 1)
 	}
 
-	rpmJson.InitializeBuildArea(buildArea)
-
-	if err = rpmJson.WriteSpecFile("", buildArea); err != nil {
-		return cli.NewExitError(err.Error(), 1)
-	}
-
-	if err = rpmJson.RunBuild(buildArea, output); err != nil {
+	if err = rpmJSON.RunBuild(buildArea, output); err != nil {
 		return cli.NewExitError(err.Error(), 1)
 	}
 
@@ -157,9 +158,9 @@ func generatePkg(c *cli.Context) error {
 func testPkg(c *cli.Context) error {
 	file := c.String("file")
 
-	rpmJson := rpm.Package{}
+	rpmJSON := rpm.Package{}
 
-	if err := rpmJson.Load(file); err != nil {
+	if err := rpmJSON.Load(file); err != nil {
 		return cli.NewExitError(err.Error(), 1)
 	}
 
