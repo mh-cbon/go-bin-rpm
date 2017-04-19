@@ -13,6 +13,8 @@ if [ "${GH}" = "mh-cbon/go-bin-rpm" ]; then
   git checkout -b master
 fi
 
+getgo="https://raw.githubusercontent.com/mh-cbon/latest/master/get-go.sh?d=`date +%F_%T`"
+
 rm -fr docker.sh
 set +x
 cat <<EOT > docker.sh
@@ -23,12 +25,16 @@ else
   sudo yum install wget curl git -y
 fi
 
+export TRAVIS_TAG="${TRAVIS_TAG}"
 export GH_TOKEN="${GH_TOKEN}"
 export GH="${GH}"
 
 export GOINSTALL="/go"
 export GOROOT=\${GOINSTALL}/go/
 export PATH=\$PATH:\$GOROOT/bin
+
+echo "GH \$GH"
+echo "getgo $getgo"
 
 # install go, specific to vagrant
 if type "wget" > /dev/null; then
@@ -38,7 +44,7 @@ if type "curl" > /dev/null; then
   curl -L $getgo | sh -xe
 fi
 
-echo "\$PATH"
+echo "PATH \$PATH"
 go version
 go env
 
@@ -51,7 +57,7 @@ go-bin-rpm-utils create-packages -push -repo=$GH
 EOT
 set -x
 
-docker run -v $PWD:/docker fedora /bin/sh -c "cd /docker && sh ./docker.sh ${TRAVIS_TAG}"
+docker run -v $PWD:/docker fedora /bin/sh -c "cd /docker && sh ./docker.sh"
 sudo chown travis:travis ${REPO}-*.rpm
 
 rm -fr docker.sh
