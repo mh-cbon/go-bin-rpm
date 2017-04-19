@@ -34,8 +34,11 @@ else
 fi
 
 export TRAVIS_TAG="${TRAVIS_TAG}"
+export TRAVIS_BUILD_DIR="${TRAVIS_BUILD_DIR}"
 export GH_TOKEN="${GH_TOKEN}"
 export GH="${GH}"
+export EMAIL="${EMAIL}"
+export MYEMAIL="${MYEMAIL}"
 
 export GOINSTALL="/go"
 export GOROOT=\${GOINSTALL}/go/

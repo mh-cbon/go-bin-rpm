@@ -24,6 +24,8 @@ set +x
 cat <<EOT > docker.sh
 export GH_TOKEN="${GH_TOKEN}"
 export GH="${GH}"
+export EMAIL="${EMAIL}"
+export MYEMAIL="${MYEMAIL}"
 
 export GOINSTALL="/go"
 export GOROOT=\${GOINSTALL}/go/
