@@ -1,10 +1,6 @@
 # go-bin-rpm
 
-[![travis Status](https://travis-ci.org/mh-cbon/go-bin-rpm.svg?branch=master)](https://travis-ci.org/mh-cbon/go-bin-rpm)
-[![Go Report Card](https://goreportcard.com/badge/github.com/mh-cbon/go-bin-rpm)](https://goreportcard.com/report/github.com/mh-cbon/go-bin-rpm)
-
-[![GoDoc](https://godoc.org/github.com/mh-cbon/go-bin-rpm?status.svg)](http://godoc.org/github.com/mh-cbon/go-bin-rpm)
-
+[![travis Status](https://travis-ci.org/mh-cbon/go-bin-rpm.svg?branch=master)](https://travis-ci.org/mh-cbon/go-bin-rpm)[![Go Report Card](https://goreportcard.com/badge/github.com/mh-cbon/go-bin-rpm)](https://goreportcard.com/report/github.com/mh-cbon/go-bin-rpm)[![GoDoc](https://godoc.org/github.com/mh-cbon/go-bin-rpm?status.svg)](http://godoc.org/github.com/mh-cbon/go-bin-rpm)
 
 Create binary rpm package with ease
 
@@ -26,6 +22,10 @@ See [the demo](demo/).
   - [Workflow overview](#workflow-overview)
   - [Json file](#json-file)
 - [CLI](#cli)
+  - [go-bin-rpm -help](#go-bin-rpm--help)
+  - [go-bin-rpm generate-spec -help](#go-bin-rpm-generate-spec--help)
+  - [go-bin-rpm generate -help](#go-bin-rpm-generate--help)
+  - [go-bin-rpm test -help](#go-bin-rpm-test--help)
 - [Recipes](#recipes)
   - [Installing generated package](#installing-generated-package)
   - [Vagrant recipe](#vagrant-recipe)
@@ -40,7 +40,6 @@ See [the demo](demo/).
 Check the [release page](https://github.com/mh-cbon/go-bin-rpm/releases)!
 
 #### Glide
-
 ```sh
 mkdir -p $GOPATH/src/github.com/mh-cbon/go-bin-rpm
 cd $GOPATH/src/github.com/mh-cbon/go-bin-rpm
@@ -48,7 +47,6 @@ git clone https://github.com/mh-cbon/go-bin-rpm.git .
 glide install
 go install
 ```
-
 
 #### linux rpm/deb repository
 ```sh
@@ -90,9 +88,7 @@ For a real world example including service, shortcuts, env, see [this](demo/rpm.
 For a casual example to provide a simple binary, see [this](rpm.json)
 
 # CLI
-
-
-###### $ go-bin-rpm -help
+#### go-bin-rpm -help
 ```sh
 NAME:
    go-bin-rpm - Generate a binary rpm package
@@ -113,9 +109,7 @@ GLOBAL OPTIONS:
    --help, -h     show help
    --version, -v  print the version
 ```
-
-
-###### $ go-bin-rpm generate-spec -help
+#### go-bin-rpm generate-spec -help
 ```sh
 NAME:
    go-bin-rpm generate-spec - Generate the SPEC file
@@ -128,9 +122,7 @@ OPTIONS:
    -a value, --arch value  Target architecture of the build
    --version value         Target version of the build
 ```
-
-
-###### $ go-bin-rpm generate -help
+#### go-bin-rpm generate -help
 ```sh
 NAME:
    go-bin-rpm generate - Generate the package
@@ -145,9 +137,7 @@ OPTIONS:
    -o value, --output value      Output package to this path
    --version value               Target version of the build
 ```
-
-
-###### $ go-bin-rpm test -help
+#### go-bin-rpm test -help
 ```sh
 NAME:
    go-bin-rpm test - Test the package json file
@@ -189,52 +179,47 @@ Please check the demo app [here](demo/)
 - personalize the `.travis.yml`
 
 ```yml
-sudo: required
-
-services:
+  sudo: required
+  services:
   - docker
-
-language: go
-go:
+  language: go
+  go:
   - tip
-
-env:
-  global:
+  env:
+    global:
     - MYAPP=dummy
     - MYEMAIL=some@email.com
     - secure: GH_TOKEN
-
-before_install:
+  before_install:
   - sudo apt-get -qq update
   - mkdir -p ${GOPATH}/bin
-
-install:
+  install:
   - cd $GOPATH/src/github.com/mh-cbon/$MYAPP
   - go install
-
-script: echo "pass"
-
-before_deploy:
+  script: echo "pass"
+  before_deploy:
   - docker pull fedora
   - mkdir -p build/{386,amd64}
-  - GOOS=linux GOARCH=386 go build --ldflags "-X main.VERSION=${TRAVIS_TAG}" -o build/386/$MYAPP main.go
-  - GOOS=linux GOARCH=amd64 go build --ldflags "-X main.VERSION=${TRAVIS_TAG}" -o build/amd64/$MYAPP main.go
-  - curl -L https://raw.githubusercontent.com/mh-cbon/go-bin-rpm/master/create-pkg.sh | GH=YOUR_USERNAME/$MYAPP sh -xe
-
-after_deploy:
-  - curl -L https://raw.githubusercontent.com/mh-cbon/go-bin-rpm/master/setup-repository.sh | GH=YOUR_USERNAME/$MYAPP EMAIL=$MYEMAIL sh -xe
-
-deploy:
-  provider: releases
-  api_key:
-    secure: GH_TOKEN xxxx
-  file_glob: true
-  file:
+  - GOOS=linux GOARCH=386 go build --ldflags "-X main.VERSION=${TRAVIS_TAG}" -o build/386/$MYAPP
+    main.go
+  - GOOS=linux GOARCH=amd64 go build --ldflags "-X main.VERSION=${TRAVIS_TAG}" -o build/amd64/$MYAPP
+    main.go
+  - curl -L https://raw.githubusercontent.com/mh-cbon/go-bin-rpm/master/create-pkg.sh
+    | GH=YOUR_USERNAME/$MYAPP sh -xe
+  after_deploy:
+  - curl -L https://raw.githubusercontent.com/mh-cbon/go-bin-rpm/master/setup-repository.sh
+    | GH=YOUR_USERNAME/$MYAPP EMAIL=$MYEMAIL sh -xe
+  deploy:
+    provider: releases
+    api_key:
+      secure: GH_TOKEN xxxx
+    file_glob: true
+    file:
     - $MYAPP-386.rpm
     - $MYAPP-amd64.rpm
-  skip_cleanup: true
-  on:
-    tags: true
+    skip_cleanup: true
+    true:
+      tags: true
 ```
 
 ### useful rpm commands
@@ -279,4 +264,3 @@ gump patch # bump
 # History
 
 [CHANGELOG](CHANGELOG.md)
-

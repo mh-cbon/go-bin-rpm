@@ -47,14 +47,10 @@ For a real world example including service, shortcuts, env, see [this](demo/rpm.
 For a casual example to provide a simple binary, see [this](rpm.json)
 
 # CLI
-
-{{exec "go-bin-rpm" "-help" | color "sh"}}
-
-{{exec "go-bin-rpm" "generate-spec" "-help" | color "sh"}}
-
-{{exec "go-bin-rpm" "generate" "-help" | color "sh"}}
-
-{{exec "go-bin-rpm" "test" "-help" | color "sh"}}
+#### {{exec "go-bin-rpm" "-help" | color "sh"}}
+#### {{exec "go-bin-rpm" "generate-spec" "-help" | color "sh"}}
+#### {{exec "go-bin-rpm" "generate" "-help" | color "sh"}}
+#### {{exec "go-bin-rpm" "test" "-help" | color "sh"}}
 
 # Recipes
 
@@ -85,54 +81,7 @@ Please check the demo app [here](demo/)
 - run `travis setup releases`
 - personalize the `.travis.yml`
 
-```yml
-sudo: required
-
-services:
-  - docker
-
-language: go
-go:
-  - tip
-
-env:
-  global:
-    - MYAPP=dummy
-    - MYEMAIL=some@email.com
-    - secure: GH_TOKEN
-
-before_install:
-  - sudo apt-get -qq update
-  - mkdir -p ${GOPATH}/bin
-
-install:
-  - cd $GOPATH/src/github.com/mh-cbon/$MYAPP
-  - go install
-
-script: echo "pass"
-
-before_deploy:
-  - docker pull fedora
-  - mkdir -p build/{386,amd64}
-  - GOOS=linux GOARCH=386 go build --ldflags "-X main.VERSION=${TRAVIS_TAG}" -o build/386/$MYAPP main.go
-  - GOOS=linux GOARCH=amd64 go build --ldflags "-X main.VERSION=${TRAVIS_TAG}" -o build/amd64/$MYAPP main.go
-  - curl -L https://raw.githubusercontent.com/mh-cbon/go-bin-rpm/master/create-pkg.sh | GH=YOUR_USERNAME/$MYAPP sh -xe
-
-after_deploy:
-  - curl -L https://raw.githubusercontent.com/mh-cbon/go-bin-rpm/master/setup-repository.sh | GH=YOUR_USERNAME/$MYAPP EMAIL=$MYEMAIL sh -xe
-
-deploy:
-  provider: releases
-  api_key:
-    secure: GH_TOKEN xxxx
-  file_glob: true
-  file:
-    - $MYAPP-386.rpm
-    - $MYAPP-amd64.rpm
-  skip_cleanup: true
-  on:
-    tags: true
-```
+{{yaml "sample-travis.yml" | preline "  " | color "yml"}}
 
 ### useful rpm commands
 
