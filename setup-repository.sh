@@ -16,10 +16,6 @@ if ["${GH}" = ""]; then
   exit 1
 fi
 
-if ["${GH_TOKEN}" = ""]; then
-  echo "GH_TOKEN is not properly set. Check your travis file."
-  exit 1
-fi
 
 getgo="https://raw.githubusercontent.com/mh-cbon/latest/master/get-go.sh?d=`date +%F_%T`"
 
@@ -34,7 +30,7 @@ export GOROOT=\${GOINSTALL}/go/
 export PATH=\$PATH:\$GOROOT/bin
 
 echo "GH \$GH"
-echo "getgo \$getgo"
+echo "getgo $getgo"
 
 # install go, specific to vagrant
 if type "wget" > /dev/null; then
