@@ -38,7 +38,7 @@ if type "wget" > /dev/null; then
   wget $getgo | sh -xe
 fi
 if type "curl" > /dev/null; then
-  curl $getgo | sh -xe
+  curl -L $getgo | sh -xe
 fi
 
 echo "\$PATH"

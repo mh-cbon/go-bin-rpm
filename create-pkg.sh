@@ -23,9 +23,9 @@ set +x
 cat <<EOT > docker.sh
 
 if type "dnf" > /dev/null; then
-  sudo dnf install wget git -y
+  sudo dnf install wget curl git -y
 else
-  sudo yum install wget git -y
+  sudo yum install wget curl git -y
 fi
 
 export GH_TOKEN="${GH_TOKEN}"
@@ -40,7 +40,7 @@ if type "wget" > /dev/null; then
   wget $getgo | sh -xe
 fi
 if type "curl" > /dev/null; then
-  curl $getgo | sh -xe
+  curl -L $getgo | sh -xe
 fi
 
 echo "\$PATH"
