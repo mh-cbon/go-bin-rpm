@@ -72,6 +72,6 @@ EOT
 set -x
 
 docker run -v $PWD:/docker fedora /bin/sh -c "cd /docker && sh ./docker.sh"
-sudo chown travis:travis *-*.rpm
+# sudo chown travis:travis *-*.rpm
 
 rm -fr docker.sh
