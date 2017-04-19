@@ -5,92 +5,54 @@
 # it is limited to amd64/386 arch
 #
 # to use it
-# curl -L https://raw.githubusercontent.com/mh-cbon/go-bin-rpm/master/setup-deb-repository.sh \
+# curl -L https://raw.githubusercontent.com/mh-cbon/go-bin-rpm/master/setup-repository.sh \
 # | GH=mh-cbon/gh-api-cli EMAIL=mh-cbon@users.noreply.github.com sh -xe
 
 # GH=$1
 # EMAIL=$2
 
-if ["${GH}" == ""]; then
+if ["${GH}" = ""]; then
   echo "GH is not properly set. Check your travis file."
   exit 1
 fi
 
-if ["${GH_TOKEN}" == ""]; then
+if ["${GH_TOKEN}" = ""]; then
   echo "GH_TOKEN is not properly set. Check your travis file."
   exit 1
 fi
 
-REPO=`echo ${GH} | cut -d '/' -f 2`
-USER=`echo ${GH} | cut -d '/' -f 1`
+getgo="https://raw.githubusercontent.com/mh-cbon/latest/master/get-go.sh?d=`date +%F_%T`"
 
-REPOPATH=`pwd`
+rm -fr docker.sh
+set +x
+cat <<EOT > docker.sh
+export GH_TOKEN="${GH_TOKEN}"
+export GH="${GH}"
 
-# clean up build.
-rm -fr ${REPO}-*.rpm
-rm -fr ${REPO}-*.deb
+export GOINSTALL="/go"
+export GOROOT=\${GOINSTALL}/go/
+export PATH=\$PATH:\$GOROOT/bin
 
-sudo apt-get install build-essential -y
-
-if type "gh-api-cli" > /dev/null; then
-  echo "gh-api-cli already installed"
-else
-  curl -L https://raw.githubusercontent.com/mh-cbon/latest/master/install.sh | GH=mh-cbon/gh-api-cli sh -xe
+# install go, specific to vagrant
+if type "wget" > /dev/null; then
+  wget $getgo | sh -xe
+fi
+if type "curl" > /dev/null; then
+  curl $getgo | sh -xe
 fi
 
-cd ${REPOPATH}/..
-DREPOPATH="${REPOPATH}/R/"
-rm -fr ${DREPOPATH}
+echo "\$PATH"
+go version
+go env
 
-# clone it again
-git clone https://github.com/${USER}/${REPO}.git ${DREPOPATH}
+export GOPATH=/gopath/
+export PATH=\$PATH:/gopath/bin
 
-# move into, configure git
-cd ${DREPOPATH}
-git config user.name "${USER}"
-git config user.email "${EMAIL}"
-
-git checkout gh-pages | echo "not remote gh pages"
-
-rm -fr rpm
-mkdir -p rpm/{i386,x86_64}
-
-set +x # disable debug output because that would display the token in clear text..
-echo "gh-api-cli dl-assets -t {GH_TOKEN} -o ${USER} -r ${REPO} -g '*deb' -out 'pkg/%r-%v_%a.deb'"
-gh-api-cli dl-assets -t "${GH_TOKEN}" -o ${USER} -r ${REPO} --out rpm/i386/%r-%v_%a.%e -g "*386*rpm"
-gh-api-cli dl-assets -t "${GH_TOKEN}" -o ${USER} -r ${REPO} --out rpm/x86_64/%r-%v_%a.%e -g "*amd64*rpm"
+go get -u github.com/mh-cbon/go-bin-rpm/go-bin-rpm-utils
+go-bin-rpm-utils setup-repository -out="`pwd`/rpm" -push -repo=$GH
+EOT
 set -x
 
-cat <<EOT > createrepo.sh
-yum install createrepo -y
-cd /docker/rpm/i386
-createrepo .
-cd /docker/rpm/x86_64
-createrepo .
-EOT
-docker run -v $PWD:/docker fedora /bin/sh -c "cd /docker && sh ./createrepo.sh"
+docker run -v $PWD:/docker fedora /bin/sh -c "cd /docker && sh ./docker.sh"
 
-# see also http://linux.die.net/man/5/yum.conf
-cat <<EOT > gen-repo-file.sh
-DESC=\`rpm -qip rpm/*/*.rpm | grep Summary | cut -d ':' -f2 | cut -d ' ' -f2- | tail -n 1\`
-cat <<EOTin > rpm/${REPO}.repo
-[${REPO}]
-name=\${DESC}
-baseurl=https://${USER}.github.io/${REPO}/rpm/\\\$basearch/
-enabled=1
-skip_if_unavailable=1
-gpgcheck=0
-EOTin
-EOT
-docker run -v $PWD:/docker fedora /bin/sh -c "cd /docker && sh -xe ./gen-repo-file.sh"
-
-rm -f gen-repo-file.sh
-rm -f createrepo.sh
-
-git add -A
-git commit -m "RPM repository"
-
-set +x # disable debug output because that would display the token in clear text..
-echo "git push --force --quiet https://GH_TOKEN@github.com/${GH}.git gh-pages"
-git push --force --quiet "https://${GH_TOKEN}@github.com/${GH}.git" gh-pages \
- 2>&1 | sed -re "s/${GH_TOKEN}/GH_TOKEN/g"
+rm -fr docker.sh

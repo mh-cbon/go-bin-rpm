@@ -1,0 +1,12 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+Vagrant.configure("2") do |config|
+  config.vm.box = "centos/7"
+  config.vm.synced_folder "../", "/gopath/src/github.com/mh-cbon/go-bin-rpm", type: "rsync",
+    rsync__chown:false,
+    rsync__auto:true
+  config.vm.provider :virtualbox do |vb|
+    vb.gui = false
+  end
+end

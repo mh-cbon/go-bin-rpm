@@ -8,36 +8,47 @@
 # curl -L https://raw.githubusercontent.com/mh-cbon/go-bin-rpm/master/create-pkg.sh \
 # | GH=mh-cbon/gh-api-cli sh -xe
 
-if ["${GH}" == ""]; then
-  echo "GH is not properly set. Check your travis file."
+if [ "${GH}" = "mh-cbon/go-bin-rpm" ]; then
+  git pull origin master
+  git checkout -b master
+fi
+
+if ["${GH_TOKEN}" = ""]; then
+  echo "GH_TOKEN is not properly set. Check your travis file."
   exit 1
 fi
 
-REPO=`echo ${GH} | cut -d '/' -f 2`
-USER=`echo ${GH} | cut -d '/' -f 1`
-
-
+rm -fr docker.sh
+set +x
 cat <<EOT > docker.sh
-dnf install rpm-build -y
+export GH_TOKEN="${GH_TOKEN}"
+export GH="${GH}"
 
-curl -L https://raw.githubusercontent.com/mh-cbon/latest/master/install.sh \
-| GH=mh-cbon/changelog sh -xe
+export GOINSTALL="/go"
+export GOROOT=\${GOINSTALL}/go/
+export PATH=\$PATH:\$GOROOT/bin
 
-curl -L https://raw.githubusercontent.com/mh-cbon/latest/master/install.sh \
-| GH=mh-cbon/go-bin-rpm sh -xe
-
-cd /docker
-if [ -f ./build/amd64/go-bin-rpm ]; then
-  VERBOSE=* ./build/amd64/go-bin-rpm generate -a 386 --version ${TRAVIS_TAG} -b pkg-build/386/ -o ${REPO}-386.rpm
-  VERBOSE=* ./build/amd64/go-bin-rpm generate -a amd64 --version ${TRAVIS_TAG} -b pkg-build/amd64/ -o ${REPO}-amd64.rpm
-else
-  VERBOSE=* go-bin-rpm generate -a 386 --version ${TRAVIS_TAG} -b pkg-build/386/ -o ${REPO}-386.rpm
-  VERBOSE=* go-bin-rpm generate -a amd64 --version ${TRAVIS_TAG} -b pkg-build/amd64/ -o ${REPO}-amd64.rpm
+# install go, specific to vagrant
+if type "wget" > /dev/null; then
+  wget $getgo | sh -xe
 fi
-rm -fr pkg-build/*
-EOT
+if type "curl" > /dev/null; then
+  curl $getgo | sh -xe
+fi
 
-rm -fr pkg-build/*
+echo "\$PATH"
+go version
+go env
+
+export GOPATH=/gopath/
+export PATH=\$PATH:/gopath/bin
+
+
+go get -u github.com/mh-cbon/go-bin-rpm/go-bin-rpm-utils
+go-bin-rpm-utils create-packages -push -repo=$GH
+EOT
+set -x
+
 docker run -v $PWD:/docker fedora /bin/sh -c "cd /docker && sh ./docker.sh ${TRAVIS_TAG}"
 sudo chown travis:travis ${REPO}-*.rpm
 

@@ -1,4 +1,4 @@
-/.vagrant
+.vagrant
 /demo/*.rpm
 /demo/build
 /demo/pkg-build
