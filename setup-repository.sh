@@ -26,6 +26,8 @@ export GH_TOKEN="${GH_TOKEN}"
 export GH="${GH}"
 export EMAIL="${EMAIL}"
 export MYEMAIL="${MYEMAIL}"
+export TRAVIS="${TRAVIS}"
+export CI="${CI}"
 
 export GOINSTALL="/go"
 export GOROOT=\${GOINSTALL}/go/
