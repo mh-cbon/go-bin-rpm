@@ -66,8 +66,7 @@ go env
 export GOPATH=/gopath/
 export PATH=\$PATH:/gopath/bin
 
-go install .
-go install go-bin-rpm-utils
+go get -u github.com/mh-cbon/go-bin-rpm/go-bin-rpm-utils
 go-bin-rpm-utils create-packages -push -repo=$GH
 EOT
 set -x
