@@ -16,6 +16,13 @@ if ["${GH}" = ""]; then
   exit 1
 fi
 
+if [ "${GH}" = "mh-cbon/go-bin-rpm" ]; then
+  git pull origin master
+  git checkout -b master
+  curl https://glide.sh/get | sh
+  glide install
+fi
+
 
 getgo="https://raw.githubusercontent.com/mh-cbon/latest/master/get-go.sh?d=`date +%F_%T`"
 
@@ -51,7 +58,8 @@ go env
 export GOPATH=/gopath/
 export PATH=\$PATH:/gopath/bin
 
-yes | go get -u github.com/mh-cbon/go-bin-rpm/go-bin-rpm-utils
+go install .
+go install go-bin-rpm-utils
 go-bin-rpm-utils setup-repository -out="`pwd`/rpm" -push -repo=$GH
 EOT
 set -x

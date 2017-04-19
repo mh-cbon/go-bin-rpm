@@ -33,8 +33,8 @@ func CreatePackage(reposlug, ghToken, email, version, archs, outbuild string, pu
 	if tryexec(`changelog -v`) != nil {
 		exec(`latest -repo=%v`, "mh-cbon/changelog")
 	}
-	if tryexec(`go-bin-deb -v`) != nil {
-		exec(`latest -repo=%v`, "mh-cbon/go-bin-deb")
+	if tryexec(`go-bin-rpm -v`) != nil {
+		exec(`latest -repo=%v`, "mh-cbon/go-bin-rpm")
 	}
 
 	exec(`ls -al %v`, repoPath)
