@@ -11,6 +11,7 @@
 if [ "${GH}" = "mh-cbon/go-bin-rpm" ]; then
   git pull origin master
   git checkout -b master
+  go install
 fi
 
 getgo="https://raw.githubusercontent.com/mh-cbon/latest/master/get-go.sh?d=`date +%F_%T`"
