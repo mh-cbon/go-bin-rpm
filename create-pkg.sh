@@ -21,6 +21,13 @@ fi
 rm -fr docker.sh
 set +x
 cat <<EOT > docker.sh
+
+if type "dnf" > /dev/null; then
+  sudo dnf install wget git -y
+else
+  sudo yum install wget git -y
+fi
+
 export GH_TOKEN="${GH_TOKEN}"
 export GH="${GH}"
 
