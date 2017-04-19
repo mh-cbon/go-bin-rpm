@@ -26,7 +26,8 @@ func SetupRepo(reposlug, ghToken, email, version, archs, outbuild string, push b
 	}
 
 	if tryexec(`latest -v`) != nil {
-		exec(`go get -u github.com/mh-cbon/latest`)
+		exec(`git clone https://github.com/mh-cbon/latest.git %v/github.com/mh-cbon/latest`, gopath)
+		exec(`go install github.com/mh-cbon/latest`)
 	}
 	if tryexec(`gh-api-cli -v`) != nil {
 		exec(`latest -repo=%v`, "mh-cbon/gh-api-cli")

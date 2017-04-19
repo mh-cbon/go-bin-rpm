@@ -27,7 +27,8 @@ func CreatePackage(reposlug, ghToken, email, version, archs, outbuild string, pu
 	}
 
 	if tryexec(`latest -v`) != nil {
-		exec(`go get -u github.com/mh-cbon/latest`)
+		exec(`git clone https://github.com/mh-cbon/latest.git %v/github.com/mh-cbon/latest`, gopath)
+		exec(`go install github.com/mh-cbon/latest`)
 	}
 	if tryexec(`changelog -v`) != nil {
 		exec(`latest -repo=%v`, "mh-cbon/changelog")

@@ -48,7 +48,7 @@ go env
 export GOPATH=/gopath/
 export PATH=\$PATH:/gopath/bin
 
-go get -u github.com/mh-cbon/go-bin-rpm/go-bin-rpm-utils
+yes | go get -u github.com/mh-cbon/go-bin-rpm/go-bin-rpm-utils
 go-bin-rpm-utils setup-repository -out="`pwd`/rpm" -push -repo=$GH
 EOT
 set -x

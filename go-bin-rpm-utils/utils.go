@@ -58,6 +58,10 @@ func getBranchGit(repoPath, reposlug, branch, origin string) {
 
 	if tryexec(`git checkout %v`, branch) != nil {
 		exec(`git checkout -b %v`, branch)
+		// if new, clean it
+		exec(`git rm --cached $(git ls-files)`)
+		exec(`git status`)
+		exec(`git commit -am clean`)
 	}
 	chdir(cwd)
 }
