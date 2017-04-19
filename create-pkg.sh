@@ -13,11 +13,6 @@ if [ "${GH}" = "mh-cbon/go-bin-rpm" ]; then
   git checkout -b master
 fi
 
-if ["${GH_TOKEN}" = ""]; then
-  echo "GH_TOKEN is not properly set. Check your travis file."
-  exit 1
-fi
-
 rm -fr docker.sh
 set +x
 cat <<EOT > docker.sh
