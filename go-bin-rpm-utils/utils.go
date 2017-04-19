@@ -178,6 +178,13 @@ func exec(w string, params ...interface{}) {
 	}
 }
 
+func maybesudo(w string, params ...interface{}) error {
+	if tryexec(`sudo %v`, w) != nil {
+		return tryexec(`%v`, w)
+	}
+	return nil
+}
+
 func gettryexec(w string, params ...interface{}) ([]byte, error) {
 	w = fmt.Sprintf(w, params...)
 	cwd, err := os.Getwd()

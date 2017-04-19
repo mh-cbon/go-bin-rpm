@@ -22,8 +22,8 @@ func CreatePackage(reposlug, ghToken, email, version, archs, outbuild string, pu
 	setupGitRepo(repoPath, reposlug, user, email)
 	chdir(repoPath)
 
-	if tryexec(`sudo dnf install rpm-build -y`) != nil {
-		exec(`sudo yum install rpm-build -y`)
+	if maybesudo(`dnf install rpm-build -y`) != nil {
+		maybesudo(`yum install rpm-build -y`)
 	}
 
 	if tryexec(`latest -v`) != nil {
