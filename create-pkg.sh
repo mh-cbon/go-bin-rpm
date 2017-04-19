@@ -20,9 +20,17 @@ set +x
 cat <<EOT > docker.sh
 
 if type "dnf" > /dev/null; then
-  sudo dnf install wget curl git -y
+  if type "sudo" > /dev/null; then
+    sudo dnf install wget curl git -y
+  else
+    dnf install wget curl git -y
+  fi
 else
-  sudo yum install wget curl git -y
+  if type "sudo" > /dev/null; then
+    sudo yum install wget curl git -y
+  else
+    yum install wget curl git -y
+  fi
 fi
 
 export TRAVIS_TAG="${TRAVIS_TAG}"
