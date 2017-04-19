@@ -1,4 +1,16 @@
 
+UNRELEASED
+
+  * utils: updated utility scripts
+  * spec generation: the spec generation does not fail anymore
+    if the build area does not exists, this helps to preview the spec file
+
+  - mh-cbon <mh-cbon@users.noreply.github.com>
+
+-- mh-cbon <mh-cbon@users.noreply.github.com>; Wed, 19 Apr 2017 15:17:56 +0200
+
+
+
 0.0.15
 
   * travis: fix missing assets
@@ -160,5 +172,3 @@
   - mh-cbon <mh-cbon@users.noreply.github.com>
 
 -- mh-cbon <mh-cbon@users.noreply.github.com>; Thu, 14 Jul 2016 15:41:28 +0200
-
-
