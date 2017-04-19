@@ -33,6 +33,9 @@ export GOINSTALL="/go"
 export GOROOT=\${GOINSTALL}/go/
 export PATH=\$PATH:\$GOROOT/bin
 
+echo "GH \$GH"
+echo "getgo \$getgo"
+
 # install go, specific to vagrant
 if type "wget" > /dev/null; then
   wget $getgo | sh -xe
@@ -41,7 +44,7 @@ if type "curl" > /dev/null; then
   curl -L $getgo | sh -xe
 fi
 
-echo "\$PATH"
+echo "PATH \$PATH"
 go version
 go env
 
