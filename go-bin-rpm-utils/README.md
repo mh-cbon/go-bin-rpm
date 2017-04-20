@@ -1,8 +1,8 @@
-# go-bin-rpm-utils
+# go-bin-rpm
 
 [![MIT License](http://img.shields.io/badge/License-MIT-yellow.svg)](../LICENSE)
 
-go-bin-rpm-utils is a cli tool to generate rpm package and repos.
+Create binary rpm package with ease
 
 
 # Usage
