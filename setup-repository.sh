@@ -19,7 +19,10 @@ fi
 
 if [ "${GH}" = "mh-cbon/go-bin-rpm" ]; then
   git reset HEAD --hard
-  git pull origin master --force
+  git pull origin master --force || echo "ok"
+  git reset HEAD --hard
+  ls -al
+  git status
   git checkout -b master || echo "ok"
   git checkout master || echo "ok"
   curl https://glide.sh/get | sh
