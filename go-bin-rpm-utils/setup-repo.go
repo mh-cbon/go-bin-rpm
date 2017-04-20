@@ -62,7 +62,6 @@ func SetupRepo(reposlug, ghToken, email, version, archs, outbuild string, push, 
 
 		chdir(archOut)
 		exec(`createrepo .`)
-		exec(`rm -f %v/*.rpm`, archOut)
 	}
 
 	chdir(repoPath)

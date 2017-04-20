@@ -1,7 +1,17 @@
 
+UNRELEASED
+
+  * release: do not build/upload binaries
+
+  - mh-cbon <mh-cbon@users.noreply.github.com>
+
+-- mh-cbon <mh-cbon@users.noreply.github.com>; Thu, 20 Apr 2017 13:12:10 +0200
+
+
+
 0.0.16-beta
 
-  * travis upload token
+  * travis: update deploy token
   * utils: updated utility scripts
   * spec generation: the spec generation does not fail anymore if the build area does not exists, this helps to preview the spec file
 
@@ -172,5 +182,3 @@
   - mh-cbon <mh-cbon@users.noreply.github.com>
 
 -- mh-cbon <mh-cbon@users.noreply.github.com>; Thu, 14 Jul 2016 15:41:28 +0200
-
-
