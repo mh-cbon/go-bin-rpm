@@ -9,7 +9,7 @@ import (
 )
 
 // CreatePackage creates an rpm package
-func CreatePackage(reposlug, ghToken, email, version, archs, outbuild string, push bool) {
+func CreatePackage(reposlug, ghToken, email, version, archs, outbuild string, push, keep bool) {
 
 	x := strings.Split(reposlug, "/")
 	user := x[0]
@@ -65,7 +65,11 @@ func CreatePackage(reposlug, ghToken, email, version, archs, outbuild string, pu
 	exec(`ls -al %v/*/*`, dir)
 
 	if push == true {
-		pushAssetsGh(version, ghToken, outbuild, "*.rpm")
+		glob := "*.rpm"
+		pushAssetsGh(version, ghToken, outbuild, glob)
+		if keep == false {
+			exec(`rm -f %v`, outbuild+"/"+glob)
+		}
 	}
 
 }

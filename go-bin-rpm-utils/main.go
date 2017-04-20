@@ -26,6 +26,7 @@ func main() {
 	flag.StringVar(&archs, "archs", "386,amd64", "The archs to build.")
 	flag.StringVar(&out, "out", "", "The out build directory.")
 	push := flag.Bool("push", false, "Push the new assets")
+	keep := flag.Bool("keep", false, "Keep the new assets")
 	flag.CommandLine.Parse(os.Args[2:])
 
 	// os.Env fallback
@@ -70,9 +71,9 @@ func main() {
 
 	// execute the action
 	if action == "create-packages" {
-		CreatePackage(reposlug, ghToken, email, version, archs, out, *push)
+		CreatePackage(reposlug, ghToken, email, version, archs, out, *push, *keep)
 
 	} else if action == "setup-repository" {
-		SetupRepo(reposlug, ghToken, email, version, archs, out, *push)
+		SetupRepo(reposlug, ghToken, email, version, archs, out, *push, *keep)
 	}
 }

@@ -71,7 +71,8 @@ export GOPATH=/gopath/
 export PATH=\$PATH:/\$GOPATH/bin
 
 go get -u github.com/mh-cbon/go-bin-rpm/go-bin-rpm-utils
-go-bin-rpm-utils create-packages -repo=$GH
+go-bin-rpm-utils create-packages -push -keep -repo=$GH
+ls -al .
 EOT
 set -x
 
@@ -79,7 +80,6 @@ buildir="/gopath/src/github.com/${GH}"
 docker run -v $PWD/:${buildir} fedora /bin/sh -c "cd ${buildir} && sh ./docker.sh"
 # sudo chown travis:travis *-*.rpm
 
-ls -al ./
-ls -al ./build/*/*
+ls -al .
 
 rm -fr docker.sh

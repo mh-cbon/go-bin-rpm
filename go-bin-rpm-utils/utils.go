@@ -20,7 +20,6 @@ func pushAssetsGh(version, ghToken, outbuild, glob string) {
 	}
 	exec(`gh-api-cli rm-assets --guess --ver %v -t %v --glob %q`, version, ghToken, glob)
 	exec(`gh-api-cli upload-release-asset --guess --ver %v -t %v --glob %q`, version, ghToken, outbuild+"/"+glob)
-	exec(`rm -f %v`, outbuild+"/"+glob)
 }
 
 func setupGitRepo(repoPath, reposlug, user, email string) {
