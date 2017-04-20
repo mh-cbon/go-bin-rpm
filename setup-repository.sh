@@ -89,6 +89,7 @@ go get -u github.com/mh-cbon/go-bin-rpm/go-bin-rpm-utils
 go-bin-rpm-utils setup-repository -out="\`pwd\`/rpm" -push -repo=$GH
 EOT
 
-docker run -v $PWD:/docker fedora /bin/sh -c "cd /docker && sh ./docker.sh"
+set -x
+docker run -v $PWD/:${TRAVIS_BUILD_DIR} fedora /bin/sh -c "cd ${TRAVIS_BUILD_DIR} && sh ./docker.sh"
 
 rm -fr docker.sh
