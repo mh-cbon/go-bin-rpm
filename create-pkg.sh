@@ -79,4 +79,7 @@ buildir="/gopath/src/github.com/${GH}"
 docker run -v $PWD/:${buildir} fedora /bin/sh -c "cd ${buildir} && sh ./docker.sh"
 # sudo chown travis:travis *-*.rpm
 
+ls -al ./
+ls -al ./build/*/*
+
 rm -fr docker.sh
