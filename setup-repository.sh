@@ -19,7 +19,7 @@ fi
 
 if [ "${GH}" = "mh-cbon/go-bin-rpm" ]; then
   git reset HEAD --hard
-  git pull origin master --force || echo "ok"
+  git pull origin --force || echo "ok"
   git reset HEAD --hard
   ls -al
   git status
@@ -86,7 +86,7 @@ export GOPATH=/gopath/
 export PATH=\$PATH:/gopath/bin
 
 go get -u github.com/mh-cbon/go-bin-rpm/go-bin-rpm-utils
-go-bin-rpm-utils setup-repository -out="`pwd`/rpm" -push -repo=$GH
+go-bin-rpm-utils setup-repository -out="\`pwd\`/rpm" -push -repo=$GH
 EOT
 
 docker run -v $PWD:/docker fedora /bin/sh -c "cd /docker && sh ./docker.sh"

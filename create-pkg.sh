@@ -11,7 +11,7 @@ set -x
 
 if [ "${GH}" = "mh-cbon/go-bin-rpm" ]; then
   git reset HEAD --hard
-  git pull origin master --force
+  git pull origin --force || echo "ok"
   git checkout -b master || echo "ok"
   git checkout master || echo "ok"
   curl https://glide.sh/get | sh
@@ -26,9 +26,9 @@ cat <<EOT > docker.sh
 set -x
 if type "dnf" > /dev/null; then
   if type "sudo" > /dev/null; then
-    sudo dnf install wget curl git -y
+    sudo dnf install wget curl git -y --quiet
   else
-    dnf install wget curl git -y
+    dnf install wget curl git -y --quiet
   fi
 else
   if type "sudo" > /dev/null; then
