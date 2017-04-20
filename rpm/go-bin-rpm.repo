@@ -1,0 +1,7 @@
+[go-bin-rpm]
+name=Create binary rpm package with ease
+
+baseurl=https://mh-cbon.github.io/go-bin-rpm/rpm/$basearch/
+enabled=1
+skip_if_unavailable=1
+gpgcheck=0
