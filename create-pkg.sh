@@ -75,7 +75,8 @@ go-bin-rpm-utils create-packages -push -repo=$GH
 EOT
 set -x
 
-docker run -v $PWD/../:/gopath/src/github.com/${GH} fedora /bin/sh -c "sh /gopath/src/github.com/${GH}.sh"
+buildir="/gopath/src/github.com/${GH}"
+docker run -v $PWD/../:${buildir} fedora /bin/sh -c "cd ${buildir} && sh ./docker.sh"
 # sudo chown travis:travis *-*.rpm
 
 rm -fr docker.sh
