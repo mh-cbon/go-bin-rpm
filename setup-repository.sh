@@ -39,6 +39,7 @@ export CI="${CI}"
 export GOINSTALL="/go"
 export GOROOT=\${GOINSTALL}/go/
 export PATH=\$PATH:\$GOROOT/bin
+sh -x
 
 echo "GH \$GH"
 echo "getgo $getgo"

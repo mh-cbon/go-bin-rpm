@@ -20,7 +20,7 @@ getgo="https://raw.githubusercontent.com/mh-cbon/latest/master/get-go.sh?d=`date
 rm -fr docker.sh
 set +x
 cat <<EOT > docker.sh
-
+sh +x
 if type "dnf" > /dev/null; then
   if type "sudo" > /dev/null; then
     sudo dnf install wget curl git -y
@@ -35,6 +35,7 @@ else
   fi
 fi
 
+sh +x
 export TRAVIS_TAG="${TRAVIS_TAG}"
 export TRAVIS_BUILD_DIR="${TRAVIS_BUILD_DIR}"
 export GH_TOKEN="${GH_TOKEN}"
@@ -47,6 +48,7 @@ export CI="${CI}"
 export GOINSTALL="/go"
 export GOROOT=\${GOINSTALL}/go/
 export PATH=\$PATH:\$GOROOT/bin
+sh -x
 
 echo "GH \$GH"
 echo "getgo $getgo"
@@ -65,6 +67,8 @@ go env
 
 export GOPATH=/gopath/
 export PATH=\$PATH:/gopath/bin
+
+cp -R /docker /gopath/src/github.com/mh-cbon/go-bin-rpm/
 
 go get -u github.com/mh-cbon/go-bin-rpm/go-bin-rpm-utils
 go-bin-rpm-utils create-packages -push -repo=$GH
