@@ -21,8 +21,8 @@ func SetupRepo(reposlug, ghToken, email, version, archs, outbuild string, push b
 	setupGitRepo(repoPath, reposlug, user, email)
 	chdir(repoPath)
 
-	if maybesudo(`dnf install createrepo git -y`) != nil {
-		maybesudo(`yum install createrepo git -y`)
+	if maybesudo(`dnf install createrepo git -y --quiet`) != nil {
+		maybesudo(`yum install createrepo git -y --quiet`)
 	}
 
 	if tryexec(`latest -v`) != nil {

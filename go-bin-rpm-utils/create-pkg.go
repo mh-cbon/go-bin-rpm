@@ -22,8 +22,8 @@ func CreatePackage(reposlug, ghToken, email, version, archs, outbuild string, pu
 	setupGitRepo(repoPath, reposlug, user, email)
 	chdir(repoPath)
 
-	if maybesudo(`dnf install rpm-build -y`) != nil {
-		maybesudo(`yum install rpm-build -y`)
+	if maybesudo(`dnf install rpm-build -y --quiet`) != nil {
+		maybesudo(`yum install rpm-build -y --quiet`)
 	}
 
 	if tryexec(`latest -v`) != nil {
@@ -56,11 +56,13 @@ func CreatePackage(reposlug, ghToken, email, version, archs, outbuild string, pu
 		out := filepath.Join(outbuild, outFile)
 
 		mkdirAll(workDir)
-		exec(`go-bin-rpm generate -a %v --version %v -b %v -o %v`, arch, version, workDir, out)
+		exec(`VERBOSE=* go-bin-rpm generate -a %v --version %v -b %v -o %v`, arch, version, workDir, out)
 	}
 
 	exec(`ls -al .`)
 	exec(`ls -al %v`, outbuild)
+	exec(`ls -al %v`, dir)
+	exec(`ls -al %v/*/*`, dir)
 
 	if push == true {
 		pushAssetsGh(version, ghToken, outbuild, "*.rpm")
