@@ -70,10 +70,10 @@ go env
 export GOPATH=/gopath/
 export PATH=\$PATH:/gopath/bin
 
-mkdir -p /gopath/src/github.com/${GH}/
-cp -R /docker/* /gopath/src/github.com/${GH}/*
+mkdir -p $GOPATH/src/github.com/${GH}/
+cp -R /docker/* $GOPATH/src/github.com/${GH}/*
 
-ls -al /gopath/src/github.com/${GH}/*
+ls -al $GOPATH/src/github.com/${GH}/*
 
 go get -u github.com/mh-cbon/go-bin-rpm/go-bin-rpm-utils
 go-bin-rpm-utils create-packages -push -repo=$GH
