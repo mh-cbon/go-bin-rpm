@@ -31,6 +31,22 @@ getgo="https://raw.githubusercontent.com/mh-cbon/latest/master/get-go.sh?d=`date
 
 rm -fr docker.sh
 cat <<EOT > docker.sh
+
+set -x
+if type "dnf" > /dev/null; then
+  if type "sudo" > /dev/null; then
+    sudo dnf install wget curl git -y
+  else
+    dnf install wget curl git -y
+  fi
+else
+  if type "sudo" > /dev/null; then
+    sudo yum install wget curl git -y --quiet
+  else
+    yum install wget curl git -y --quiet
+  fi
+fi
+
 set +x
 export GH_TOKEN="${GH_TOKEN}"
 set -x
