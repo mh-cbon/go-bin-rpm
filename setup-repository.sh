@@ -1,4 +1,5 @@
 #!/bin/sh -e
+set -x
 
 # this is an helper
 # to use into your travis file
@@ -27,9 +28,11 @@ fi
 getgo="https://raw.githubusercontent.com/mh-cbon/latest/master/get-go.sh?d=`date +%F_%T`"
 
 rm -fr docker.sh
-set +x
 cat <<EOT > docker.sh
+set +x
 export GH_TOKEN="${GH_TOKEN}"
+set -x
+
 export GH="${GH}"
 export EMAIL="${EMAIL}"
 export MYEMAIL="${MYEMAIL}"
@@ -39,7 +42,6 @@ export CI="${CI}"
 export GOINSTALL="/go"
 export GOROOT=\${GOINSTALL}/go/
 export PATH=\$PATH:\$GOROOT/bin
-sh -x
 
 echo "GH \$GH"
 echo "getgo $getgo"
@@ -62,7 +64,6 @@ export PATH=\$PATH:/gopath/bin
 go get -u github.com/mh-cbon/go-bin-rpm/go-bin-rpm-utils
 go-bin-rpm-utils setup-repository -out="`pwd`/rpm" -push -repo=$GH
 EOT
-set -x
 
 docker run -v $PWD:/docker fedora /bin/sh -c "cd /docker && sh ./docker.sh"
 
