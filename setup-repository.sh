@@ -31,6 +31,7 @@ fi
 
 
 getgo="https://raw.githubusercontent.com/mh-cbon/latest/master/get-go.sh?d=`date +%F_%T`"
+TRAVIS_BUILD_DIR="/gopath/src/github.com/${GH}"
 
 rm -fr docker.sh
 cat <<EOT > docker.sh
@@ -38,9 +39,9 @@ cat <<EOT > docker.sh
 set -x
 if type "dnf" > /dev/null; then
   if type "sudo" > /dev/null; then
-    sudo dnf install wget curl git -y
+    sudo dnf install wget curl git -y --quiet
   else
-    dnf install wget curl git -y
+    dnf install wget curl git -y --quiet
   fi
 else
   if type "sudo" > /dev/null; then
@@ -54,6 +55,7 @@ set +x
 export GH_TOKEN="${GH_TOKEN}"
 set -x
 
+export TRAVIS_BUILD_DIR="${TRAVIS_BUILD_DIR}"
 export TRAVIS_TAG="${TRAVIS_TAG}"
 export GH="${GH}"
 export EMAIL="${EMAIL}"
