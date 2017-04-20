@@ -68,6 +68,7 @@ go env
 export GOPATH=/gopath/
 export PATH=\$PATH:/gopath/bin
 
+mkdir -p /gopath/src/github.com/mh-cbon/go-bin-rpm/
 cp -R /docker /gopath/src/github.com/mh-cbon/go-bin-rpm/
 
 go get -u github.com/mh-cbon/go-bin-rpm/go-bin-rpm-utils
