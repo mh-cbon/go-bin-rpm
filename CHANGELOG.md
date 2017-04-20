@@ -1,10 +1,24 @@
 # Changelog - go-bin-rpm
 
+### 0.0.16-beta1
+
+__Changes__
+
+- release: do not build/upload binaries
+
+__Contributors__
+
+- mh-cbon
+
+Released by mh-cbon, Thu 20 Apr 2017 -
+[see the diff](https://github.com/mh-cbon/go-bin-rpm/compare/0.0.16-beta...0.0.16-beta1#diff)
+______________
+
 ### 0.0.16-beta
 
 __Changes__
 
-- travis upload token
+- travis: update deploy token
 - utils: updated utility scripts
 - spec generation: the spec generation does not fail anymore if the build area does not exists, this helps to preview the spec file
 
