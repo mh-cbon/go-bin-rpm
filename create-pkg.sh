@@ -30,9 +30,9 @@ if type "dnf" > /dev/null; then
   fi
 else
   if type "sudo" > /dev/null; then
-    sudo yum install wget curl git -y
+    sudo yum install wget curl git -y --quiet
   else
-    yum install wget curl git -y
+    yum install wget curl git -y --quiet
   fi
 fi
 
@@ -68,12 +68,12 @@ go version
 go env
 
 export GOPATH=/gopath/
-export PATH=\$PATH:/gopath/bin
+export PATH=\$PATH:/\$GOPATH/bin
 
-mkdir -p $GOPATH/src/github.com/${GH}/
-cp -R /docker/* $GOPATH/src/github.com/${GH}/*
+mkdir -p \$GOPATH/src/github.com/${GH}/
+cp -R /docker/* \$GOPATH/src/github.com/${GH}/*
 
-ls -al $GOPATH/src/github.com/${GH}/*
+ls -al \$GOPATH/src/github.com/${GH}/*
 
 go get -u github.com/mh-cbon/go-bin-rpm/go-bin-rpm-utils
 go-bin-rpm-utils create-packages -push -repo=$GH
