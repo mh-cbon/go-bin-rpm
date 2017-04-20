@@ -1,0 +1,126 @@
+Package: go-bin-rpm
+Priority: extra
+Section: unknown
+Installed-Size: 4.0 kB
+Maintainer: mh-cbon <mh-cbon@users.noreply.github.com>
+Architecture: amd64
+Source: go-bin-rpm
+Version: 0.0.16-beta1
+Filename: pool/contrib/g/go-bin-rpm/go-bin-rpm-0.0.16-beta1_amd64.deb
+Size: 1058096
+MD5sum: f0d11a371671482403d3fe3f33169001
+SHA1: f700151a713872443ee8908b99c77ae67ef0d4c2
+SHA256: 8ce7f1bf78a33c537d9d6e95ff0894b6ac833360766bd5244d6b62a82997dce7
+SHA512: 86ddfedcffd6b1487af68eb188b10261b3780f8d66dae0a64564a2e695fd712157d5af4e1a8fb44515933e653d16e85b00bfcdcc7616426ac49509471c40d1e7
+Description: Create binary rpm package with ease
+Homepage: http://github.com/mh-cbon/go-bin-rpm
+Package-Type: deb
+
+Package: go-bin-rpm
+Priority: extra
+Section: unknown
+Installed-Size: 4.0 kB
+Maintainer: mh-cbon <mh-cbon@users.noreply.github.com>
+Architecture: amd64
+Source: go-bin-rpm
+Version: 0.0.16-beta
+Filename: pool/contrib/g/go-bin-rpm/go-bin-rpm-0.0.16-beta_amd64.deb
+Size: 1057652
+MD5sum: e3965736e7fde394c26a3668dfffca4b
+SHA1: 6304dd54e070270214101d18c88b5b507b821061
+SHA256: 4745c3c6bcf53afa2f2ba8725bf4139ac3353dbc48277acd0922f57b34594f7d
+SHA512: 310e72d65aa0670778c260833e6e418f3a59d8a2d0be38a3d67819a789a75f4fdf658eec462d222f6e060c518c3bcb36f1b1b8e6618dfdabc6da8943da98b2ce
+Description: Create binary rpm package with ease
+Package-Type: deb
+Homepage: http://github.com/mh-cbon/go-bin-rpm
+
+Package: go-bin-rpm
+Priority: extra
+Section: unknown
+Installed-Size: 4.0 kB
+Maintainer: mh-cbon <mh-cbon@users.noreply.github.com>
+Architecture: amd64
+Source: go-bin-rpm
+Version: 0.0.16
+Filename: pool/contrib/g/go-bin-rpm/go-bin-rpm-0.0.16_amd64.deb
+Size: 1058428
+MD5sum: f6a7272be74dc1521d890c4bed65ca40
+SHA1: 5d01efecc585b47c6c665c777813691cf5366498
+SHA256: bf09d585efd226dbdf6ac9e8189f8e56da503cca5c6892b09d8ce0470812e9c2
+SHA512: cfc33e72f44854bd6153d5006d1de7b8d9571f41e80416471faf408bbd0bdfdcab6ca8e5b97c1f429daa08aef2090bc43ea883ccd6e189574643f8b6b1b23a6a
+Description: Create binary rpm package with ease
+Package-Type: deb
+Homepage: http://github.com/mh-cbon/go-bin-rpm
+
+Package: go-bin-rpm
+Priority: extra
+Section: unknown
+Installed-Size: 4.3 kB
+Maintainer: mh-cbon <mh-cbon@users.noreply.github.com>
+Architecture: amd64
+Source: go-bin-rpm
+Version: 0.0.15
+Filename: pool/contrib/g/go-bin-rpm/go-bin-rpm-0.0.15_amd64.deb
+Size: 1168708
+MD5sum: a68b16cf359854b4a33b2f3290d3fbc8
+SHA1: ff1b7fc60cf207b76d625aab796b7204e49f3790
+SHA256: bc6c072dd9d3931ece382683130d7d4b747691369831ecce5f4a33f139317754
+SHA512: a4d288eaefd95cb0d5961da2ed1f5b4c8669dd793b49af9c902ca4e164a906e96b93e5506e25b8710339a538d88fe3640f3696706e7dad412651ac1054670d92
+Description: Create binary rpm package with ease
+Homepage: http://github.com/mh-cbon/go-bin-rpm
+Package-Type: deb
+
+Package: go-bin-rpm
+Priority: extra
+Section: unknown
+Installed-Size: 4.1 kB
+Maintainer: mh-cbon <mh-cbon@users.noreply.github.com>
+Architecture: amd64
+Source: go-bin-rpm
+Version: 0.0.13
+Filename: pool/contrib/g/go-bin-rpm/go-bin-rpm-0.0.13_amd64.deb
+Size: 1058868
+MD5sum: b8767d7e2f9c9c5e328df234f38ad94b
+SHA1: 215dad1bc464c160803df9b51a3a209f01937301
+SHA256: 7da326c0f4491f5b73ee6ce604f4781c4687281a8f808282e4056b061b3b48a7
+SHA512: 0e2f77d8c7bdecdd9b700db74039c70c54261a353d56bb6a13c5a3903ef4b6da584841f8b2fd0be3d1543994d5e9e0ad613d928e30cdc2c1cac61a46158e8abd
+Description: Create binary rpm package with ease
+Homepage: http://github.com/mh-cbon/go-bin-rpm
+Package-Type: deb
+
+Package: go-bin-rpm
+Priority: extra
+Section: unknown
+Installed-Size: 4.1 kB
+Maintainer: mh-cbon <mh-cbon@users.noreply.github.com>
+Architecture: amd64
+Source: go-bin-rpm
+Version: 0.0.12
+Filename: pool/contrib/g/go-bin-rpm/go-bin-rpm-0.0.12_amd64.deb
+Size: 1059104
+MD5sum: de4a5bbea5c25c4ac21aa607cbf69032
+SHA1: 13eb807c02a599fbf7fd57c5043f1c2d09c92d01
+SHA256: 51a27f569a0f4770e405f1bd0c1afa3c65235fa60015b682dbaf962371c684b1
+SHA512: e27da34a0e676c6c5098a16a9b02f5d8f386b963699d1c941bd54d77d659a713810e0728e6e12514d803e46dcbed58c30c3777fc9218b23df595bf96d25c0a46
+Description: Create binary rpm package with ease
+Homepage: http://github.com/mh-cbon/go-bin-rpm
+Package-Type: deb
+
+Package: go-bin-rpm
+Priority: extra
+Section: unknown
+Installed-Size: 4.1 kB
+Maintainer: mh-cbon <mh-cbon@users.noreply.github.com>
+Architecture: amd64
+Source: go-bin-rpm
+Version: 0.0.10
+Filename: pool/contrib/g/go-bin-rpm/go-bin-rpm-0.0.10_amd64.deb
+Size: 1058524
+MD5sum: 9e0e6839fc03e2b8f7871b56d2224259
+SHA1: 59f943b37db29eb4ce3c5a74367b9fad8a69670a
+SHA256: 06945fe1ce105a7e21361d1aae26b5138d8d4540e672625a8eb69002f438cd0e
+SHA512: cac3f919c9323448a54bf2bbc8f522adbab299d490bb182aa4b9d28cb4c3b026fb726283e037b041efa65b2472c529213b33390bf4932b19a19d0c25e082344e
+Description: Create binary rpm package with ease
+Homepage: http://github.com/mh-cbon/go-bin-rpm
+Package-Type: deb
+
