@@ -57,7 +57,7 @@ echo "getgo $getgo"
 
 # install go, specific to vagrant
 if type "wget" > /dev/null; then
-  wget -q $getgo | sh -xe
+  wget --quiet -O - $getgo | sh -xe
 fi
 if type "curl" > /dev/null; then
   curl -s -L $getgo | sh -xe
@@ -70,17 +70,12 @@ go env
 export GOPATH=/gopath/
 export PATH=\$PATH:/\$GOPATH/bin
 
-mkdir -p \$GOPATH/src/github.com/${GH}/
-cp -R /docker/* \$GOPATH/src/github.com/${GH}
-
-ls -al \$GOPATH/src/github.com/${GH}/*
-
 go get -u github.com/mh-cbon/go-bin-rpm/go-bin-rpm-utils
 go-bin-rpm-utils create-packages -push -repo=$GH
 EOT
 set -x
 
-docker run -v $PWD:/docker fedora /bin/sh -c "cd /docker && sh ./docker.sh"
+docker run -v $PWD/../:/gopath/src/github.com/${GH} fedora /bin/sh -c "cd /docker && sh ./docker.sh"
 # sudo chown travis:travis *-*.rpm
 
 rm -fr docker.sh

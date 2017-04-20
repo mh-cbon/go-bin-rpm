@@ -12,10 +12,10 @@ export PATH=$PATH:$GOROOT/bin
 getgo="https://raw.githubusercontent.com/mh-cbon/latest/master/get-go.sh?d=`date +%F_%T`"
 # install go, specific to vagrant
 if type "wget" > /dev/null; then
-  wget $getgo | sh -xe
+  wget $getgo -O - | sh -xe
 fi
 if type "curl" > /dev/null; then
-  curl $getgo | sh -xe
+  curl -s -L $getgo | sh -xe
 fi
 
 echo "$PATH"

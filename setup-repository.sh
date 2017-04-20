@@ -48,7 +48,7 @@ echo "getgo $getgo"
 
 # install go, specific to vagrant
 if type "wget" > /dev/null; then
-  wget $getgo | sh -xe
+  wget --quiet -O - $getgo | sh -xe
 fi
 if type "curl" > /dev/null; then
   curl -s -L $getgo | sh -xe
