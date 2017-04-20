@@ -1,4 +1,17 @@
 
+0.0.16
+
+  * utils: updated utility scripts
+  * spec generation: the spec generation does not fail anymore if the build area does not exists,
+    this helps to preview the spec file
+  * travis: update deploy token
+
+  - mh-cbon <mh-cbon@users.noreply.github.com>
+
+-- mh-cbon <mh-cbon@users.noreply.github.com>; Thu, 20 Apr 2017 15:07:15 +0200
+
+
+
 0.0.16-beta1
 
   * release: do not build/upload binaries
