@@ -19,7 +19,7 @@ fi
 getgo="https://raw.githubusercontent.com/mh-cbon/latest/master/get-go.sh?d=`date +%F_%T`"
 
 rm -fr docker.sh
-
+TRAVIS_BUILD_DIR="/gopath/src/github.com/${GH}"
 cat <<EOT > docker.sh
 set -x
 if type "dnf" > /dev/null; then
@@ -75,10 +75,8 @@ go-bin-rpm-utils create-packages -push -keep -repo=$GH
 ls -al .
 EOT
 set -x
-
-buildir="/gopath/src/github.com/${GH}"
-docker run -v $PWD/:${buildir} fedora /bin/sh -c "cd ${buildir} && sh ./docker.sh"
-# sudo chown travis:travis *-*.rpm
+docker run -v $PWD/:${TRAVIS_BUILD_DIR} fedora /bin/sh -c "cd ${TRAVIS_BUILD_DIR} && sh ./docker.sh"
+sudo chown travis:travis ${TRAVIS_BUILD_DIR}/*-*.rpm
 
 ls -al .
 
