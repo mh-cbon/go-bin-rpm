@@ -76,7 +76,7 @@ ls -al .
 EOT
 set -x
 docker run -v $PWD/:${TRAVIS_BUILD_DIR} fedora /bin/sh -c "cd ${TRAVIS_BUILD_DIR} && sh ./docker.sh"
-sudo chown travis:travis ${TRAVIS_BUILD_DIR}/*-*.rpm
+sudo chown travis:travis ./*-*.rpm
 
 ls -al .
 
