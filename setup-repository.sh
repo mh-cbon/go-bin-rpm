@@ -54,6 +54,7 @@ set +x
 export GH_TOKEN="${GH_TOKEN}"
 set -x
 
+export TRAVIS_TAG="${TRAVIS_TAG}"
 export GH="${GH}"
 export EMAIL="${EMAIL}"
 export MYEMAIL="${MYEMAIL}"
