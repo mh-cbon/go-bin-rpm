@@ -18,7 +18,7 @@ if ["${GH}" = ""]; then
 fi
 
 if [ "${GH}" = "mh-cbon/go-bin-rpm" ]; then
-  git pull origin master
+  git pull origin master --force
   git checkout -b master || echo "ok"
   git checkout master || echo "ok"
   curl https://glide.sh/get | sh
