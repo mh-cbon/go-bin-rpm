@@ -1,5 +1,5 @@
 
-UNRELEASED
+0.0.16-beta1
 
   * release: do not build/upload binaries
 
@@ -182,3 +182,5 @@ UNRELEASED
   - mh-cbon <mh-cbon@users.noreply.github.com>
 
 -- mh-cbon <mh-cbon@users.noreply.github.com>; Thu, 14 Jul 2016 15:41:28 +0200
+
+
