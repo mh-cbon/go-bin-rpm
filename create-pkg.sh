@@ -71,7 +71,7 @@ export GOPATH=/gopath/
 export PATH=\$PATH:/\$GOPATH/bin
 
 go get -u github.com/mh-cbon/go-bin-rpm/go-bin-rpm-utils
-go-bin-rpm-utils create-packages -push -repo=$GH
+go-bin-rpm-utils create-packages -repo=$GH
 EOT
 set -x
 
