@@ -11,7 +11,7 @@ set -x
 
 if [ "${GH}" = "mh-cbon/go-bin-rpm" ]; then
   git pull origin master
-  git checkout -b master
+  git checkout -b master || echo "ok"
   curl https://glide.sh/get | sh
   glide install
 fi
