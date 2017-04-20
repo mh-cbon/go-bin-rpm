@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  
+  <head>
+  <meta charset="UTF-8">
+  <title>go-bin-rpm</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#157878">
+  <link rel="stylesheet" href="/go-bin-rpm//css/normalize.css">
+  <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+  <link rel="stylesheet" href="/go-bin-rpm//css/cayman.css">
+</head>
+
+  <body>
+    <section class="page-header">
+  <h1 class="project-name">go-bin-rpm</h1>
+  <h2 class="project-tagline">Create binary rpm package with ease</h2>
+  <a href="http://github.com/mh-cbon/go-bin-rpm" class="btn">View on GitHub</a>
+  <a href="http://github.com/mh-cbon/go-bin-rpm/zipball/gh-pages" class="btn">Download .zip</a>
+  <a href="http://github.com/mh-cbon/go-bin-rpm/tarball/gh-pages" class="btn">Download .tar.gz</a>
+</section>
+
+
+    <section class="main-content">
+      
+      <h1 id="go-bin-rpm">go-bin-rpm</h1>
+
+<p><a href="https://travis-ci.org/mh-cbon/go-bin-rpm"><img src="https://travis-ci.org/mh-cbon/go-bin-rpm.svg?branch=master" alt="travis Status" /></a> <a href="https://goreportcard.com/report/github.com/mh-cbon/go-bin-rpm"><img src="https://goreportcard.com/badge/github.com/mh-cbon/go-bin-rpm" alt="Go Report Card" /></a> <a href="http://godoc.org/github.com/mh-cbon/go-bin-rpm"><img src="https://godoc.org/github.com/mh-cbon/go-bin-rpm?status.svg" alt="GoDoc" /></a> [![<no value=""> License](http://img.shields.io/badge/License-<no value="">-blue.svg)](LICENSE)</no></no></p>
+
+<p>Create binary rpm package with ease</p>
+
+<p>Using a <code class="highlighter-rouge">json</code> files to declare rules, it then performs necessary operations
+to invoke <code class="highlighter-rouge">rpmbuild</code> and build the package.</p>
+
+<p>This tool is part of the <a href="https://github.com/mh-cbon/go-github-release">go-github-release workflow</a></p>
+
+<p>See <a href="demo/">the demo</a>.</p>
+
+<h1 id="toc">TOC</h1>
+<ul>
+  <li><a href="#install">Install</a>
+    <ul>
+      <li><a href="#glide">Glide</a></li>
+      <li><a href="#linux-rpmdeb-repository">linux rpm/deb repository</a></li>
+      <li><a href="#linux-rpmdeb-standalone-package">linux rpm/deb standalone package</a></li>
+    </ul>
+  </li>
+  <li><a href="#usage">Usage</a>
+    <ul>
+      <li><a href="#requirements">Requirements</a></li>
+      <li><a href="#workflow-overview">Workflow overview</a></li>
+      <li><a href="#json-file">Json file</a></li>
+    </ul>
+  </li>
+  <li><a href="#cli">CLI</a>
+    <ul>
+      <li><a href="#go-bin-rpm--help">go-bin-rpm -help</a></li>
+      <li><a href="#go-bin-rpm-generate-spec--help">go-bin-rpm generate-spec -help</a></li>
+      <li><a href="#go-bin-rpm-generate--help">go-bin-rpm generate -help</a></li>
+      <li><a href="#go-bin-rpm-test--help">go-bin-rpm test -help</a></li>
+    </ul>
+  </li>
+  <li><a href="#recipes">Recipes</a>
+    <ul>
+      <li><a href="#installing-generated-package">Installing generated package</a></li>
+      <li><a href="#vagrant-recipe">Vagrant recipe</a></li>
+      <li><a href="#travis-recipe">Travis recipe</a></li>
+      <li><a href="#useful-rpm-commands">useful rpm commands</a></li>
+      <li><a href="#readings-of-interest">Readings of interest</a></li>
+      <li><a href="#release-the-project">Release the project</a></li>
+    </ul>
+  </li>
+  <li><a href="#history">History</a></li>
+</ul>
+
+<h1 id="install">Install</h1>
+
+<p>Check the <a href="https://github.com/mh-cbon/go-bin-rpm/releases">release page</a>!</p>
+
+<h4 id="glide">Glide</h4>
+<div class="language-sh highlighter-rouge"><pre class="highlight"><code>mkdir -p <span class="nv">$GOPATH</span>/src/github.com/mh-cbon/go-bin-rpm
+<span class="nb">cd</span> <span class="nv">$GOPATH</span>/src/github.com/mh-cbon/go-bin-rpm
+git clone https://github.com/mh-cbon/go-bin-rpm.git .
+glide install
+go install
+</code></pre>
+</div>
+
+<h4 id="linux-rpmdeb-repository">linux rpm/deb repository</h4>
+<div class="language-sh highlighter-rouge"><pre class="highlight"><code>wget -O - https://raw.githubusercontent.com/mh-cbon/latest/master/source.sh <span class="se">\</span>
+| <span class="nv">GH</span><span class="o">=</span>mh-cbon/go-bin-rpm sh -xe
+<span class="c"># or</span>
+curl -L https://raw.githubusercontent.com/mh-cbon/latest/master/source.sh <span class="se">\</span>
+| <span class="nv">GH</span><span class="o">=</span>mh-cbon/go-bin-rpm sh -xe
+</code></pre>
+</div>
+
+<h4 id="linux-rpmdeb-standalone-package">linux rpm/deb standalone package</h4>
+<div class="language-sh highlighter-rouge"><pre class="highlight"><code>curl -L https://raw.githubusercontent.com/mh-cbon/latest/master/install.sh <span class="se">\</span>
+| <span class="nv">GH</span><span class="o">=</span>mh-cbon/go-bin-rpm sh -xe
+<span class="c"># or</span>
+wget -q -O - --no-check-certificate <span class="se">\</span>
+https://raw.githubusercontent.com/mh-cbon/latest/master/install.sh <span class="se">\</span>
+| <span class="nv">GH</span><span class="o">=</span>mh-cbon/go-bin-rpm sh -xe
+</code></pre>
+</div>
+
+<h1 id="usage">Usage</h1>
+
+<h3 id="requirements">Requirements</h3>
+
+<p>A centos/fedora/redhat system, vagrant, travis, docker, whatever.</p>
+
+<h3 id="workflow-overview">Workflow overview</h3>
+
+<p>To create a binary package you need to</p>
+
+<ul>
+  <li>build your application binaries</li>
+  <li>invoke <code class="highlighter-rouge">go-bin-rpm</code> to generate the package</li>
+  <li>create rpm repositories on <code class="highlighter-rouge">travis</code> hosted on <code class="highlighter-rouge">gh-pages</code> using this <a href="setup-repository.sh">script</a></li>
+</ul>
+
+<h3 id="json-file">Json file</h3>
+
+<p>For a real world example including service, shortcuts, env, see <a href="demo/rpm.json">this</a></p>
+
+<p>For a casual example to provide a simple binary, see <a href="rpm.json">this</a></p>
+
+<h1 id="cli">CLI</h1>
+<h4 id="go-bin-rpm--help">go-bin-rpm -help</h4>
+<div class="language-sh highlighter-rouge"><pre class="highlight"><code>NAME:
+   go-bin-rpm - Generate a binary rpm package
+
+USAGE:
+   go-bin-rpm &lt;cmd&gt; &lt;options&gt;
+   
+VERSION:
+   0.0.0
+   
+COMMANDS:
+     generate-spec  Generate the SPEC file
+     generate       Generate the package
+     <span class="nb">test           </span>Test the package json file
+     <span class="nb">help</span>, h        Shows a list of commands or <span class="nb">help </span><span class="k">for </span>one <span class="nb">command
+
+</span>GLOBAL OPTIONS:
+   --help, -h     show <span class="nb">help</span>
+   --version, -v  print the version
+</code></pre>
+</div>
+<h4 id="go-bin-rpm-generate-spec--help">go-bin-rpm generate-spec -help</h4>
+<div class="language-sh highlighter-rouge"><pre class="highlight"><code>NAME:
+   go-bin-rpm generate-spec - Generate the SPEC file
+
+USAGE:
+   go-bin-rpm generate-spec <span class="o">[</span><span class="nb">command </span>options] <span class="o">[</span>arguments...]
+
+OPTIONS:
+   --file value, -f value  Path to the rpm.json file <span class="o">(</span>default: <span class="s2">"rpm.json"</span><span class="o">)</span>
+   -a value, --arch value  Target architecture of the build
+   --version value         Target version of the build
+</code></pre>
+</div>
+<h4 id="go-bin-rpm-generate--help">go-bin-rpm generate -help</h4>
+<div class="language-sh highlighter-rouge"><pre class="highlight"><code>NAME:
+   go-bin-rpm generate - Generate the package
+
+USAGE:
+   go-bin-rpm generate <span class="o">[</span><span class="nb">command </span>options] <span class="o">[</span>arguments...]
+
+OPTIONS:
+   --file value, -f value        Path to the rpm.json file <span class="o">(</span>default: <span class="s2">"rpm.json"</span><span class="o">)</span>
+   -b value, --build-area value  Path to the build area <span class="o">(</span>default: <span class="s2">"pkg-build"</span><span class="o">)</span>
+   -a value, --arch value        Target architecture of the build
+   -o value, --output value      Output package to this path
+   --version value               Target version of the build
+</code></pre>
+</div>
+<h4 id="go-bin-rpm-test--help">go-bin-rpm test -help</h4>
+<div class="language-sh highlighter-rouge"><pre class="highlight"><code>NAME:
+   go-bin-rpm <span class="nb">test</span> - Test the package json file
+
+USAGE:
+   go-bin-rpm <span class="nb">test</span> <span class="o">[</span><span class="nb">command </span>options] <span class="o">[</span>arguments...]
+
+OPTIONS:
+   --file value, -f value  Path to the rpm.json file <span class="o">(</span>default: <span class="s2">"rpm.json"</span><span class="o">)</span>
+</code></pre>
+</div>
+
+<h1 id="recipes">Recipes</h1>
+
+<h3 id="installing-generated-package">Installing generated package</h3>
+
+<p><strong>TLDR</strong></p>
+
+<div class="language-sh highlighter-rouge"><pre class="highlight"><code><span class="c"># install</span>
+sudo rpm -ivh pkg.rpm
+<span class="c"># upgrade</span>
+sudo rpm -Uvh pkg.rpm
+<span class="c"># remove</span>
+sudo rpm -evv nx pkg.rpm
+</code></pre>
+</div>
+
+<h3 id="vagrant-recipe">Vagrant recipe</h3>
+
+<p>Please check the demo app <a href="demo/">here</a></p>
+
+<h3 id="travis-recipe">Travis recipe</h3>
+
+<ul>
+  <li>get a github repo</li>
+  <li>get a travis account</li>
+  <li>connect your github account to travis and register your repo</li>
+  <li>install travis client <code class="highlighter-rouge">gem install --user travis</code></li>
+  <li>run <code class="highlighter-rouge">travis encrypt --add -r YOUR_USERNAME/dummy GH_TOKEN=xxxx</code></li>
+  <li>run <code class="highlighter-rouge">travis setup releases</code></li>
+  <li>personalize the <code class="highlighter-rouge">.travis.yml</code></li>
+</ul>
+
+<div class="language-yml highlighter-rouge"><pre class="highlight"><code>  <span class="s">sudo</span><span class="pi">:</span> <span class="s">required</span>
+  <span class="s">services</span><span class="pi">:</span>
+  <span class="pi">-</span> <span class="s">docker</span>
+  <span class="s">language</span><span class="pi">:</span> <span class="s">go</span>
+  <span class="s">go</span><span class="pi">:</span>
+  <span class="pi">-</span> <span class="s">tip</span>
+  <span class="s">env</span><span class="pi">:</span>
+    <span class="s">global</span><span class="pi">:</span>
+    <span class="pi">-</span> <span class="s">MYAPP=dummy</span>
+    <span class="pi">-</span> <span class="s">MYEMAIL=some@email.com</span>
+    <span class="pi">-</span> <span class="s">secure</span><span class="pi">:</span> <span class="s">GH_TOKEN</span>
+  <span class="s">before_install</span><span class="pi">:</span>
+  <span class="pi">-</span> <span class="s">sudo apt-get -qq update</span>
+  <span class="pi">-</span> <span class="s">mkdir -p ${GOPATH}/bin</span>
+  <span class="s">install</span><span class="pi">:</span>
+  <span class="pi">-</span> <span class="s">cd $GOPATH/src/github.com/mh-cbon/$MYAPP</span>
+  <span class="pi">-</span> <span class="s">go install</span>
+  <span class="s">script</span><span class="pi">:</span> <span class="s">echo "pass"</span>
+  <span class="s">before_deploy</span><span class="pi">:</span>
+  <span class="pi">-</span> <span class="s">docker pull fedora</span>
+  <span class="pi">-</span> <span class="s">mkdir -p build/{386,amd64}</span>
+  <span class="pi">-</span> <span class="s">GOOS=linux GOARCH=386 go build --ldflags "-X main.VERSION=${TRAVIS_TAG}" -o build/386/$MYAPP</span>
+    <span class="s">main.go</span>
+  <span class="pi">-</span> <span class="s">GOOS=linux GOARCH=amd64 go build --ldflags "-X main.VERSION=${TRAVIS_TAG}" -o build/amd64/$MYAPP</span>
+    <span class="s">main.go</span>
+  <span class="pi">-</span> <span class="s">curl -L https://raw.githubusercontent.com/mh-cbon/go-bin-rpm/master/create-pkg.sh</span>
+    <span class="s">| GH=YOUR_USERNAME/$MYAPP sh -xe</span>
+  <span class="s">after_deploy</span><span class="pi">:</span>
+  <span class="pi">-</span> <span class="s">curl -L https://raw.githubusercontent.com/mh-cbon/go-bin-rpm/master/setup-repository.sh</span>
+    <span class="s">| GH=YOUR_USERNAME/$MYAPP EMAIL=$MYEMAIL sh -xe</span>
+  <span class="s">deploy</span><span class="pi">:</span>
+    <span class="s">provider</span><span class="pi">:</span> <span class="s">releases</span>
+    <span class="s">api_key</span><span class="pi">:</span>
+      <span class="s">secure</span><span class="pi">:</span> <span class="s">GH_TOKEN xxxx</span>
+    <span class="s">file_glob</span><span class="pi">:</span> <span class="s">true</span>
+    <span class="s">file</span><span class="pi">:</span>
+    <span class="pi">-</span> <span class="s">$MYAPP-386.rpm</span>
+    <span class="pi">-</span> <span class="s">$MYAPP-amd64.rpm</span>
+    <span class="s">skip_cleanup</span><span class="pi">:</span> <span class="s">true</span>
+    <span class="s">true</span><span class="pi">:</span>
+      <span class="s">tags</span><span class="pi">:</span> <span class="s">true</span>
+</code></pre>
+</div>
+
+<h3 id="useful-rpm-commands">useful rpm commands</h3>
+
+<div class="language-sh highlighter-rouge"><pre class="highlight"><code><span class="c"># check dependencies before install</span>
+rpm -qpR pkg.rpm
+<span class="c"># show info of a package before install</span>
+rpm -qip pkg.rpm
+<span class="c"># install with no dependencies</span>
+rpm -ivh --nodeps pkg.rpm
+<span class="c"># show info of installed package</span>
+rpm -qi pkg
+<span class="c"># check installed package</span>
+rpm -q pkg
+<span class="c"># list files of installed package</span>
+rpm -ql pkg
+</code></pre>
+</div>
+
+<h3 id="readings-of-interest">Readings of interest</h3>
+
+<ul>
+  <li>https://fedoraproject.org/wiki/Packaging:RPMMacros</li>
+  <li>http://www.rpm.org/max-rpm/s1-rpm-build-creating-spec-file.html</li>
+  <li>http://www.rpm.org/max-rpm/s1-rpm-inside-files-list-directives.html</li>
+  <li>http://www.rpm.org/max-rpm/s1-rpm-inside-scripts.html</li>
+  <li>http://www.rpm.org/max-rpm-snapshot/s1-rpm-depend-manual-dependencies.html</li>
+  <li>https://fedoraproject.org/wiki/PackagingDrafts:SystemdClarification#Packaging</li>
+  <li>https://fedoraproject.org/wiki/Packaging:Scriptlets?rd=Packaging:ScriptletSnippets#Systemd</li>
+  <li>https://fedoraproject.org/wiki/Packaging:Guidelines#BuildRequires_2</li>
+  <li>http://wiki.networksecuritytoolkit.org/nstwiki/index.php/RPM_Quick_Reference#Secret_.25pretrans_and_.25posttrans_RPM_Scriptlets</li>
+  <li>https://fedoraproject.org/wiki/Packaging:Scriptlets?rd=Packaging:ScriptletSnippets#desktop-database</li>
+  <li>https://fedoraproject.org/wiki/Archive:PackagingDrafts/DesktopVerify?rd=PackagingDrafts/DesktopVerify</li>
+  <li>https://fedoraproject.org/wiki/Archive:PackagingDrafts/DesktopFiles?rd=PackagingDrafts/DesktopFiles</li>
+</ul>
+
+<h3 id="release-the-project">Release the project</h3>
+
+<div class="language-sh highlighter-rouge"><pre class="highlight"><code>gump patch -d <span class="c"># check</span>
+gump patch <span class="c"># bump</span>
+</code></pre>
+</div>
+
+<h1 id="history">History</h1>
+
+<p><a href="CHANGELOG.md">CHANGELOG</a></p>
+
+
+      <footer class="site-footer">
+  <span class="site-footer-owner"><a href="">go-bin-rpm</a> is maintained by <a href="https://github.com/mh-cbon">mh-cbon</a>.</span>
+  <span class="site-footer-credits">This page was generated by <a href="https://pages.github.com">GitHub Pages</a>.</span>
+</footer>
+
+
+    </section>
+
+  </body>
+</html>
