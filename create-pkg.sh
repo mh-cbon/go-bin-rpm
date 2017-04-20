@@ -76,7 +76,7 @@ EOT
 set -x
 
 buildir="/gopath/src/github.com/${GH}"
-docker run -v $PWD/../:${buildir} fedora /bin/sh -c "cd ${buildir} && sh ./docker.sh"
+docker run -v $PWD/:${buildir} fedora /bin/sh -c "cd ${buildir} && sh ./docker.sh"
 # sudo chown travis:travis *-*.rpm
 
 rm -fr docker.sh
