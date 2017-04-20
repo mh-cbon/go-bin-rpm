@@ -71,7 +71,7 @@ export GOPATH=/gopath/
 export PATH=\$PATH:/\$GOPATH/bin
 
 mkdir -p \$GOPATH/src/github.com/${GH}/
-cp -R /docker/* \$GOPATH/src/github.com/${GH}/*
+cp -R /docker/* \$GOPATH/src/github.com/${GH}
 
 ls -al \$GOPATH/src/github.com/${GH}/*
 
