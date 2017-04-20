@@ -1,8 +1,0 @@
-.vagrant
-/demo/*.rpm
-/demo/build
-/demo/pkg-build
-/demo/go-bin-rpm
-/demo/.vagrant
-/vendor/
-/.glide
