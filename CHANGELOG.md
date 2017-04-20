@@ -1,5 +1,22 @@
 # Changelog - go-bin-rpm
 
+### 0.0.16
+
+__Changes__
+
+- utils: updated utility scripts
+- spec generation: the spec generation does not fail anymore if the build area does not exists,
+  this helps to preview the spec file
+- travis: update deploy token
+
+__Contributors__
+
+- mh-cbon
+
+Released by mh-cbon, Thu 20 Apr 2017 -
+[see the diff](https://github.com/mh-cbon/go-bin-rpm/compare/0.0.16-beta1...0.0.16#diff)
+______________
+
 ### 0.0.16-beta1
 
 __Changes__
