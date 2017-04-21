@@ -24,6 +24,7 @@ rm -fr docker.sh
 TRAVIS_BUILD_DIR="/gopath/src/github.com/${GH}"
 cat <<EOT > docker.sh
 set -x
+set -e
 if type "dnf" > /dev/null; then
   if type "sudo" > /dev/null; then
     sudo dnf install wget curl git -y --quiet
