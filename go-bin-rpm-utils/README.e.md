@@ -18,6 +18,15 @@ vagrant up
 
 vagrant rsync && vagrant ssh -c "export GH_TOKEN=$GH_TOKEN; sh /vagrant/vagrant-run.sh"
 
+vagrant ssh -c 'curl -L https://raw.githubusercontent.com/mh-cbon/latest/master/install.sh | GH=mh-cbon/go-bin-rpm sh -xe'
+vagrant ssh -c 'go-bin-rpm -v'
+vagrant ssh -c 'which go-bin-rpm'
+vagrant ssh -c 'sudo yum remove go-bin-rpm -y'
+vagrant ssh -c 'curl -L https://raw.githubusercontent.com/mh-cbon/latest/master/source.sh | GH=mh-cbon/go-bin-rpm sh -xe'
+vagrant ssh -c 'go-bin-rpm -v'
+vagrant ssh -c 'which go-bin-rpm'
+vagrant ssh -c 'sudo yum remove go-bin-rpm -y'
+
 vagrant destroy -f
 ```
 
