@@ -27,15 +27,15 @@ set -x
 set -e
 if type "dnf" > /dev/null; then
   if type "sudo" > /dev/null; then
-    sudo dnf install wget curl git -y --quiet
+    sudo dnf install wget curl git -y
   else
-    dnf install wget curl git -y --quiet
+    dnf install wget curl git -y
   fi
 else
   if type "sudo" > /dev/null; then
-    sudo yum install wget curl git -y --quiet
+    sudo yum install wget curl git -y
   else
-    yum install wget curl git -y --quiet
+    yum install wget curl git -y
   fi
 fi
 
