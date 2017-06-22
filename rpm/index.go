@@ -102,9 +102,6 @@ func (p *Package) Normalize(arch string, version string) error {
 	p.ChangelogFile = replaceTokens(p.ChangelogFile, tokens)
 	p.ChangelogCmd = replaceTokens(p.ChangelogCmd, tokens)
 
-	if p.Release == "" {
-		p.Release = "1"
-	}
 	if p.Version == "" {
 		p.Version = version
 	}
