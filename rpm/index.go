@@ -46,6 +46,7 @@ type Package struct {
 	Conflicts     []string          `json:"conflicts,omitempty"`
 	Envs          map[string]string `json:"envs,omitempty"`
 	Menus         []menu            `json:"menus"`
+	AutoReqProv   string            `json:"auto-req-prov",omitempty`
 }
 
 type fileInstruction struct {
@@ -182,6 +183,7 @@ func (p *Package) Normalize(arch string, version string) error {
 	logger.Printf("p.Envs=%s\n", p.Envs)
 	logger.Printf("p.Requires=%s\n", p.Requires)
 	logger.Printf("p.BuildRequires=%s\n", p.BuildRequires)
+	logger.Printf("p.AutoReqProv=%s\n", p.AutoReqProv)
 	return nil
 }
 
