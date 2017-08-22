@@ -37,16 +37,14 @@ func SetupRepo(reposlug, ghToken, email, version, archs, outbuild string, push, 
 	tryexec(`git remote -vv`)
 	tryexec(`git branch -aav`)
 	getBranchGit(repoPath, reposlug, "gh-pages", "rpmorigin")
+	defer tryexec(`git remote rm rpmorigin`)
 	tryexec(`git remote -vv`)
 	tryexec(`git branch -aav`)
+
 	resetGit(repoPath)
 	exec(`git status`)
 
-	tryexec(`ls -al`)
-
 	for _, arch := range strings.Split(archs, ",") {
-
-		chdir(repoPath)
 
 		darch := arch
 		if darch == "386" {
@@ -62,6 +60,7 @@ func SetupRepo(reposlug, ghToken, email, version, archs, outbuild string, push, 
 
 		chdir(archOut)
 		exec(`createrepo .`)
+		tryexec("ls -al")
 	}
 
 	chdir(repoPath)
