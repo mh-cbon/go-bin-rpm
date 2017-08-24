@@ -1,5 +1,32 @@
 # Changelog - go-bin-rpm
 
+### 1.0.0
+
+__Changes__
+
+- #3: generate --output flag is required
+- #6: improve --output flag description
+- documentation: add (json file tokens description)[https://github.com/mh-cbon/go-bin-rpm#json-tokens]
+- Added new field:  AutoReqProv
+
+  To disable automatic dependency processing,
+  set the root field "auto-req-prov" to "no"
+
+  References:
+  https://wiki.linuxfoundation.org/en/RpmExamples
+  http://ftp.rpm.org/max-rpm/s1-rpm-depend-auto-depend.html
+
+
+
+__Contributors__
+
+- mh-cbon
+- solvingJ
+
+Released by mh-cbon, Thu 24 Aug 2017 -
+[see the diff](https://github.com/mh-cbon/go-bin-rpm/compare/0.0.16...1.0.0#diff)
+______________
+
 ### 0.0.16
 
 __Changes__
