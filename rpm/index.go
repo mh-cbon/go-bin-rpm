@@ -318,17 +318,17 @@ func (p *Package) GenerateSpecFile(sourceDir string) (string, error) {
 	spec += fmt.Sprintf("\n%%prep\n")
 	spec += fmt.Sprintf("\n%%build\n")
 	spec += fmt.Sprintf("\n%%install\n")
-	if install, err := p.GenerateInstallSection(sourceDir); err != nil {
+	install, err := p.GenerateInstallSection(sourceDir)
+	if err != nil {
 		return "", errors.WithStack(err)
-	} else {
-		spec += fmt.Sprintf("%s\n", install)
 	}
+	spec += fmt.Sprintf("%s\n", install)
 	spec += fmt.Sprintf("\n%%files\n")
-	if files, err := p.GenerateFilesSection(sourceDir); err != nil {
+	files, err := p.GenerateFilesSection(sourceDir)
+	if err != nil {
 		return "", errors.WithStack(err)
-	} else {
-		spec += fmt.Sprintf("%s\n", files)
 	}
+	spec += fmt.Sprintf("%s\n", files)
 	spec += fmt.Sprintf("\n%%clean\n")
 	shortcutInstall := "\n"
 	for _, menu := range p.Menus {
@@ -356,11 +356,11 @@ func (p *Package) GenerateSpecFile(sourceDir string) (string, error) {
 		spec += fmt.Sprintf("\n%%verifyscript\n%s\n", content)
 	}
 	spec += fmt.Sprintf("\n%%changelog\n")
-	if content, err := p.GetChangelogContent(); err != nil {
+	content, err := p.GetChangelogContent()
+	if err != nil {
 		return "", errors.WithStack(err)
-	} else {
-		spec += fmt.Sprintf("%s\n", content)
 	}
+	spec += fmt.Sprintf("%s\n", content)
 
 	return spec, nil
 }
@@ -690,9 +690,9 @@ func cp(dst, src string) error {
 }
 
 func readFile(src string) string {
-	if c, err := ioutil.ReadFile(src); err != nil {
+	c, err := ioutil.ReadFile(src)
+	if err != nil {
 		return ""
-	} else {
-		return string(c)
 	}
+	return string(c)
 }
