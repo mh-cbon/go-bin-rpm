@@ -108,7 +108,7 @@ USAGE:
    go-bin-rpm <cmd> <options>
    
 VERSION:
-   0.0.0
+   1.0.0
    
 COMMANDS:
      generate-spec  Generate the SPEC file
