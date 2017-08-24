@@ -5,6 +5,24 @@ Installed-Size: 3.3 kB
 Maintainer: mh-cbon <mh-cbon@users.noreply.github.com>
 Architecture: i386
 Source: go-bin-rpm
+Version: 1.0.0
+Filename: pool/contrib/g/go-bin-rpm/go-bin-rpm-1.0.0_386.deb
+Size: 1004062
+MD5sum: af6c35ecac8bbf082fc9cf49eff1289e
+SHA1: 713559192122daed94453dfacebdeba67d5002e0
+SHA256: d0fa3a8d8c2b2fbb6df7e87529508932ba2477722d6d678e3c70c9c9c7ea709b
+SHA512: e3d887bf646ba12bef3ce415bdb0ee38f5ade4ea3bf4b35d09194d108b98a26b9d64fe492f3e12c515dc2f6b862d9319c29b0cd200a811ea2eab0a96a63b0c5c
+Description: Create binary rpm package with ease
+Package-Type: deb
+Homepage: http://github.com/mh-cbon/go-bin-rpm
+
+Package: go-bin-rpm
+Priority: extra
+Section: unknown
+Installed-Size: 3.3 kB
+Maintainer: mh-cbon <mh-cbon@users.noreply.github.com>
+Architecture: i386
+Source: go-bin-rpm
 Version: 0.0.16-beta1
 Filename: pool/contrib/g/go-bin-rpm/go-bin-rpm-0.0.16-beta1_386.deb
 Size: 1003816
@@ -49,8 +67,8 @@ SHA1: d1733f607a0408ec2bda72a778979c283810d6aa
 SHA256: 12d36f7d887f0e010f7145c305e1e104c58e1ee7ef0f1704b05c6856611761f8
 SHA512: 52deed2067694474bc2c0c9d972aa7244e07cb467320fae04486fa6f669ba82c09a4f85b057ba8a9ad1f833985ee3c1f28917c65b66b479ee7ede0651e93d542
 Description: Create binary rpm package with ease
-Package-Type: deb
 Homepage: http://github.com/mh-cbon/go-bin-rpm
+Package-Type: deb
 
 Package: go-bin-rpm
 Priority: extra
@@ -67,8 +85,8 @@ SHA1: 971fc42acdc5ee0147b5880ae56094da1e541721
 SHA256: 486269244e0137fb26230d8b6557f53b960955c8d1b72016e3da6d99448418b2
 SHA512: 36acc72891fa5f8911b12e7c011295094828dc73bc74f00e439bfb826268c057bd9c107eeef521dd982cba1be78531febe33eb946a7c8efab5a69370f0646f4c
 Description: Create binary rpm package with ease
-Homepage: http://github.com/mh-cbon/go-bin-rpm
 Package-Type: deb
+Homepage: http://github.com/mh-cbon/go-bin-rpm
 
 Package: go-bin-rpm
 Priority: extra
@@ -85,8 +103,8 @@ SHA1: 38ed43301f313160283d444e79180f2ab264727f
 SHA256: 4e4b094b081939c9a42df944d9872905c9d7a92b49caf4c2d366cb50e4746bc0
 SHA512: b080489a54d2003df2c25ef375a962a37441ce00446d21a15b34cfa71dc902600c5c27cd8f7b04be4fde7508b833bcb6a841b387538dd1eac3ccc3b0d7b3f076
 Description: Create binary rpm package with ease
-Package-Type: deb
 Homepage: http://github.com/mh-cbon/go-bin-rpm
+Package-Type: deb
 
 Package: go-bin-rpm
 Priority: extra
