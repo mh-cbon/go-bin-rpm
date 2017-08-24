@@ -46,7 +46,7 @@ type Package struct {
 	Conflicts     []string          `json:"conflicts,omitempty"`
 	Envs          map[string]string `json:"envs,omitempty"`
 	Menus         []menu            `json:"menus"`
-	AutoReqProv   string            `json:"auto-req-prov",omitempty`
+	AutoReqProv   string            `json:"auto-req-prov,omitempty"`
 }
 
 type fileInstruction struct {
