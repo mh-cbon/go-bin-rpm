@@ -25,7 +25,7 @@
       
       <h1 id="go-bin-rpm">go-bin-rpm</h1>
 
-<p><a href="https://travis-ci.org/mh-cbon/go-bin-rpm"><img src="https://travis-ci.org/mh-cbon/go-bin-rpm.svg?branch=master" alt="travis Status" /></a> <a href="https://goreportcard.com/report/github.com/mh-cbon/go-bin-rpm"><img src="https://goreportcard.com/badge/github.com/mh-cbon/go-bin-rpm" alt="Go Report Card" /></a> <a href="http://godoc.org/github.com/mh-cbon/go-bin-rpm"><img src="https://godoc.org/github.com/mh-cbon/go-bin-rpm?status.svg" alt="GoDoc" /></a> [![<no value=""> License](http://img.shields.io/badge/License-<no value="">-blue.svg)](LICENSE)</no></no></p>
+<p><a href="https://travis-ci.org/mh-cbon/go-bin-rpm"><img src="https://travis-ci.org/mh-cbon/go-bin-rpm.svg?branch=master" alt="travis Status" /></a> <a href="https://goreportcard.com/report/github.com/mh-cbon/go-bin-rpm"><img src="https://goreportcard.com/badge/github.com/mh-cbon/go-bin-rpm" alt="Go Report Card" /></a> <a href="http://godoc.org/github.com/mh-cbon/go-bin-rpm"><img src="https://godoc.org/github.com/mh-cbon/go-bin-rpm?status.svg" alt="GoDoc" /></a> <a href="../LICENSE"><img src="http://img.shields.io/badge/License-MIT-yellow.svg" alt="MIT License" /></a></p>
 
 <p>Create binary rpm package with ease</p>
 
@@ -52,6 +52,7 @@ to invoke <code class="highlighter-rouge">rpmbuild</code> and build the package.
       <li><a href="#json-file">Json file</a></li>
     </ul>
   </li>
+  <li><a href="#json-tokens">JSON tokens</a></li>
   <li><a href="#cli">CLI</a>
     <ul>
       <li><a href="#go-bin-rpm--help">go-bin-rpm -help</a></li>
@@ -127,6 +128,37 @@ https://raw.githubusercontent.com/mh-cbon/latest/master/install.sh <span class="
 
 <p>For a casual example to provide a simple binary, see <a href="rpm.json">this</a></p>
 
+<h2 id="json-tokens">JSON tokens</h2>
+
+<p>Several tokens are provided to consume into the JSON file.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>name</th>
+      <th>description</th>
+      <th>example</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>!version!</strong></td>
+      <td>The <code class="highlighter-rouge">version</code> number provided in the command line, or in the JSON file.</td>
+      <td>1.0.2</td>
+    </tr>
+    <tr>
+      <td><strong>!arch!</strong></td>
+      <td>The <code class="highlighter-rouge">architecture</code> short name provided in the command line or in the JSON file.</td>
+      <td>amd64</td>
+    </tr>
+    <tr>
+      <td><strong>!name!</strong></td>
+      <td>The <code class="highlighter-rouge">name</code> of the project provided in the JSON file.</td>
+      <td>hello</td>
+    </tr>
+  </tbody>
+</table>
+
 <h1 id="cli">CLI</h1>
 <h4 id="go-bin-rpm--help">go-bin-rpm -help</h4>
 <div class="language-sh highlighter-rouge"><pre class="highlight"><code>NAME:
@@ -136,7 +168,7 @@ USAGE:
    go-bin-rpm &lt;cmd&gt; &lt;options&gt;
    
 VERSION:
-   0.0.0
+   1.0.0
    
 COMMANDS:
      generate-spec  Generate the SPEC file
@@ -173,7 +205,7 @@ OPTIONS:
    --file value, -f value        Path to the rpm.json file <span class="o">(</span>default: <span class="s2">"rpm.json"</span><span class="o">)</span>
    -b value, --build-area value  Path to the build area <span class="o">(</span>default: <span class="s2">"pkg-build"</span><span class="o">)</span>
    -a value, --arch value        Target architecture of the build
-   -o value, --output value      Output package to this path
+   -o value, --output value      File path to the resulting rpm file
    --version value               Target version of the build
 </code></pre>
 </div>
