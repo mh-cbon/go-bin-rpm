@@ -17,6 +17,11 @@ ls -alh
 VERBOSE=* ./go-bin-rpm generate -a amd64 --version 0.0.1 -b pkg-build/amd64/ -o hello-amd64.rpm
 ls -alh
 
+mkdir tomate
+VERBOSE=* ./go-bin-rpm generate -a amd64 --version 0.0.1 -b pkg-build/amd64/ -o tomate/hello-amd64.rpm
+ls -alh
+ls -alh tomate
+
 # remove the package
 sudo rpm -e hello || echo "ok"
 

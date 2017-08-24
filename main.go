@@ -67,7 +67,7 @@ func main() {
 				cli.StringFlag{
 					Name:  "o, output",
 					Value: "",
-					Usage: "Output package to this path",
+					Usage: "File path to the resulting rpm file",
 				},
 				cli.StringFlag{
 					Name:  "version",
@@ -108,11 +108,11 @@ func generateSpec(c *cli.Context) error {
 		return cli.NewExitError(err.Error(), 1)
 	}
 
-	if spec, err := rpmJSON.GenerateSpecFile(""); err != nil {
+	spec, err := rpmJSON.GenerateSpecFile("")
+	if err != nil {
 		return cli.NewExitError(err.Error(), 1)
-	} else {
-		fmt.Printf("%s", spec)
 	}
+	fmt.Printf("%s", spec)
 
 	return nil
 }

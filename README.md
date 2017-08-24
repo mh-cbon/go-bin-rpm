@@ -145,7 +145,7 @@ OPTIONS:
    --file value, -f value        Path to the rpm.json file (default: "rpm.json")
    -b value, --build-area value  Path to the build area (default: "pkg-build")
    -a value, --arch value        Target architecture of the build
-   -o value, --output value      Output package to this path
+   -o value, --output value      File path to the resulting rpm file
    --version value               Target version of the build
 ```
 #### go-bin-rpm test -help
