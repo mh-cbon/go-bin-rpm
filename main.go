@@ -126,6 +126,10 @@ func generatePkg(c *cli.Context) error {
 	buildArea := c.String("build-area")
 	output := c.String("output")
 
+	if output == "" {
+		return cli.NewExitError("--output,-o argument is required", 1)
+	}
+
 	rpmJSON := rpm.Package{}
 
 	if err3 := rpmJSON.Load(file); err3 != nil {
