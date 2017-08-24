@@ -21,6 +21,7 @@ See [the demo](demo/).
   - [Requirements](#requirements)
   - [Workflow overview](#workflow-overview)
   - [Json file](#json-file)
+- [JSON tokens](#json-tokens)
 - [CLI](#cli)
   - [go-bin-rpm -help](#go-bin-rpm--help)
   - [go-bin-rpm generate-spec -help](#go-bin-rpm-generate-spec--help)
@@ -86,6 +87,16 @@ To create a binary package you need to
 For a real world example including service, shortcuts, env, see [this](demo/rpm.json)
 
 For a casual example to provide a simple binary, see [this](rpm.json)
+
+## JSON tokens
+
+Several tokens are provided to consume into the JSON file.
+
+|name|description|example|
+| --- | --- | -- |
+|__!version!__|The `version` number provided in the command line, or in the JSON file.|1.0.2|
+|__!arch!__|The `architecture` short name provided in the command line or in the JSON file.|amd64|
+|__!name!__|The `name` of the project provided in the JSON file.|hello|
 
 # CLI
 #### go-bin-rpm -help
