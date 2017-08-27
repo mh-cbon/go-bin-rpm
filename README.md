@@ -226,7 +226,7 @@ Please check the demo app [here](demo/)
   - cp $GOPATH/bin/go-bin-rpm tmp
   - |
     docker run -v $PWD:/mnt/travis fedora /bin/sh -c "cd /mnt/travis && (curl -s -L https://bintray.com/bincrafters/public-rpm/rpm > /etc/yum.repos.d/w.repo) && dnf install changelog rpm-build -y --quiet && ./tmp generate --file rpm.json -a $OSARCH --version $VERSION -o $APP-$OSARCH-$VERSION.rpm"
-  - rpm -f tmp
+  - rm -f ./tmp
   - cp $GH_APP-$OSARCH.rpm $GH_APP-$OSARCH-$VERSION.rpm
   - curl -fL https://getcli.jfrog.io | sh
   - (yes n | ./jfrog bt pc --key=$BTKEY --user=$GH_USER --licenses=MIT --vcs-url=https://github.com/$GH_USER/rpm

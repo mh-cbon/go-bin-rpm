@@ -54,5 +54,6 @@ deploy:
   file:
     - $GH_APP-$OSARCH.rpm
   skip_cleanup: true
+  overwrite: true
   on:
     tags: true
