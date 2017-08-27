@@ -223,7 +223,7 @@ Please check the demo app [here](demo/)
     main.go
   - curl -L https://raw.githubusercontent.com/mh-cbon/go-bin-rpm/master/create-pkg.sh
     | GH=${TRAVIS_REPO_SLUG} sh -xe
-  - cp $GH_APP-$OSARCH-$VERSION.deb $GH_APP-$OSARCH.rpm
+  - cp $GH_APP-$OSARCH.rpm $GH_APP-$OSARCH-$VERSION.rpm
   - curl -fL https://getcli.jfrog.io | sh
   - (yes n | ./jfrog bt pc --key=$BTKEY --user=$GH_USER --licenses=MIT --vcs-url=https://github.com/$GH_USER/rpm
     $GH_USER/rpm/$GH_APP) || echo "package already exists"
