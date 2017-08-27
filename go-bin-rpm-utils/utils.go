@@ -151,7 +151,9 @@ var alwaysHide = map[string]string{}
 
 func clean(s string) string {
 	for search, replace := range alwaysHide {
-		s = strings.Replace(s, search, replace, -1)
+		if search != "" {
+			s = strings.Replace(s, search, replace, -1)
+		}
 	}
 	return s
 }
