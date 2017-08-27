@@ -212,7 +212,7 @@ Please check the demo app [here](demo/)
   - cd ~
   - curl https://glide.sh/get | sh
   install:
-  - cd $GOPATH/src/github.com/$GH
+  - cd $GOPATH/src/github.com/${TRAVIS_REPO_SLUG}
   - glide install
   - go install
   script: echo "pass"
@@ -222,7 +222,7 @@ Please check the demo app [here](demo/)
   - GOOS=linux GOARCH=$GOARCH go build --ldflags "-X main.VERSION=$VERSION" -o build/$OSARCH/$GH_APP
     main.go
   - curl -L https://raw.githubusercontent.com/mh-cbon/go-bin-rpm/master/create-pkg.sh
-    | GH=$GH sh -xe
+    | GH=${TRAVIS_REPO_SLUG} sh -xe
   - cp $GH_APP-$OSARCH-$VERSION.deb $GH_APP-$OSARCH.rpm
   - curl -fL https://getcli.jfrog.io | sh
   - (yes n | ./jfrog bt pc --key=$BTKEY --user=$GH_USER --licenses=MIT --vcs-url=https://github.com/$GH_USER/rpm
