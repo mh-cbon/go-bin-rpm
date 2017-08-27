@@ -27,8 +27,12 @@ func setupGitRepo(repoPath, reposlug, user, email string) {
 		mkdirAll(repoPath)
 		chdir(repoPath)
 		exec(`git clone https://github.com/%v.git .`, reposlug)
-		exec(`git config user.name %v`, user)
-		exec(`git config user.email %v`, email)
+		if user != "" {
+			exec(`git config user.name %v`, user)
+		}
+		if email != "" {
+			exec(`git config user.email %v`, email)
+		}
 	}
 }
 

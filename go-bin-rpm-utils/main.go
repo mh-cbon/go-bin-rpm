@@ -47,14 +47,19 @@ func main() {
 
 	// integrity check
 	requireArg(reposlug, "repo", "REPO")
-	requireArg(ghToken, "ghToken", "GH_TOKEN")
-	requireArg(email, "email", "EMAIL", "MYEMAIL")
+	if *push {
+		requireArg(ghToken, "ghToken", "GH_TOKEN")
+	}
+	// requireArg(email, "email", "EMAIL", "MYEMAIL")
+
 	if isTravis() {
 		requireArg(version, "version", "TRAVIS_TAG")
 		requireArg(out, "out", "TRAVIS_BUILD_DIR")
+
 	} else if isVagrant() {
 		requireArg(version, "version", "VERSION")
 		requireArg(out, "out", "BUILD_DIR")
+
 	} else {
 		panic("nop, no such ci system...")
 	}
