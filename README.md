@@ -241,6 +241,7 @@ Please check the demo app [here](demo/)
     file:
     - $GH_APP-$OSARCH.rpm
     skip_cleanup: true
+    overwrite: true
     true:
       tags: true
 ```
