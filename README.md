@@ -31,6 +31,10 @@ See [the demo](demo/).
   - [Installing generated package](#installing-generated-package)
   - [Vagrant recipe](#vagrant-recipe)
   - [Travis recipe](#travis-recipe)
+  - [useful rpm commands](#useful-rpm-commands)
+  - [Readings of interest](#readings-of-interest)
+  - [Release the project](#release-the-project)
+- [History](#history)
 
 # Install
 
@@ -185,3 +189,101 @@ Please check the demo app [here](demo/)
 - run `travis setup releases`
 - personalize the `.travis.yml`
 
+```yml
+  sudo: required
+  services:
+  - docker
+  language: go
+  go:
+  - 1.8
+  - 1.9
+  env:
+    matrix:
+    - GOARCH=amd64 OSARCH=amd64
+    - GOARCH=386 OSARCH=i386
+    global:
+    - VERSION=${TRAVIS_TAG}
+    - GH_USER=${TRAVIS_REPO_SLUG%/*}
+    - GH_APP=${TRAVIS_REPO_SLUG#*/}
+    - secure: tpmaKcPlC2u8PhuQA7+zcufyQcV10aR2oTFu7MVJ4l3O4xS4Ux580ZQy+wsAKhxEaST2nz9CkkaL4lv3BtadbBAfEPiZUmfr9uYspE3SwAI38NwDuuiWxSaWn6qoZT9vpgGYHs0C/sYfY5s5RJZgPuxmmnSH4OgRo95m9UmZoGOybuNzC2qZmPDyyuN8AeW3P/iO88k9ocguMIIuGUbWtVz13ZzZIV6XVR5Vm2aPFIRZPHRsEa3Ok22E/XioSKxXU7VPNCtBbY3KTTSy0FKe/NlEg6aMmVRbFO9Loujs4eqRyu+BixfqpILGICNica632I3ZGmW+Bz1vbzoVW3qylZkB3VkNTw5mGBA6AghC9v/dZZlu87ZAS4kyo2cEVANHfb9qpXSAuhRDsNNLpX1lNtEnIAsGI3Xpea2vDYVFnKNjxnLbUohoP9PAdDga5dL+MqlaXbWMUIZ5vhYMS6W0l7X+Y2/9Ih9dbAVFEwdhivMcYoewhV7cscpgNf+fmcfkMnRfPldkmjPiXWSCe4/jgYZuPuBzp4KybQz5OFLVmoO8u3PEPDhl4siw7n/5jES2aE452VYHlnXeGe84bthGgNeYynwgbV8lHk2MkzbZKd2lzpYqrJv2khNU5ABysvXPmFGVvpb8m0A52TdtdeU04mmnZhkGiddFEJVVIBAIWI0=
+  before_install:
+  - sudo apt-get -qq update
+  - mkdir -p ${GOPATH}/bin
+  - cd ~
+  - curl https://glide.sh/get | sh
+  install:
+  - cd $GOPATH/src/github.com/${TRAVIS_REPO_SLUG}
+  - glide install
+  - go install
+  script: echo "pass"
+  before_deploy:
+  - docker pull fedora
+  - mkdir -p build/$OSARCH
+  - GOOS=linux GOARCH=$GOARCH go build --ldflags "-X main.VERSION=$VERSION" -o build/$OSARCH/$GH_APP
+    main.go
+  - curl -L https://raw.githubusercontent.com/mh-cbon/go-bin-rpm/master/create-pkg.sh
+    | GH=${TRAVIS_REPO_SLUG} sh -xe
+  - cp $GOPATH/bin/go-bin-rpm tmp
+  - |
+    docker run -v $PWD:/mnt/travis fedora /bin/sh -c "cd /mnt/travis && wget https://bintray.com/bincrafters/public-rpm/rpm -O /etc/yum.repos.d/w.repo && dnf install rpm-build -y --quiet && ./tmp generate --file rpm.json -a $OSARCH --version $VERSION -o $APP-$OSARCH-$VERSION.rpm"
+  - rpm -f tmp
+  - cp $GH_APP-$OSARCH.rpm $GH_APP-$OSARCH-$VERSION.rpm
+  - curl -fL https://getcli.jfrog.io | sh
+  - (yes n | ./jfrog bt pc --key=$BTKEY --user=$GH_USER --licenses=MIT --vcs-url=https://github.com/$GH_USER/rpm
+    $GH_USER/rpm/$GH_APP) || echo "package already exists"
+  - ./jfrog bt upload --override=true --key $BTKEY --publish=true --deb=unstable/main/$OSARCH
+    $GH_APP-$OSARCH-$VERSION.rpm $GH_USER/rpm/$GH_APP/$VERSION pool/g/$GH_APP/
+  deploy:
+    provider: releases
+    api_key:
+      secure: CY2nebPdr2CSCZW34QCtlw/IdbaHl5T77xPFlmvXB2Z+0SnO0RTW7JvFMa2mDYxa6ibZ6dR2br9YwdgJYnqV+PnXCizvZ5KPqpHxE31ta4s1IokZr+v9J+deGvUdk60oF5mxkqcGgAtScEGC5ZVJ/0EqAn64o4+H3fOQfA1pYTpzUBL/c9yUNqAFLFDVXz1sd7eSccPwf1uthdhndybMgatogfQuUBmm3vNJYYheAF8XCimBmrsIkPed+OKfhkDqUCTdgSTOQWvv0Uf8ib5VUH0w+UV8Wx69/KNKVhp/f7Nhf6GCKT1AKh/fQxjpRaWdkQLsn7nqPVuF0dHYV/mtdo4EP0FDj+2a3LvtGpEst90Mo0SRzauhqCQqCopyOf3JKkKPqTyMRDKAzYWAymjeLGaPda4wOxNROWV7yBuXNTTUmU2GDPUMULnLA7v+0ml6wd3gGCOMU5It8Iynkuxts8ATlpa0qels3memQITfhkTdR3CFT2mr/frkDiVOtqnp6BJoQIjhSMXoMRfnSpnNOszsiLNa9pM+hNG3HeZN0MQ+gTlRgqmTSitvllr751oUhgNzjv35FDxaywFwKlqtaJfX9UVCLxcBTvDcP4ZKHJRbgFOmffv2mnKi1S8K26LUkuLZDKvCZgrw8iM1KjvPX/GP9tXaxgLrfsfQOcOGGGs=
+    file_glob: true
+    file:
+    - $GH_APP-$OSARCH.rpm
+    skip_cleanup: true
+    true:
+      tags: true
+```
+
+### useful rpm commands
+
+```sh
+# check dependencies before install
+rpm -qpR pkg.rpm
+# show info of a package before install
+rpm -qip pkg.rpm
+# install with no dependencies
+rpm -ivh --nodeps pkg.rpm
+# show info of installed package
+rpm -qi pkg
+# check installed package
+rpm -q pkg
+# list files of installed package
+rpm -ql pkg
+```
+
+### Readings of interest
+
+- https://fedoraproject.org/wiki/Packaging:RPMMacros
+- http://www.rpm.org/max-rpm/s1-rpm-build-creating-spec-file.html
+- http://www.rpm.org/max-rpm/s1-rpm-inside-files-list-directives.html
+- http://www.rpm.org/max-rpm/s1-rpm-inside-scripts.html
+- http://www.rpm.org/max-rpm-snapshot/s1-rpm-depend-manual-dependencies.html
+- https://fedoraproject.org/wiki/PackagingDrafts:SystemdClarification#Packaging
+- https://fedoraproject.org/wiki/Packaging:Scriptlets?rd=Packaging:ScriptletSnippets#Systemd
+- https://fedoraproject.org/wiki/Packaging:Guidelines#BuildRequires_2
+- http://wiki.networksecuritytoolkit.org/nstwiki/index.php/RPM_Quick_Reference#Secret_.25pretrans_and_.25posttrans_RPM_Scriptlets
+- https://fedoraproject.org/wiki/Packaging:Scriptlets?rd=Packaging:ScriptletSnippets#desktop-database
+- https://fedoraproject.org/wiki/Archive:PackagingDrafts/DesktopVerify?rd=PackagingDrafts/DesktopVerify
+- https://fedoraproject.org/wiki/Archive:PackagingDrafts/DesktopFiles?rd=PackagingDrafts/DesktopFiles
+
+### Release the project
+
+```sh
+gump patch -d # check
+gump patch # bump
+```
+
+# History
+
+[CHANGELOG](CHANGELOG.md)
