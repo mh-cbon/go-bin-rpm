@@ -6,16 +6,17 @@ services:
 language: go
 go:
   - 1.8
+  - 1.9
 
 env:
+  matrix:
+    - GOARCH=amd64 OSARCH=amd64
+    - GOARCH=386 OSARCH=i386
   global:
-    - EMAIL=mh-cbon@users.noreply.github.com
-    - GH=mh-cbon/go-bin-rpm
-    - APP=go-bin-rpm
-    - JEKYLL=pietromenna/jekyll-cayman-theme
-    - MYAPP=go-bin-rpm # to clean
-    - MYEMAIL=mh-cbon@users.noreply.github.com # to clean
-    - secure: rfRfywZnEhM8QZhl8+E1TnXMtpgJav1n07J37cejuuO/jmUl13mPgH5BkynS60Z4zafiLmfKg88Y/sMHe9wmPCtG6NvhpHzsz9J2zKca/LhkPf749IXPB3ggAQhqSqk/nA4hHaqIzi2cMHUlkud/hVuG2k+9ggBocR8+I9HKpOPRqomly8T+qh/cUYk5IKce2sCDhuHq5JW2WPA/4dgNOMKw5x6dp/nvLFycRoUqWAMRzYx32mwOcGu2etDcsCb9Gds2yKoCqiwuM0Ovbee6iKh3+IokghQKEaw+fjnQSs51H7nhSfi9V0MCBIypnuoVPvP96HfVanErD5H67JZM//Tfva5ImMsaYxh2c3GcXEmLFI2tDU8N+olUf88EnItbP/3cq+po660aUYUy/UnMSy7RYDwfCE0j49tGHKniZvjhGaiFfYJXaheclxT8OY9ch+tT+IjDByhvHkeFIwHVAUnItJsbK7MHCiHNLpX902dyOykGyfLw4qg3cqqQhbYLBBG0IW8ohIV1/ouvL085AABWpewixcrXqkGb5N6QvMOHSQAFbIBdosXPqueWuK7DeQRBJ2Omf1E1pBjNrnPQJ7T/lpYPSdeovkjurhWeHboOrq3Xj23T0oyyDcXazoq7I03JbsrtlUVMAscZApYVd8y6J78utnyO9ElGh+kbfcs=
+    - VERSION=${TRAVIS_TAG}
+    - GH_USER=${TRAVIS_REPO_SLUG%/*}
+    - GH_APP=${TRAVIS_REPO_SLUG#*/}
+    - secure: tpmaKcPlC2u8PhuQA7+zcufyQcV10aR2oTFu7MVJ4l3O4xS4Ux580ZQy+wsAKhxEaST2nz9CkkaL4lv3BtadbBAfEPiZUmfr9uYspE3SwAI38NwDuuiWxSaWn6qoZT9vpgGYHs0C/sYfY5s5RJZgPuxmmnSH4OgRo95m9UmZoGOybuNzC2qZmPDyyuN8AeW3P/iO88k9ocguMIIuGUbWtVz13ZzZIV6XVR5Vm2aPFIRZPHRsEa3Ok22E/XioSKxXU7VPNCtBbY3KTTSy0FKe/NlEg6aMmVRbFO9Loujs4eqRyu+BixfqpILGICNica632I3ZGmW+Bz1vbzoVW3qylZkB3VkNTw5mGBA6AghC9v/dZZlu87ZAS4kyo2cEVANHfb9qpXSAuhRDsNNLpX1lNtEnIAsGI3Xpea2vDYVFnKNjxnLbUohoP9PAdDga5dL+MqlaXbWMUIZ5vhYMS6W0l7X+Y2/9Ih9dbAVFEwdhivMcYoewhV7cscpgNf+fmcfkMnRfPldkmjPiXWSCe4/jgYZuPuBzp4KybQz5OFLVmoO8u3PEPDhl4siw7n/5jES2aE452VYHlnXeGe84bthGgNeYynwgbV8lHk2MkzbZKd2lzpYqrJv2khNU5ABysvXPmFGVvpb8m0A52TdtdeU04mmnZhkGiddFEJVVIBAIWI0=
 
 before_install:
   - sudo apt-get -qq update
@@ -32,16 +33,13 @@ script: echo "pass"
 
 before_deploy:
   - docker pull fedora
-  - mkdir -p build/{386,amd64}
-  - GOOS=linux GOARCH=386 go build --ldflags "-X main.VERSION=${TRAVIS_TAG}" -o build/386/$APP main.go
-  - GOOS=linux GOARCH=amd64 go build --ldflags "-X main.VERSION=${TRAVIS_TAG}" -o build/amd64/$APP main.go
-  - curl -L https://raw.githubusercontent.com/mh-cbon/go-bin-deb/master/create-pkg.sh | GH=$GH sh -xe
+  - mkdir -p build/$OSARCH
+  - GOOS=linux GOARCH=$GOARCH go build --ldflags "-X main.VERSION=$VERSION" -o build/$OSARCH/$GH_APP main.go
   - curl -L https://raw.githubusercontent.com/mh-cbon/go-bin-rpm/master/create-pkg.sh | GH=$GH sh -xe
-
-after_deploy:
-  - wget -O - https://raw.githubusercontent.com/mh-cbon/gh-pages/master/all.sh | sh -x
-  - curl -L https://raw.githubusercontent.com/mh-cbon/go-bin-deb/master/setup-repository.sh | GH=$GH EMAIL=$EMAIL sh -xe
-  - curl -L https://raw.githubusercontent.com/mh-cbon/go-bin-rpm/master/setup-repository.sh | GH=$GH EMAIL=$EMAIL sh -xe
+  - cp $GH_APP-$OSARCH-$VERSION.deb $GH_APP-$OSARCH.rpm
+  - curl -fL https://getcli.jfrog.io | sh
+  - (yes n | ./jfrog bt pc --key=$BTKEY --user=$GH_USER --licenses=MIT --vcs-url=https://github.com/$GH_USER/rpm $GH_USER/rpm/$GH_APP) || echo "package already exists"
+  - ./jfrog bt upload --override=true --key $BTKEY --publish=true --deb=unstable/main/$OSARCH $GH_APP-$OSARCH-$VERSION.rpm $GH_USER/rpm/$GH_APP/$VERSION pool/g/$GH_APP/
 
 deploy:
   provider: releases
@@ -49,10 +47,7 @@ deploy:
     secure: CY2nebPdr2CSCZW34QCtlw/IdbaHl5T77xPFlmvXB2Z+0SnO0RTW7JvFMa2mDYxa6ibZ6dR2br9YwdgJYnqV+PnXCizvZ5KPqpHxE31ta4s1IokZr+v9J+deGvUdk60oF5mxkqcGgAtScEGC5ZVJ/0EqAn64o4+H3fOQfA1pYTpzUBL/c9yUNqAFLFDVXz1sd7eSccPwf1uthdhndybMgatogfQuUBmm3vNJYYheAF8XCimBmrsIkPed+OKfhkDqUCTdgSTOQWvv0Uf8ib5VUH0w+UV8Wx69/KNKVhp/f7Nhf6GCKT1AKh/fQxjpRaWdkQLsn7nqPVuF0dHYV/mtdo4EP0FDj+2a3LvtGpEst90Mo0SRzauhqCQqCopyOf3JKkKPqTyMRDKAzYWAymjeLGaPda4wOxNROWV7yBuXNTTUmU2GDPUMULnLA7v+0ml6wd3gGCOMU5It8Iynkuxts8ATlpa0qels3memQITfhkTdR3CFT2mr/frkDiVOtqnp6BJoQIjhSMXoMRfnSpnNOszsiLNa9pM+hNG3HeZN0MQ+gTlRgqmTSitvllr751oUhgNzjv35FDxaywFwKlqtaJfX9UVCLxcBTvDcP4ZKHJRbgFOmffv2mnKi1S8K26LUkuLZDKvCZgrw8iM1KjvPX/GP9tXaxgLrfsfQOcOGGGs=
   file_glob: true
   file:
-    - $APP-386.rpm
-    - $APP-amd64.rpm
-    - $APP-386.deb
-    - $APP-amd64.deb
+    - $GH_APP-$OSARCH.rpm
   skip_cleanup: true
   on:
     tags: true

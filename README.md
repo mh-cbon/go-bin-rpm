@@ -51,10 +51,10 @@ go install
 
 #### linux rpm/deb repository
 ```sh
-wget -O - https://raw.githubusercontent.com/mh-cbon/latest/master/source.sh \
+wget -O - https://raw.githubusercontent.com/mh-cbon/latest/master/bintray.sh \
 | GH=mh-cbon/go-bin-rpm sh -xe
 # or
-curl -L https://raw.githubusercontent.com/mh-cbon/latest/master/source.sh \
+curl -L https://raw.githubusercontent.com/mh-cbon/latest/master/bintray.sh \
 | GH=mh-cbon/go-bin-rpm sh -xe
 ```
 
@@ -195,39 +195,47 @@ Please check the demo app [here](demo/)
   - docker
   language: go
   go:
-  - tip
+  - 1.8
+  - 1.9
   env:
+    matrix:
+    - GOARCH=amd64 OSARCH=amd64
+    - GOARCH=386 OSARCH=i386
     global:
-    - MYAPP=dummy
-    - MYEMAIL=some@email.com
-    - secure: GH_TOKEN
+    - VERSION=${TRAVIS_TAG}
+    - GH_USER=${TRAVIS_REPO_SLUG%/*}
+    - GH_APP=${TRAVIS_REPO_SLUG#*/}
+    - secure: tpmaKcPlC2u8PhuQA7+zcufyQcV10aR2oTFu7MVJ4l3O4xS4Ux580ZQy+wsAKhxEaST2nz9CkkaL4lv3BtadbBAfEPiZUmfr9uYspE3SwAI38NwDuuiWxSaWn6qoZT9vpgGYHs0C/sYfY5s5RJZgPuxmmnSH4OgRo95m9UmZoGOybuNzC2qZmPDyyuN8AeW3P/iO88k9ocguMIIuGUbWtVz13ZzZIV6XVR5Vm2aPFIRZPHRsEa3Ok22E/XioSKxXU7VPNCtBbY3KTTSy0FKe/NlEg6aMmVRbFO9Loujs4eqRyu+BixfqpILGICNica632I3ZGmW+Bz1vbzoVW3qylZkB3VkNTw5mGBA6AghC9v/dZZlu87ZAS4kyo2cEVANHfb9qpXSAuhRDsNNLpX1lNtEnIAsGI3Xpea2vDYVFnKNjxnLbUohoP9PAdDga5dL+MqlaXbWMUIZ5vhYMS6W0l7X+Y2/9Ih9dbAVFEwdhivMcYoewhV7cscpgNf+fmcfkMnRfPldkmjPiXWSCe4/jgYZuPuBzp4KybQz5OFLVmoO8u3PEPDhl4siw7n/5jES2aE452VYHlnXeGe84bthGgNeYynwgbV8lHk2MkzbZKd2lzpYqrJv2khNU5ABysvXPmFGVvpb8m0A52TdtdeU04mmnZhkGiddFEJVVIBAIWI0=
   before_install:
   - sudo apt-get -qq update
   - mkdir -p ${GOPATH}/bin
+  - cd ~
+  - curl https://glide.sh/get | sh
   install:
-  - cd $GOPATH/src/github.com/mh-cbon/$MYAPP
+  - cd $GOPATH/src/github.com/$GH
+  - glide install
   - go install
   script: echo "pass"
   before_deploy:
   - docker pull fedora
-  - mkdir -p build/{386,amd64}
-  - GOOS=linux GOARCH=386 go build --ldflags "-X main.VERSION=${TRAVIS_TAG}" -o build/386/$MYAPP
-    main.go
-  - GOOS=linux GOARCH=amd64 go build --ldflags "-X main.VERSION=${TRAVIS_TAG}" -o build/amd64/$MYAPP
+  - mkdir -p build/$OSARCH
+  - GOOS=linux GOARCH=$GOARCH go build --ldflags "-X main.VERSION=$VERSION" -o build/$OSARCH/$GH_APP
     main.go
   - curl -L https://raw.githubusercontent.com/mh-cbon/go-bin-rpm/master/create-pkg.sh
-    | GH=YOUR_USERNAME/$MYAPP sh -xe
-  after_deploy:
-  - curl -L https://raw.githubusercontent.com/mh-cbon/go-bin-rpm/master/setup-repository.sh
-    | GH=YOUR_USERNAME/$MYAPP EMAIL=$MYEMAIL sh -xe
+    | GH=$GH sh -xe
+  - cp $GH_APP-$OSARCH-$VERSION.deb $GH_APP-$OSARCH.rpm
+  - curl -fL https://getcli.jfrog.io | sh
+  - (yes n | ./jfrog bt pc --key=$BTKEY --user=$GH_USER --licenses=MIT --vcs-url=https://github.com/$GH_USER/rpm
+    $GH_USER/rpm/$GH_APP) || echo "package already exists"
+  - ./jfrog bt upload --override=true --key $BTKEY --publish=true --deb=unstable/main/$OSARCH
+    $GH_APP-$OSARCH-$VERSION.rpm $GH_USER/rpm/$GH_APP/$VERSION pool/g/$GH_APP/
   deploy:
     provider: releases
     api_key:
-      secure: GH_TOKEN xxxx
+      secure: CY2nebPdr2CSCZW34QCtlw/IdbaHl5T77xPFlmvXB2Z+0SnO0RTW7JvFMa2mDYxa6ibZ6dR2br9YwdgJYnqV+PnXCizvZ5KPqpHxE31ta4s1IokZr+v9J+deGvUdk60oF5mxkqcGgAtScEGC5ZVJ/0EqAn64o4+H3fOQfA1pYTpzUBL/c9yUNqAFLFDVXz1sd7eSccPwf1uthdhndybMgatogfQuUBmm3vNJYYheAF8XCimBmrsIkPed+OKfhkDqUCTdgSTOQWvv0Uf8ib5VUH0w+UV8Wx69/KNKVhp/f7Nhf6GCKT1AKh/fQxjpRaWdkQLsn7nqPVuF0dHYV/mtdo4EP0FDj+2a3LvtGpEst90Mo0SRzauhqCQqCopyOf3JKkKPqTyMRDKAzYWAymjeLGaPda4wOxNROWV7yBuXNTTUmU2GDPUMULnLA7v+0ml6wd3gGCOMU5It8Iynkuxts8ATlpa0qels3memQITfhkTdR3CFT2mr/frkDiVOtqnp6BJoQIjhSMXoMRfnSpnNOszsiLNa9pM+hNG3HeZN0MQ+gTlRgqmTSitvllr751oUhgNzjv35FDxaywFwKlqtaJfX9UVCLxcBTvDcP4ZKHJRbgFOmffv2mnKi1S8K26LUkuLZDKvCZgrw8iM1KjvPX/GP9tXaxgLrfsfQOcOGGGs=
     file_glob: true
     file:
-    - $MYAPP-386.rpm
-    - $MYAPP-amd64.rpm
+    - $GH_APP-$OSARCH.rpm
     skip_cleanup: true
     true:
       tags: true

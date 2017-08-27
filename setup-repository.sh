@@ -4,6 +4,7 @@ set -x
 # this is an helper
 # to use into your travis file
 # it is limited to amd64/386 arch
+# it creates an rpm repo
 #
 # to use it
 # curl -L https://raw.githubusercontent.com/mh-cbon/go-bin-rpm/master/setup-repository.sh \

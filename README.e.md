@@ -26,7 +26,7 @@ See [the demo](demo/).
 {{template "glide/install" .}}
 
 #### linux rpm/deb repository
-{{template "linux/gh_src_repo" .}}
+{{template "linux/bintray_repo" .}}
 
 #### linux rpm/deb standalone package
 {{template "linux/gh_pkg" .}}
@@ -96,7 +96,7 @@ Please check the demo app [here](demo/)
 - run `travis setup releases`
 - personalize the `.travis.yml`
 
-{{yaml "sample-travis.yml" | preline "  " | color "yml"}}
+{{yaml ".travis.yml" | preline "  " | color "yml"}}
 
 ### useful rpm commands
 
