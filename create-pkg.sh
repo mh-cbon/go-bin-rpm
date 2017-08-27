@@ -75,7 +75,15 @@ export GOPATH=/gopath/
 export PATH=\$PATH:/\$GOPATH/bin
 
 go get -u github.com/mh-cbon/go-bin-rpm/go-bin-rpm-utils
-go-bin-rpm-utils create-packages -push -keep -repo=$GH
+
+set +x
+if [ -z "$GH_TOKEN" ]; then
+  set -x
+  go-bin-rpm-utils create-packages -keep -repo=$GH
+else
+  set -x
+  go-bin-rpm-utils create-packages -push -keep -repo=$GH
+fi
 ls -al .
 EOT
 set -x
