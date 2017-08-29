@@ -220,7 +220,7 @@ Please check the demo app [here](demo/)
   before_deploy:
   - docker pull fedora
   - mkdir -p build/$OSARCH
-  - GOOS=linux go build --ldflags "-X main.VERSION=$VERSION" -o build/$OSARCH/$GH_APP
+  - GOOS=linux GOARCH=$OKARCH go build --ldflags "-X main.VERSION=$VERSION" -o build/$OSARCH/$GH_APP
     main.go
   - cp $GOPATH/bin/go-bin-rpm tmp
   - |
