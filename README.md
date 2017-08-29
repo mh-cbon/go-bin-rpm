@@ -199,8 +199,8 @@ Please check the demo app [here](demo/)
   - 1.9
   env:
     matrix:
-    - GOARCH=amd64 OSARCH=amd64
-    - GOARCH=386 OSARCH=i386
+    - OKARCH=amd64 OSARCH=amd64
+    - OKARCH=386 OSARCH=i386
     global:
     - VERSION=${TRAVIS_TAG}
     - GH_USER=${TRAVIS_REPO_SLUG%/*}
@@ -226,7 +226,7 @@ Please check the demo app [here](demo/)
   - |
     docker run -v $PWD:/mnt/travis fedora /bin/sh -c "cd /mnt/travis && (curl -s -L https://bintray.com/bincrafters/public-rpm/rpm > /etc/yum.repos.d/w.repo) && dnf install changelog rpm-build -y --quiet && ./tmp generate --file rpm.json -a $OSARCH --version $VERSION -o $GH_APP-$OSARCH-$VERSION.rpm"
   - rm -f ./tmp
-  - cp $GH_APP-$OSARCH-$VERSION.rpm $GH_APP-$GOARCH.rpm
+  - cp $GH_APP-$OSARCH-$VERSION.rpm $GH_APP-$OKARCH.rpm
   - curl -fL https://getcli.jfrog.io | sh
   - ./jfrog bt pc --key=$BTKEY --user=$GH_USER --licenses=MIT --vcs-url=https://github.com/$GH_USER/rpm
     $GH_USER/rpm/$GH_APP || echo "package already exists"
@@ -238,7 +238,7 @@ Please check the demo app [here](demo/)
       secure: CY2nebPdr2CSCZW34QCtlw/IdbaHl5T77xPFlmvXB2Z+0SnO0RTW7JvFMa2mDYxa6ibZ6dR2br9YwdgJYnqV+PnXCizvZ5KPqpHxE31ta4s1IokZr+v9J+deGvUdk60oF5mxkqcGgAtScEGC5ZVJ/0EqAn64o4+H3fOQfA1pYTpzUBL/c9yUNqAFLFDVXz1sd7eSccPwf1uthdhndybMgatogfQuUBmm3vNJYYheAF8XCimBmrsIkPed+OKfhkDqUCTdgSTOQWvv0Uf8ib5VUH0w+UV8Wx69/KNKVhp/f7Nhf6GCKT1AKh/fQxjpRaWdkQLsn7nqPVuF0dHYV/mtdo4EP0FDj+2a3LvtGpEst90Mo0SRzauhqCQqCopyOf3JKkKPqTyMRDKAzYWAymjeLGaPda4wOxNROWV7yBuXNTTUmU2GDPUMULnLA7v+0ml6wd3gGCOMU5It8Iynkuxts8ATlpa0qels3memQITfhkTdR3CFT2mr/frkDiVOtqnp6BJoQIjhSMXoMRfnSpnNOszsiLNa9pM+hNG3HeZN0MQ+gTlRgqmTSitvllr751oUhgNzjv35FDxaywFwKlqtaJfX9UVCLxcBTvDcP4ZKHJRbgFOmffv2mnKi1S8K26LUkuLZDKvCZgrw8iM1KjvPX/GP9tXaxgLrfsfQOcOGGGs=
     file_glob: true
     file:
-    - $GH_APP-$GOARCH.rpm
+    - $GH_APP-$OKARCH.rpm
     skip_cleanup: true
     overwrite: true
     true:
