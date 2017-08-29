@@ -205,7 +205,8 @@ Please check the demo app [here](demo/)
     - VERSION=${TRAVIS_TAG}
     - GH_USER=${TRAVIS_REPO_SLUG%/*}
     - GH_APP=${TRAVIS_REPO_SLUG#*/}
-    - secure: tpmaKcPlC2u8PhuQA7+zcufyQcV10aR2oTFu7MVJ4l3O4xS4Ux580ZQy+wsAKhxEaST2nz9CkkaL4lv3BtadbBAfEPiZUmfr9uYspE3SwAI38NwDuuiWxSaWn6qoZT9vpgGYHs0C/sYfY5s5RJZgPuxmmnSH4OgRo95m9UmZoGOybuNzC2qZmPDyyuN8AeW3P/iO88k9ocguMIIuGUbWtVz13ZzZIV6XVR5Vm2aPFIRZPHRsEa3Ok22E/XioSKxXU7VPNCtBbY3KTTSy0FKe/NlEg6aMmVRbFO9Loujs4eqRyu+BixfqpILGICNica632I3ZGmW+Bz1vbzoVW3qylZkB3VkNTw5mGBA6AghC9v/dZZlu87ZAS4kyo2cEVANHfb9qpXSAuhRDsNNLpX1lNtEnIAsGI3Xpea2vDYVFnKNjxnLbUohoP9PAdDga5dL+MqlaXbWMUIZ5vhYMS6W0l7X+Y2/9Ih9dbAVFEwdhivMcYoewhV7cscpgNf+fmcfkMnRfPldkmjPiXWSCe4/jgYZuPuBzp4KybQz5OFLVmoO8u3PEPDhl4siw7n/5jES2aE452VYHlnXeGe84bthGgNeYynwgbV8lHk2MkzbZKd2lzpYqrJv2khNU5ABysvXPmFGVvpb8m0A52TdtdeU04mmnZhkGiddFEJVVIBAIWI0=
+    - JFROG_CLI_OFFER_CONFIG=false
+    - secure: iTmECM/2XzLk4/bMm4xCYcVyKJj6kV815wLlFyCMzcBHoQmOjYxWu6s36sQ9SecPu/fjE67+rJ6opPpeMz9SRTa34+L64vA0gRA61TynC3NUOIkvzs0y956fhxVGPF5knLnKGeWIHHObfxwo8ovvY+utWI4DqYwfWoIzGZ7Etc1Pp/zY4rIFYiNpRHH5zpvKG3+wjDx6ciUmZASM4ZFEY9OY5LlnOKxaxTFz71i0SZJO18fNTX1NrWEf55pU35CzVpk1rZ1V7cKt1i7k9MqWWwG5RXIzjLWjTx2aFJOchTj2kV7MM8FPk3FcQIiJ0JCPqkaVMNWTa3f++wH85fk2r4ErlVGvtG6xuHAy7uM4GBPX2nmUnEXIlg8qVHgYqUxg18qi92osJIVv3WZgNrL42dRQMHDcEf0b0NMEifpsPES65CnVQPMEZlN+eXzgVMMKS9s/Vf5B8HziDxkTy/crghqMQtff2HZ1eyH1gmLMA9HXQIFWCsAIEfrrgP5doNIfsHJaWP31agSyrHhGMI8y77kVj9K/cxL0XVq9mKlXtnI7S5OKgDD1Dn/PuUPkfrPFQ0wxCfXJ+FyqSyckUd7rTlihJKOlmEvHif3y7BK+qCbj/G7JveQGLKHt/fiIbo00PBvalLSSJDQEsFyO+cKLsR8uVyX/BgaMed6qt2RrzYE=
   before_install:
   - sudo apt-get -qq update
   - mkdir -p ${GOPATH}/bin
@@ -221,16 +222,14 @@ Please check the demo app [here](demo/)
   - mkdir -p build/$OSARCH
   - GOOS=linux GOARCH=$GOARCH go build --ldflags "-X main.VERSION=$VERSION" -o build/$OSARCH/$GH_APP
     main.go
-  - curl -L https://raw.githubusercontent.com/mh-cbon/go-bin-rpm/master/create-pkg.sh
-    | GH=${TRAVIS_REPO_SLUG} sh -xe
   - cp $GOPATH/bin/go-bin-rpm tmp
   - |
     docker run -v $PWD:/mnt/travis fedora /bin/sh -c "cd /mnt/travis && (curl -s -L https://bintray.com/bincrafters/public-rpm/rpm > /etc/yum.repos.d/w.repo) && dnf install changelog rpm-build -y --quiet && ./tmp generate --file rpm.json -a $OSARCH --version $VERSION -o $GH_APP-$OSARCH-$VERSION.rpm"
   - rm -f ./tmp
-  - cp $GH_APP-$OSARCH-$VERSION.rpm $GH_APP-$OSARCH.rpm
+  - cp $GH_APP-$OSARCH-$VERSION.rpm $GH_APP-$GOARCH.rpm
   - curl -fL https://getcli.jfrog.io | sh
-  - (yes n | ./jfrog bt pc --key=$BTKEY --user=$GH_USER --licenses=MIT --vcs-url=https://github.com/$GH_USER/rpm
-    $GH_USER/rpm/$GH_APP) || echo "package already exists"
+  - ./jfrog bt pc --key=$BTKEY --user=$GH_USER --licenses=MIT --vcs-url=https://github.com/$GH_USER/rpm
+    $GH_USER/rpm/$GH_APP || echo "package already exists"
   - ./jfrog bt upload --override=true --key $BTKEY --publish=true --deb=unstable/main/$OSARCH
     $GH_APP-$OSARCH-$VERSION.rpm $GH_USER/rpm/$GH_APP/$VERSION pool/g/$GH_APP/
   deploy:
@@ -239,7 +238,7 @@ Please check the demo app [here](demo/)
       secure: CY2nebPdr2CSCZW34QCtlw/IdbaHl5T77xPFlmvXB2Z+0SnO0RTW7JvFMa2mDYxa6ibZ6dR2br9YwdgJYnqV+PnXCizvZ5KPqpHxE31ta4s1IokZr+v9J+deGvUdk60oF5mxkqcGgAtScEGC5ZVJ/0EqAn64o4+H3fOQfA1pYTpzUBL/c9yUNqAFLFDVXz1sd7eSccPwf1uthdhndybMgatogfQuUBmm3vNJYYheAF8XCimBmrsIkPed+OKfhkDqUCTdgSTOQWvv0Uf8ib5VUH0w+UV8Wx69/KNKVhp/f7Nhf6GCKT1AKh/fQxjpRaWdkQLsn7nqPVuF0dHYV/mtdo4EP0FDj+2a3LvtGpEst90Mo0SRzauhqCQqCopyOf3JKkKPqTyMRDKAzYWAymjeLGaPda4wOxNROWV7yBuXNTTUmU2GDPUMULnLA7v+0ml6wd3gGCOMU5It8Iynkuxts8ATlpa0qels3memQITfhkTdR3CFT2mr/frkDiVOtqnp6BJoQIjhSMXoMRfnSpnNOszsiLNa9pM+hNG3HeZN0MQ+gTlRgqmTSitvllr751oUhgNzjv35FDxaywFwKlqtaJfX9UVCLxcBTvDcP4ZKHJRbgFOmffv2mnKi1S8K26LUkuLZDKvCZgrw8iM1KjvPX/GP9tXaxgLrfsfQOcOGGGs=
     file_glob: true
     file:
-    - $GH_APP-$OSARCH.rpm
+    - $GH_APP-$GOARCH.rpm
     skip_cleanup: true
     overwrite: true
     true:
