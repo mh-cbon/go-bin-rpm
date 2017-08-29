@@ -36,7 +36,7 @@ script: echo "pass"
 before_deploy:
   - docker pull fedora
   - mkdir -p build/$OSARCH
-  - GOOS=linux GOARCH=$GOARCH go build --ldflags "-X main.VERSION=$VERSION" -o build/$OSARCH/$GH_APP main.go
+  - GOOS=linux go build --ldflags "-X main.VERSION=$VERSION" -o build/$OSARCH/$GH_APP main.go
   # - curl -L https://raw.githubusercontent.com/mh-cbon/go-bin-rpm/master/create-pkg.sh | GH=${TRAVIS_REPO_SLUG} sh -xe
   - cp $GOPATH/bin/go-bin-rpm tmp
   - >
