@@ -1,6 +1,10 @@
 #!/bin/sh -e
 set -x
 
+# deprecated script
+
+echo "You are using a deprecated script. please update your build with latest changes on go-github-release"
+
 # this is an helper
 # to use into your travis file
 # it is limited to amd64/386 arch
@@ -94,3 +98,8 @@ set -x
 docker run -v $PWD/:${TRAVIS_BUILD_DIR} fedora /bin/sh -c "cd ${TRAVIS_BUILD_DIR} && sh ./docker.sh"
 
 rm -fr docker.sh
+
+
+# deprecated script
+
+echo "You are using a deprecated script. please update your build with latest changes on go-github-release"

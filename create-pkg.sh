@@ -1,6 +1,10 @@
 #!/bin/sh -e
 set -x
 
+# deprecated script
+
+echo "You are using a deprecated script. please update your build with latest changes on go-github-release"
+
 # this is an helper
 # to use into your travis file
 # it is limited to amd64/386 arch
@@ -93,3 +97,8 @@ sudo chown travis:travis ./*-*.rpm
 ls -al .
 
 rm -fr docker.sh
+
+
+# deprecated script
+
+echo "You are using a deprecated script. please update your build with latest changes on go-github-release"

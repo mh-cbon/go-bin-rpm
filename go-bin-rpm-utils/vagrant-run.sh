@@ -34,7 +34,7 @@ mkdir -p ${GOPATH}/bin
 
 set +x
 # everything here will be replicated into the CI build file (.travis.yml)
-export GH_TOKEN="$GH_TOKEN"
+# export GH_TOKEN="$GH_TOKEN"
 NAME="go-bin-rpm"
 export REPO="mh-cbon/$NAME"
 export EMAIL="mh-cbon@users.noreply.github.com"
@@ -81,13 +81,13 @@ GOOS=linux GOARCH=386 go build --ldflags "$f" -o "$BINBUILD_DIR/386/go-bin-rpm" 
 GOOS=linux GOARCH=amd64 go build --ldflags "$f" -o "$BINBUILD_DIR/amd64/go-bin-rpm" $k
 go run /vagrant/*go create-packages -push -repo=$REPO
 
-set +x
-echo ""
-echo "# =================================================="
-echo "# =================================================="
-echo ""
-set -x
-go run /vagrant/*go setup-repository -out="${PKGBUILD_DIR}" -push -repo=$REPO
+# set +x
+# echo ""
+# echo "# =================================================="
+# echo "# =================================================="
+# echo ""
+# set -x
+# go run /vagrant/*go setup-repository -out="${PKGBUILD_DIR}" -push -repo=$REPO
 
 set +x
 echo ""
