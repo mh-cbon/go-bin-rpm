@@ -300,6 +300,9 @@ func (p *Package) GenerateSpecFile(sourceDir string) (string, error) {
 	if p.Summary != "" {
 		spec += fmt.Sprintf("Summary: %s\n", p.Summary)
 	}
+	if p.AutoReqProv != "" {
+		spec += fmt.Sprintf("AutoReqProv: %s\n", p.AutoReqProv)
+	}
 	if len(p.BuildRequires) > 0 {
 		spec += fmt.Sprintf("\nBuildRequires:%s\n", strings.Join(p.BuildRequires, ", "))
 	}
